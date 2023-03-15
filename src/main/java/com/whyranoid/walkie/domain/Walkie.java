@@ -36,12 +36,13 @@ public class Walkie {
     @Column(name = "auth_id", nullable = false)
     private String authId;
 
-    @OneToMany
-    @JoinTable(name = "walkie_post",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<Post> posts = new ArrayList<>();
+//    // 필요 없는 속성인 것 같아서 주석처리 했슴당
+//    @OneToMany
+//    @JoinTable(name = "walkie_post",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "post_id")  // 외래키로 사용 가능한 속성이어야 함
+//    )
+//    private List<Post> posts = new ArrayList<>();
 
     public void setUserName(String userName) {
         this.userName = userName;

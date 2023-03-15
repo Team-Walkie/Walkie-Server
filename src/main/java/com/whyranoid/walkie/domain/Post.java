@@ -33,7 +33,7 @@ public class Post {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", nullable = false) // referencedColumnName는 디폴트가 pk
     private Walkie user;
 
     @ManyToMany
