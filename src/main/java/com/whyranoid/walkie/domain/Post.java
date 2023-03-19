@@ -42,5 +42,7 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<Walkie> liker = new ArrayList<>();
 
-    // private Long historyId;
+    @OneToOne
+    @JoinColumn(name = "history_id", nullable = false)
+    private WalkingHistory walkingHistory;
 }
