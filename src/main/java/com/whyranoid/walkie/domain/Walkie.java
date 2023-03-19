@@ -48,8 +48,8 @@ public class Walkie {
     @OneToMany(mappedBy = "following")
     private List<Walkie> followingList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "followed")
-    private List<Walkie> followedList = new ArrayList<>();
+    @OneToMany(mappedBy = "follower")
+    private List<Walkie> followerList = new ArrayList<>();
 
 //    // 필요 없는 속성인 것 같아서 주석처리 했슴당
 //    @OneToMany

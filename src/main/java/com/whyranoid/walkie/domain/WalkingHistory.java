@@ -6,7 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -47,4 +49,10 @@ public class WalkingHistory {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Walkie user;
+
+    @ManyToMany
+    @JoinTable(name = "walkie_history_like",
+            joinColumns = @JoinColumn(name = "history_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<Walkie> liker = new ArrayList<>();
 }
