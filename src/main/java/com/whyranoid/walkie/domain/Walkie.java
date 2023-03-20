@@ -59,6 +59,15 @@ public class Walkie {
 //    )
 //    private List<Post> posts = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "challenge_status",
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "challenge_id", nullable = false)
+    )
+    private List<Challenge> challenges;
+
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
