@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -21,33 +20,32 @@ public class History {
     private Long historyId;
 
     @NotNull
-    private Date date;
-
-    @NotNull
+    @Column(nullable = false)
     private Double distance;
 
     @NotNull
-    @Column(name = "start_time")
+    @Column(name = "start_time", nullable = false)
     private Date startTime;
 
     @NotNull
-    @Column(name = "end_time")
+    @Column(name = "end_time", nullable = false)
     private Date endTime;
 
     @NotNull
-    @Column(name = "total_time")
-    private int totalTime;
+    @Column(name = "total_time", nullable = false)
+    private Integer totalTime;
 
     @NotNull
-    private Double pace;    // 이걸 빼자는 얘기가 있었음
+    @Column(nullable = false)
+    private Integer calorie;
 
     @NotNull
-    private int calorie;
+    @Column(nullable = false)
+    private Integer step;
 
     @NotNull
-    private int step;
-
-    private String path;    // json 문자열? JSONArray?
+    @Column(nullable = false)
+    private String path;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
