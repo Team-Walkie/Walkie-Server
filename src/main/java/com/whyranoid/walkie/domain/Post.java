@@ -42,7 +42,7 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<Walkie> liker = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "history_id", nullable = false)
-    private WalkingHistory walkingHistory;
+    @OneToOne(optional = false) // optional = false 안해주면 history가 겹치는 경우가 발생 시 에러
+    @JoinColumn(name = "history", nullable = false)
+    private History history;
 }
