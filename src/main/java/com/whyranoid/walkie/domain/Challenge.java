@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,7 @@ public class Challenge {
     @Column(nullable = false)
     private char category;
 
+    // 외래키기라서 데이터는 배지를 먼저 추가한 후에 챌린지를 추가해야 함
     @NotNull
     @OneToOne
     @JoinColumn(name = "badge_id", nullable = false)
@@ -37,4 +40,7 @@ public class Challenge {
 
     @Column(name = "challenge_img")
     private String img;
+
+//    @OneToMany(mappedBy = "challenge")
+//    private List<ChallengeStatus> challengeStatusList = new ArrayList<>();
 }

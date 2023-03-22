@@ -51,29 +51,19 @@ public class Walkie {
     @OneToMany(mappedBy = "follower")
     private List<Walkie> followerList = new ArrayList<>();
 
-//    // 필요 없는 속성인 것 같아서 주석처리 했슴당
-//    @OneToMany
-//    @JoinTable(name = "walkie_post",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "post_id")  // 외래키로 사용 가능한 속성이어야 함
-//    )
-//    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy="liker", cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "challenge_status",
-            joinColumns = @JoinColumn(name = "user_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "challenge_id", nullable = false)
-    )
-    private List<Challenge> challenges;
+//    @OneToMany(mappedBy = "walkie", cascade = CascadeType.REMOVE)
+//    private List<ChallengeStatus> challengeStatusList = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "badge_collection",
             joinColumns = @JoinColumn(name = "user_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "badge_id", nullable = false)
     )
-    private List<Badge> badges;
+    private List<Badge> badges = new ArrayList<>();
 
 
     public void setUserName(String userName) {
