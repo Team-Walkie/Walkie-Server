@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -23,7 +21,4 @@ public class Badge {
     @NotNull
     @Column(name = "badge_img", nullable = false)
     private String img;
-
-    @ManyToMany(mappedBy = "badges", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Walkie> collectors = new ArrayList<>();
 }

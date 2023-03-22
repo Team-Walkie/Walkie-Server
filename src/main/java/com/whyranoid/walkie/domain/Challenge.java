@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -40,7 +38,4 @@ public class Challenge {
 
     @Column(name = "challenge_img")
     private String img;
-
-//    @OneToMany(mappedBy = "challenge")
-//    private List<ChallengeStatus> challengeStatusList = new ArrayList<>();
 }

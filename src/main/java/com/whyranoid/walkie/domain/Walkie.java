@@ -51,12 +51,6 @@ public class Walkie {
     @OneToMany(mappedBy = "follower")
     private List<Walkie> followerList = new ArrayList<>();
 
-    @OneToMany(mappedBy="liker", cascade = CascadeType.REMOVE)
-    private List<Post> posts = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "walkie", cascade = CascadeType.REMOVE)
-//    private List<ChallengeStatus> challengeStatusList = new ArrayList<>();
-
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "badge_collection",
