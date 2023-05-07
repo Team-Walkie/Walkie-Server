@@ -1,6 +1,7 @@
-package com.whyranoid.walkie.api;
+package com.whyranoid.walkie.controller;
 
 import com.whyranoid.walkie.domain.Challenge;
+import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/challenge")
-public class ChallengeApi {
+public class ChallengeController {
     HttpHeaders httpHeaders = new HttpHeaders();
     private final ChallengeService challengeService;
 
@@ -25,5 +26,11 @@ public class ChallengeApi {
         // 본인 정보를 가져오는 로직이 필요
         List<Challenge> newChallenges = challengeService.getChallenges(userId, 'N');
         return new ResponseEntity<>(newChallenges, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/challengeDetail")
+    public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("userId") Long userId) {
+        ChallengeDto challenge = challengeService.getChallengeDetail(challengeId, userId);
+        return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 }
