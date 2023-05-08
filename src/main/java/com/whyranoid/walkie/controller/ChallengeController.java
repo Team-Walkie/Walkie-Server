@@ -1,7 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.whyranoid.walkie.domain.Challenge;
-import com.whyranoid.walkie.dto.ChallengeDto;
+import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +30,7 @@ public class ChallengeController {
 
     @GetMapping("/challengeDetail")
     public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("userId") Long userId) {
-        ChallengeDto challenge = challengeService.getChallengeDetail(challengeId, userId);
+        ChallengeStatus challenge = challengeService.getChallengeDetail(challengeId, userId);
         return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 }
