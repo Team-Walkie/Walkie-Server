@@ -38,4 +38,10 @@ public class Challenge {
 
     @Column(name = "challenge_img")
     private String img;
+
+    @Column(name = "period")
+    private int period;
+
+    @Column(name = "calorie")
+    private int calorie;
 }
