@@ -30,7 +30,7 @@ public class ChallengeController {
 
     @GetMapping("/challengeDetail")
     public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("userId") Long userId) {
-        ChallengeStatus challenge = challengeService.getChallengeDetail(challengeId, userId);
+        List<ChallengeStatus> challenge = challengeService.getChallengeDetail(challengeId, userId);
         return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 }
