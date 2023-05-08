@@ -1,7 +1,10 @@
 package com.whyranoid.walkie.dto;
 
 import com.whyranoid.walkie.domain.Badge;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -14,6 +17,8 @@ public class ChallengeDto {
     private String content;
     private String name;
     private String img;
+
+    // 여기서부터 challenge_status;
     private char status;
     private int progress;
 }

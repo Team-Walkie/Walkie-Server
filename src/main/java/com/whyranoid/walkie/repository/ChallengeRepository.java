@@ -1,33 +1,13 @@
 package com.whyranoid.walkie.repository;
 
-import com.whyranoid.walkie.domain.Challenge;
-import com.whyranoid.walkie.dto.ChallengeDto;
-import lombok.RequiredArgsConstructor;
+import com.whyranoid.walkie.domain.ChallengeStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
 @Repository
-@RequiredArgsConstructor
-public class ChallengeRepository {
-
-    private final EntityManager em;
-
-    public List<Challenge> getChallenges(Long userId, char challengeStatus) {
-        return em.createQuery("select c, s.status, s.progress from Challenge c left join ChallengeStatus s " +
-                        "on c.challengeId=s.challenge.challengeId where s.walkie.userId = :userId and s.status = :challengeStatus")
-                .setParameter("userId", userId)
-                .setParameter("challengeStatus", challengeStatus)
-                .getResultList();
-    }
-
-    public ChallengeDto getChallengeDetail(Long challengeId, Long userId) {
-        ChallengeDto result = em.createQuery("select s from Challenge c left join ChallengeStatus s " +
-                        "on c.challengeId = s.challenge.challengeId where c.challengeId = :challengeId and s.walkie.userId = :userId", ChallengeDto.class)
-                .setParameter("challengeId", challengeId)
-                .setParameter("userId", userId)
-                .getSingleResult();
-        return result;
-    }
+public interface ChallengeRepository extends JpaRepository<ChallengeStatus, Long> {
+        @Query("select s, c from ChallengeStatus s left join Challenge c on c.challengeId = s.challenge.challengeId where c.challengeId = :challengeId and s.walkie.userId = :userId")
+        ChallengeStatus findChallengeStatusByChallenge(@Param("challengeId")Long challengeId, @Param("userId")Long userId);
 }

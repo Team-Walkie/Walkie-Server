@@ -18,7 +18,7 @@ public class ChallengeStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long statusId;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private Walkie walkie;
 
