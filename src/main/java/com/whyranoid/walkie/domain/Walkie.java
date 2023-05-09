@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter // 클래스 레벨에 선언할 경우 모든 필드에 접근자 자동 생성
-@NoArgsConstructor // 파라미터가 없는 기본 생성자 생성
-@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자 생성
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터가 없는 기본 생성자 생성
 public class Walkie {
     @Id // Entity의 primary key임을 명시
     @Column(name = "user_id")
@@ -59,6 +59,13 @@ public class Walkie {
     )
     private List<Badge> badges = new ArrayList<>();
 
+    @Builder
+    private Walkie(String userName, String profileImg, Character status, String authId) {
+        this.userName = userName;
+        this.profileImg = profileImg;
+        this.status = status;
+        this.authId = authId;
+    }
 
     public void setUserName(String userName) {
         this.userName = userName;
