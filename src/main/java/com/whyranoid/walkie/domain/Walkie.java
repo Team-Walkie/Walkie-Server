@@ -66,16 +66,4 @@ public class Walkie {
         this.status = status;
         this.authId = authId;
     }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setProfileImg(String profileImg) {
-        this.profileImg = profileImg;
-    }
-
-    public void setStatus(Character status) {
-        this.status = status;
-    }
 }
