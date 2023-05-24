@@ -21,9 +21,11 @@ public class WalkieController {
 
     @Operation(description = "소셜 로그인 이후 워키 회원가입 요청")
     @Parameters({
-            @Parameter(name = "userName", description = "닉네임", example = "군자동 불주먹", required = true),
+            @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹"),
             @Parameter(name = "profileImg", description = "프로필 사진 URI"),
-            @Parameter(name = "authId", description = "구글 로그인 UID", example = "aslks4283wd-asdjk23oitwdfj", required = true)
+            @Parameter(name = "authId", required = true, description = "구글 로그인 UID", example = "aslks4283wd-asdjk23oitwdfj"),
+            @Parameter(name = "agreeGps", required = true, description = "위치 정보 사용 동의", example = "true"),
+            @Parameter(name = "agreeSubscription", required = true, description = "마케팅 정보 수신 동의", example = "false")
     })
     @PostMapping("/signup")
     public ResponseEntity<WalkieSignUpResponse> signUp(@RequestBody WalkieSignUpRequest walkieSignUpRequest) {
