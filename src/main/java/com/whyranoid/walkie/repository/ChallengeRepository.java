@@ -4,14 +4,18 @@ import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@Transactional
 @RequiredArgsConstructor
 public class ChallengeRepository {
 
+    @PersistenceContext
     private final EntityManager em;
 
     public List<Challenge> getChallenges(Long userId, char challengeStatus) {
@@ -27,5 +31,10 @@ public class ChallengeRepository {
                 .setParameter("challengeId", challengeId)
                 .setParameter("userId", userId)
                 .getResultList();
+    }
+
+    public void updateChallengeStatus(Long statusId, char status) {
+        ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
+        cs.setStatus(status);
     }
 }

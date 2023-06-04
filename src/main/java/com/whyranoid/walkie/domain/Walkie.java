@@ -48,7 +48,7 @@ public class Walkie {
 //
 //    @OneToMany(mappedBy = "follower")
 //    private List<Walkie> followerList = new ArrayList<>();
-//
+
 //    @ManyToMany(cascade = CascadeType.REMOVE)
 //    @JoinTable(
 //            name = "badge_collection",
