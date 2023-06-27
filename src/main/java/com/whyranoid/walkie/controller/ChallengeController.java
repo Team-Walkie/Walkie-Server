@@ -32,8 +32,9 @@ public class ChallengeController {
         return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 
-    @PostMapping("/challenge-detail/start")
-    public ResponseEntity startChallenge(@RequestBody ChallengeStatusChangeRequest challengeStatusChangeRequest) {
+    // 챌린지를 중도 포기할 때나 챌린지 조건에 도달하여 성공하였을 때
+    @PostMapping("/challenge-detail/update-status")
+    public ResponseEntity updateChallengeStatus(@RequestBody ChallengeStatusChangeRequest challengeStatusChangeRequest) {
         return ResponseEntity.ok(challengeService.updateChallengeStatus(challengeStatusChangeRequest));
     }
 }
