@@ -27,10 +27,29 @@ public class ChallengeService{
     }
 
     public ChallengeStatusChangeResponse updateChallengeStatus(ChallengeStatusChangeRequest challengeStatusChangeRequest) {
-        challengeRepository.updateChallengeStatus(challengeStatusChangeRequest.getStatusId(), challengeStatusChangeRequest.getStatus());
-        return ChallengeStatusChangeResponse.builder()
-                        .status(200)
-                        .message("성공")
-                        .build();
+        Character requestStatus = challengeStatusChangeRequest.getStatus();
+        Long requestStatusId = challengeStatusChangeRequest.getStatusId();
+        try {
+            // 챌린지 중도 포기해서 삭제하려는 경우
+            if(requestStatus == 'N') {
+                challengeRepository.deleteChallengeStatus(requestStatusId);
+            }
+            // 챌린지 조건에 도달해서 완료로 표시해야 하는 경우
+            else if(requestStatus == 'C') {
+                challengeRepository.updateChallengeStatus(requestStatusId, requestStatus);
+            }
+
+            challengeRepository.updateChallengeStatus(requestStatusId, requestStatus);
+            return ChallengeStatusChangeResponse.builder()
+                    .status(200)
+                    .message("성공")
+                    .build();
+        } catch(Exception e) {
+            return ChallengeStatusChangeResponse.builder()
+                    .status(400)
+                    .message("실패")
+                    .build();
+        }
+
     }
 }

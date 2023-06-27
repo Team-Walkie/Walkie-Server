@@ -33,8 +33,16 @@ public class ChallengeRepository {
                 .getResultList();
     }
 
+    public void insertChallengeStatus(ChallengeStatus cs) {
+        em.persist(cs);
+    }
     public void updateChallengeStatus(Long statusId, char status) {
         ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
         cs.setStatus(status);
+    }
+
+    public void deleteChallengeStatus(Long statusId) {
+        ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
+        em.remove(cs);
     }
 }
