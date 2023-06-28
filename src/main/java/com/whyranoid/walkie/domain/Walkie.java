@@ -58,4 +58,8 @@ public class Walkie {
         this.status = status;
         this.authId = authId;
     }
+
+    public void changeStatus(Character status) {
+        this.status = status;
+    }
 }
