@@ -36,20 +36,12 @@ public class Walkie {
     @Column(name = "auth_id", nullable = false)
     private String authId;
 
-    @ManyToOne
-    @JoinColumn
-    private Walkie following = this;
-
-    @ManyToOne
-    @JoinColumn
-    private Walkie follower = this;
-
     // Walkie 객체가 아니라 고유 유저 id로 관리하는게 맞는걸까?
     @OneToMany(mappedBy = "following")
-    private List<Walkie> followingList = new ArrayList<>();
+    private List<Walkie> following;
 
     @OneToMany(mappedBy = "follower")
-    private List<Walkie> followerList = new ArrayList<>();
+    private List<Walkie> follower;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
