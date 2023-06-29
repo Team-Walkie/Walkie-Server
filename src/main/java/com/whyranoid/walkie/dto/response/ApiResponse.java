@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ChallengeStatusChangeResponse {
+public class ApiResponse {
 
     Integer status;
     String message;

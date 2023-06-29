@@ -2,6 +2,7 @@ package com.whyranoid.walkie.repository;
 
 import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
+import com.whyranoid.walkie.domain.Walkie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,14 @@ public class ChallengeRepository {
                 .setParameter("challengeId", challengeId)
                 .setParameter("userId", userId)
                 .getResultList();
+    }
+
+    public Challenge getChallengeById(Long challengeId) {
+        return em.find(Challenge.class, challengeId);
+    }
+
+    public Walkie getWalkieById(Long userId) {
+        return em.find(Walkie.class, userId);
     }
 
     public void insertChallengeStatus(ChallengeStatus cs) {
