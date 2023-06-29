@@ -21,10 +21,16 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @GetMapping("/challenges/new")
-    public ResponseEntity getChallenges(@RequestParam("userId") Long userId) {
+    public ResponseEntity getChallengesByCategory(@RequestParam("userId") Long userId) {
         // 본인 정보를 가져오는 로직이 필요
-        List<Challenge> newChallenges = challengeService.getChallenges(userId, 'N');
+        List<Challenge> newChallenges = challengeService.getChallengesByCategory(userId, 'L');
         return new ResponseEntity<>(newChallenges, httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/challenges/progress")
+    public ResponseEntity getProgressChallenge(@RequestParam("userId") Long userId) {
+        List<Challenge> progressChallenges = challengeService.getProgressChallenges(userId);
+        return new ResponseEntity<>(progressChallenges, httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/challenge-detail")

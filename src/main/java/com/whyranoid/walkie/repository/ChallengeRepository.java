@@ -19,11 +19,16 @@ public class ChallengeRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public List<Challenge> getChallenges(Long userId, char challengeStatus) {
-        return em.createQuery("select c, s.status, s.progress from Challenge c left join ChallengeStatus s " +
-                        "on c.challengeId=s.challenge.challengeId where s.walkie.userId = :userId and s.status = :challengeStatus")
+    public List<Challenge> getChallengesByCategory(Long userId, char category) {
+        return em.createQuery("select c1 from Challenge c1 where category = :category except select c2 from Challenge c2 left join ChallengeStatus cs on c2.challengeId = cs.challenge.challengeId and cs.walkie.userId = :userId")
                 .setParameter("userId", userId)
-                .setParameter("challengeStatus", challengeStatus)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
+    public List<Challenge> getProgressChallenges(Long userId) {
+        return em.createQuery("select c.name, cs.progress from ChallengeStatus cs left join Challenge c on cs.challenge.challengeId = c.challengeId where cs.walkie.userId = :userId")
+                .setParameter("userId", userId)
                 .getResultList();
     }
 
@@ -42,9 +47,8 @@ public class ChallengeRepository {
         return em.find(Walkie.class, userId);
     }
 
-    public void insertChallengeStatus(ChallengeStatus cs) {
-        em.persist(cs);
-    }
+    public void insertChallengeStatus(ChallengeStatus cs) { em.persist(cs); }
+
     public void updateChallengeStatus(Long statusId, char status) {
         ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
         cs.setStatus(status);
