@@ -1,9 +1,6 @@
 package com.whyranoid.walkie.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,11 +17,11 @@ public class ChallengeStatus {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long statusId;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private Walkie walkie;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "challenge_id", nullable = false)
     private Challenge challenge;
 
@@ -35,4 +32,5 @@ public class ChallengeStatus {
     @NotNull
     @Column(nullable = false)
     private int progress = 0;
+
 }

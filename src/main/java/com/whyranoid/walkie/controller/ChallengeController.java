@@ -3,6 +3,7 @@ package com.whyranoid.walkie.controller;
 import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
+import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -36,5 +37,11 @@ public class ChallengeController {
     @PostMapping("/challenge-detail/update-status")
     public ResponseEntity updateChallengeStatus(@RequestBody ChallengeStatusChangeRequest challengeStatusChangeRequest) {
         return ResponseEntity.ok(challengeService.updateChallengeStatus(challengeStatusChangeRequest));
+    }
+
+    // 챌린지를 새로 시작하는 것으로 ChallengeStatus를 새로 만들어서 추가해야 함.
+    @PostMapping("/challenge-detail/start")
+    public ResponseEntity startChallenge(@RequestBody ChallengeStatusCreateRequest challengeStatusCreateRequest) {
+        return ResponseEntity.ok(challengeService.createChallengeStatus(challengeStatusCreateRequest));
     }
 }
