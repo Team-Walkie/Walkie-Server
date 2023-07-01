@@ -19,15 +19,21 @@ public class ChallengeRepository {
     @PersistenceContext
     private final EntityManager em;
 
+    public List<Challenge> getNewChallenges(Long userId) {
+        return em.createQuery("select c.name, c.challengeId from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.newFlag = 1")
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
     public List<Challenge> getChallengesByCategory(Long userId, char category) {
-        return em.createQuery("select c1 from Challenge c1 where category = :category except select c2 from Challenge c2 left join ChallengeStatus cs on c2.challengeId = cs.challenge.challengeId and cs.walkie.userId = :userId")
+        return em.createQuery("select c.name, c.challengeId from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.category = :category")
                 .setParameter("userId", userId)
                 .setParameter("category", category)
                 .getResultList();
     }
 
     public List<Challenge> getProgressChallenges(Long userId) {
-        return em.createQuery("select c.name, cs.progress from ChallengeStatus cs left join Challenge c on cs.challenge.challengeId = c.challengeId where cs.walkie.userId = :userId")
+        return em.createQuery("select c.name, cs.progress, c.challengeId from ChallengeStatus cs left join Challenge c on cs.challenge.challengeId = c.challengeId where cs.walkie.userId = :userId")
                 .setParameter("userId", userId)
                 .getResultList();
     }

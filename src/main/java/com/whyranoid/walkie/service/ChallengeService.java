@@ -22,6 +22,9 @@ public class ChallengeService{
 
     private final ChallengeRepository challengeRepository;
 
+    public List<Challenge> getNewChallenges(Long userId) {
+        return challengeRepository.getNewChallenges(userId);
+    }
     public List<Challenge> getChallengesByCategory(Long userId, char category) {
         return challengeRepository.getChallengesByCategory(userId, category);
     }
