@@ -26,6 +26,12 @@ public class ChallengeController {
         return new ResponseEntity<>(challenges, httpHeaders, HttpStatus.OK);
     }
 
+    @GetMapping("/challenges/top-rank")
+    public ResponseEntity getPopularChallenges() {
+        List<Challenge> challenges = challengeService.getPopularChallenges();
+        return new ResponseEntity<>(challenges, httpHeaders, HttpStatus.OK);
+    }
+
     @GetMapping("/challenges/category")
     public ResponseEntity getChallengesByCategory(@RequestParam("userId") Long userId, @RequestParam("category") char category) {
         List<Challenge> challenges = challengeService.getChallengesByCategory(userId, category);

@@ -25,6 +25,11 @@ public class ChallengeRepository {
                 .getResultList();
     }
 
+    public List<Challenge> getPopularChallenges() {
+        return em.createQuery("select c.name, c.challengeId, count(*) as duplicated_count from Challenge c left join ChallengeStatus cs on c.challengeId = cs.challenge.challengeId group by c.challengeId, c.name order by duplicated_count desc")
+                .getResultList();
+    }
+
     public List<Challenge> getChallengesByCategory(Long userId, char category) {
         return em.createQuery("select c.name, c.challengeId from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.category = :category")
                 .setParameter("userId", userId)
