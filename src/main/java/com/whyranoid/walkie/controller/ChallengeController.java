@@ -1,7 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.whyranoid.walkie.domain.Challenge;
-import com.whyranoid.walkie.domain.ChallengeStatus;
+import com.whyranoid.walkie.dto.ChallengeDetailDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.service.ChallengeService;
@@ -46,7 +46,7 @@ public class ChallengeController {
 
     @GetMapping("/challenge-detail")
     public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("userId") Long userId) {
-        List<ChallengeStatus> challenge = challengeService.getChallengeDetail(challengeId, userId);
+        ChallengeDetailDto challenge = challengeService.getChallengeDetail(challengeId, userId);
         return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 

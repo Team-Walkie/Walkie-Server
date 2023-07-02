@@ -43,8 +43,15 @@ public class ChallengeRepository {
                 .getResultList();
     }
 
-    public List<ChallengeStatus> getDetailChallenge(Long challengeId, Long userId) {
-        return em.createQuery("select c, s.progress, s.status from ChallengeStatus s left join Challenge c on c.challengeId = s.challenge.challengeId where c.challengeId = :challengeId and s.walkie.userId = :userId")
+    public List<ChallengeStatus> getChallengeDetail(Long challengeId, Long userId) {
+        return em.createQuery("select c, cs.progress, cs.status, cs.walkie from ChallengeStatus cs left join Challenge c on c.challengeId = cs.challenge.challengeId where c.challengeId = :challengeId and cs.walkie.userId = :userId")
+                .setParameter("challengeId", challengeId)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+    public List<Walkie> getChallengeMember(Long challengeId, Long userId) {
+        return em.createQuery("select cs.walkie from ChallengeStatus cs where cs.challenge.challengeId = :challengeId and cs.walkie.userId != :userId")
                 .setParameter("challengeId", challengeId)
                 .setParameter("userId", userId)
                 .getResultList();

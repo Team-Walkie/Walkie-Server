@@ -3,6 +3,7 @@ package com.whyranoid.walkie.service;
 import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.dto.ChallengeDetailDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.dto.response.ApiResponse;
@@ -38,8 +39,14 @@ public class ChallengeService{
         return challengeRepository.getProgressChallenges(userId);
     }
 
-    public List<ChallengeStatus> getChallengeDetail(Long challengeId, Long userId) {
-        return challengeRepository.getDetailChallenge(challengeId, userId);
+    public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
+        List<ChallengeStatus> cs = challengeRepository.getChallengeDetail(challengeId, userId);
+        List<Walkie> walkies = challengeRepository.getChallengeMember(challengeId, userId);
+
+        return ChallengeDetailDto.builder()
+                .challenges(cs)
+                .walkies(walkies)
+                .build();
     }
 
     public ApiResponse createChallengeStatus(ChallengeStatusCreateRequest challengeStatusCreateRequest) {
