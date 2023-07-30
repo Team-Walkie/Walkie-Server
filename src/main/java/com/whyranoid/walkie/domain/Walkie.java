@@ -5,7 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -36,20 +40,13 @@ public class Walkie {
     @Column(name = "auth_id", nullable = false)
     private String authId;
 
-    // Walkie 객체가 아니라 고유 유저 id로 관리하는게 맞는걸까?
-    @OneToMany(mappedBy = "following")
-    private List<Walkie> following;
-
-    @OneToMany(mappedBy = "follower")
-    private List<Walkie> follower;
-
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "badge_collection",
-            joinColumns = @JoinColumn(name = "user_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "badge_id", nullable = false)
-    )
-    private List<Badge> badges = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.REMOVE)
+//    @JoinTable(
+//            name = "badge_collection",
+//            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+//            inverseJoinColumns = @JoinColumn(name = "badge_id", nullable = false)
+//    )
+//    private List<Badge> badges = new ArrayList<>();
 
     @Builder
     private Walkie(String userName, String profileImg, Character status, String authId) {
