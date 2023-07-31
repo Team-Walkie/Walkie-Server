@@ -44,4 +44,7 @@ public class Challenge {
 
     @Column(name = "calorie")
     private int calorie;
+
+    @Column(name = "new_flag")
+    private int newFlag;
 }

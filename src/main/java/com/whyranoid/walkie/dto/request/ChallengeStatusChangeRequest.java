@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +12,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class ChallengeStatusChangeRequest {
     @NotNull
+    @Schema(example = "3")
     private Long statusId;
     @NotNull
+    @Schema(example = "P")
     private Character status;
 
     @Builder

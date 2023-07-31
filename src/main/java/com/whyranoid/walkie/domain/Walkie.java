@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,19 +16,23 @@ import javax.validation.constraints.Size;
 public class Walkie {
     @Id // Entity의 primary key임을 명시
     @Column(name = "user_id")
+    @Schema(example = "123")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성을 데이터베이스에 위임, mysql의 경우 auto-increment가 기본
     private Long userId;
 
     @NotNull
     @Column(name = "user_name", nullable = false)
     @Size(min = 1, max = 15) // 임의로 지정해 놓은 것
+    @Schema(example = "승민")
     private String userName;
 
     @Column(name = "profile_img")
+    @Schema(example = "seungmin_profile_img")
     private String profileImg;
 
     @NotNull
     @Column(name = "status", nullable = false)
+    @Schema(example = "N")
     private Character status;
 
     @NotNull
