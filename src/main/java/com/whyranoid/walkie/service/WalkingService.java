@@ -1,8 +1,7 @@
 package com.whyranoid.walkie.service;
 
 import com.whyranoid.walkie.domain.Walkie;
-import com.whyranoid.walkie.dto.request.WalkieStatusChangeRequest;
-import com.whyranoid.walkie.dto.request.WalkingStartRequest;
+import com.whyranoid.walkie.dto.WalkingDto;
 import com.whyranoid.walkie.dto.response.WalkieStatusChangeResponse;
 import com.whyranoid.walkie.dto.response.WalkingStartResponse;
 import com.whyranoid.walkie.repository.HistoryRepository;
@@ -22,13 +21,13 @@ public class WalkingService {
     private final WalkieRepository walkieRepository;
     private final HistoryRepository historyRepository;
 
-    public Boolean updateStatus(WalkieStatusChangeRequest walkieStatusChangeRequest) {
+    public Boolean updateStatus(WalkingDto walkingDto) {
         AtomicReference<Boolean> updateSuccess = new AtomicReference<>();
-        Optional<Walkie> foundUser = walkieRepository.findByAuthId(walkieStatusChangeRequest.getAuthId());
+        Optional<Walkie> foundUser = walkieRepository.findByAuthId(walkingDto.getAuthId());
 
         foundUser.ifPresentOrElse(
                 user -> {
-                    user.changeStatus(walkieStatusChangeRequest.getNewStatus());
+                    user.changeStatus(walkingDto.getNewStatus());
                     walkieRepository.save(user);
                     updateSuccess.set(true);
                 },
@@ -38,8 +37,8 @@ public class WalkingService {
         return updateSuccess.get();
     }
 
-    public WalkingStartResponse startWalking(WalkingStartRequest walkingStartRequest) {
-        Boolean updateSuccess = updateStatus(walkingStartRequest.getWalkieStatusChangeRequest());
+    public WalkingStartResponse startWalking(WalkingDto walkingDto) {
+        Boolean updateSuccess = updateStatus(walkingDto);
 
         if (updateSuccess) {
             //TODO: 히스토리 등록하고 리턴값 거기에 맞게 수정

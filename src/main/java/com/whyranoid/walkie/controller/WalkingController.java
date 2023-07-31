@@ -19,7 +19,7 @@ public class WalkingController {
     private final WalkingService walkingService;
 
     @PutMapping("/start")
-    public WalkingStartResponse startWalking(@RequestBody WalkingStartRequest walkingStartRequest) {
-        return walkingService.startWalking(walkingStartRequest);
+    public WalkingStartResponse startWalking(@RequestBody WalkingDto walkingDto) {
+        return walkingService.startWalking(walkingDto);
     }
 }
