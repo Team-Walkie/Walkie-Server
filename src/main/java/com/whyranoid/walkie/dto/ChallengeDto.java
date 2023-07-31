@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.dto;
 
 import com.whyranoid.walkie.domain.Badge;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChallengeDto {
+    @Schema(example = "2")
     private Long challengeId;
-    private char category;
+    @Schema(example = "L")
+    private Character category;
     private Badge badge;
+    @Schema(example = "햄버거 세트의 평균 칼로리는 1110kcal 입니다. 일주일 동안 걷기로 햄버거 세트 태우기 도전!")
     private String content;
+    @Schema(example = "햄버거 세트 불태우기")
     private String name;
+    @Schema(example = "challenge_img2")
     private String img;
-
-    // 여기서부터 challenge_status;
-    private char status;
-    private int progress;
+    @Schema(example = "0")
+    private Character status;
+    @Schema(example = "N")
+    private Integer progress;
 }

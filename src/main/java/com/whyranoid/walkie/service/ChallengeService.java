@@ -4,9 +4,11 @@ import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.dto.ChallengeDetailDto;
+import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.dto.response.ApiResponse;
+import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
 import com.whyranoid.walkie.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,30 +25,34 @@ public class ChallengeService{
 
     private final ChallengeRepository challengeRepository;
 
-    public List<Challenge> getNewChallenges(Long userId) {
+    public List<ChallengePreviewDto> getNewChallenges(Long userId) {
         return challengeRepository.getNewChallenges(userId);
     }
 
-    public List<Challenge> getPopularChallenges() {
+    public List<ChallengePreviewDto> getPopularChallenges() {
         return challengeRepository.getPopularChallenges();
     }
 
-    public List<Challenge> getChallengesByCategory(Long userId, char category) {
+    public List<ChallengePreviewDto> getChallengesByCategory(Long userId, char category) {
         return challengeRepository.getChallengesByCategory(userId, category);
     }
 
-    public List<Challenge> getProgressChallenges(Long userId) {
+    public List<ChallengePreviewDto> getProgressChallenges(Long userId) {
         return challengeRepository.getProgressChallenges(userId);
     }
 
     public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
-        List<ChallengeStatus> cs = challengeRepository.getChallengeDetail(challengeId, userId);
+        Object cs = challengeRepository.getChallengeDetail(challengeId, userId);
         List<Walkie> walkies = challengeRepository.getChallengeMember(challengeId, userId);
 
-        return ChallengeDetailDto.builder()
-                .challenges(cs)
-                .walkies(walkies)
-                .build();
+        if(cs == null) {
+            return null;
+        } else {
+            return ChallengeDetailDto.builder()
+                    .challenge((ChallengeDto)cs)
+                    .walkies(walkies)
+                    .build();
+        }
     }
 
     public ApiResponse createChallengeStatus(ChallengeStatusCreateRequest challengeStatusCreateRequest) {
@@ -73,7 +79,6 @@ public class ChallengeService{
     }
 
     public ApiResponse updateChallengeStatus(ChallengeStatusChangeRequest challengeStatusChangeRequest) {
-//        try {
             Character requestStatus = challengeStatusChangeRequest.getStatus();
             Long requestStatusId = challengeStatusChangeRequest.getStatusId();
             // 챌린지 중도 포기해서 삭제하려는 경우
@@ -89,13 +94,5 @@ public class ChallengeService{
                     .status(200)
                     .message("성공")
                     .build();
-//        }
-//        catch(Exception e) {
-//            return ApiResponse.builder()
-//                    .status(400)
-//                    .message("실패")
-//                    .build();
-//        }
-
     }
 }

@@ -27,7 +27,7 @@ public class ChallengeStatus {
 
     @NotNull
     @Column(nullable = false)
-    private char status;
+    private char status = 'N';
 
     @NotNull
     @Column(nullable = false)

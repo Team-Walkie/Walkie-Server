@@ -1,6 +1,5 @@
 package com.whyranoid.walkie.dto;
 
-import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.domain.Walkie;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,13 +12,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ChallengeDetailDto {
-    List<ChallengeStatus> challenges;
+
+    ChallengeDto challenge;
 
     List<Walkie> walkies;
 
     @Builder
-    public ChallengeDetailDto(List<ChallengeStatus> challenges, List<Walkie> walkies) {
-        this.challenges = challenges;
+    public ChallengeDetailDto(ChallengeDto challenge, List<Walkie> walkies) {
+        this.challenge = challenge;
         this.walkies = walkies;
     }
 }

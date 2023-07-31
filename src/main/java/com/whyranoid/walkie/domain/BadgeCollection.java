@@ -1,6 +1,5 @@
 package com.whyranoid.walkie.domain;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,16 +11,18 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Badge {
+public class BadgeCollection {
 
     @Id
-    @Column(name = "badge_id", nullable = false)
-    @Schema(example = "2")
+    @Column(name = "collection_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long badgeId;
+    private Long collectionId;
 
     @NotNull
-    @Schema(example = "badge_image2")
-    @Column(name = "badge_img", nullable = false)
-    private String img;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @NotNull
+    @Column(name = "badge_id", nullable = false)
+    private Long badgeId;
 }

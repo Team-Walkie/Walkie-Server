@@ -3,6 +3,7 @@ package com.whyranoid.walkie.repository;
 import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,35 +20,35 @@ public class ChallengeRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public List<Challenge> getNewChallenges(Long userId) {
-        return em.createQuery("select c.name, c.challengeId from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.newFlag = 1")
+    public List<ChallengePreviewDto> getNewChallenges(Long userId) {
+        return em.createQuery("select new com.whyranoid.walkie.dto.response.ChallengePreviewDto(c.challengeId, c.category, c.name, cs.status, cs.progress, c.newFlag) from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.newFlag = 1")
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
-    public List<Challenge> getPopularChallenges() {
-        return em.createQuery("select c.name, c.challengeId, count(*) as duplicated_count from Challenge c left join ChallengeStatus cs on c.challengeId = cs.challenge.challengeId group by c.challengeId, c.name order by duplicated_count desc")
+    public List<ChallengePreviewDto> getPopularChallenges() {
+        return em.createQuery("select new com.whyranoid.walkie.dto.response.ChallengePreviewDto(c.challengeId, c.category, c.name, cs.status, cs.progress, c.newFlag) from Challenge c left join ChallengeStatus cs on c.challengeId = cs.challenge.challengeId group by c.challengeId, c.name order by count(*) desc")
                 .getResultList();
     }
 
-    public List<Challenge> getChallengesByCategory(Long userId, char category) {
-        return em.createQuery("select c.name, c.challengeId from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.category = :category")
+    public List<ChallengePreviewDto> getChallengesByCategory(Long userId, char category) {
+        return em.createQuery("select  new com.whyranoid.walkie.dto.response.ChallengePreviewDto(c.challengeId, c.category, c.name, cs.status, cs.progress, c.newFlag) from Challenge c left join ChallengeStatus cs on cs.challenge.challengeId = c.challengeId and cs.walkie.userId = :userId where cs.walkie is null and c.category = :category")
                 .setParameter("userId", userId)
                 .setParameter("category", category)
                 .getResultList();
     }
 
-    public List<Challenge> getProgressChallenges(Long userId) {
-        return em.createQuery("select c.name, cs.progress, c.challengeId from ChallengeStatus cs left join Challenge c on cs.challenge.challengeId = c.challengeId where cs.walkie.userId = :userId")
+    public List<ChallengePreviewDto> getProgressChallenges(Long userId) {
+        return em.createQuery("select new com.whyranoid.walkie.dto.response.ChallengePreviewDto(c.challengeId, c.category, c.name, cs.status, cs.progress, c.newFlag ) from ChallengeStatus cs left join Challenge c on cs.challenge.challengeId = c.challengeId where cs.walkie.userId = :userId")
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
-    public List<ChallengeStatus> getChallengeDetail(Long challengeId, Long userId) {
-        return em.createQuery("select c, cs.progress, cs.status, cs.walkie from ChallengeStatus cs left join Challenge c on c.challengeId = cs.challenge.challengeId where c.challengeId = :challengeId and cs.walkie.userId = :userId")
+    public Object getChallengeDetail(Long challengeId, Long userId) {
+        return em.createQuery("select new com.whyranoid.walkie.dto.ChallengeDto(c.challengeId, c.category, c.badge, c.content, c.name, c.img, cs.status, cs.progress) from ChallengeStatus cs left join Challenge c on c.challengeId = cs.challenge.challengeId where c.challengeId = :challengeId and cs.walkie.userId = :userId")
                 .setParameter("challengeId", challengeId)
                 .setParameter("userId", userId)
-                .getResultList();
+                .getSingleResult();
     }
 
     public List<Walkie> getChallengeMember(Long challengeId, Long userId) {
