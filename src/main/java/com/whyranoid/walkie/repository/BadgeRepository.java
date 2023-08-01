@@ -23,8 +23,6 @@ public class BadgeRepository {
                 .getResultList();
     }
 
-    public void insertBadgeCollection(BadgeCollection badgeCollection) {
-        em.persist(badgeCollection);
-    }
-
+    public void obtainBadge(BadgeCollection bc)
+    { em.persist(bc); }
 }

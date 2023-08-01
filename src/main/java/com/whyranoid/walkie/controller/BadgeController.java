@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,11 +32,14 @@ public class BadgeController {
             @Parameter(name = "userId", description = "유저 아이디", example = "123")
     })
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BadgeDto.class))))
-
     @GetMapping("/badges")
     public ResponseEntity getBadges(@RequestParam("userId") Long userId) {
         List<BadgeDto> badges = badgeService.getBadges(userId);
         return new ResponseEntity<>(badges, httpHeaders, HttpStatus.OK);
     }
 
+    @PostMapping("/obtain-badge")
+    public ResponseEntity obtainBadge(@RequestParam("userId") Long userId, @RequestParam("badgeId") Long badgeId) {
+        return ResponseEntity.ok(badgeService.obtainBadge(userId, badgeId));
+    }
 }
