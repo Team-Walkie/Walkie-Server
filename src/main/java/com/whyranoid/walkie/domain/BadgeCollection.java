@@ -25,4 +25,8 @@ public class BadgeCollection {
     @NotNull
     @Column(name = "badge_id", nullable = false)
     private Long badgeId;
+
+    @NotNull
+    @Column(name = "received_at", nullable = false)
+    private String receivedAt;
 }

@@ -24,4 +24,9 @@ public class Badge {
     @Schema(example = "badge_image2")
     @Column(name = "badge_img", nullable = false)
     private String img;
+
+    @NotNull
+    @Schema(example = "햄버거 세트 배지")
+    @Column(name = "badge_name", nullable = false)
+    private String badgeName;
 }
