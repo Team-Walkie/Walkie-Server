@@ -6,9 +6,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter // 클래스 레벨에 선언할 경우 모든 필드에 접근자 자동 생성
@@ -39,21 +45,6 @@ public class Walkie {
     @Column(name = "auth_id", nullable = false)
     private String authId;
 
-//    @ManyToOne
-//    @JoinColumn
-//    private Walkie following = this;
-//
-//    @ManyToOne
-//    @JoinColumn
-//    private Walkie follower = this;
-//
-//    // Walkie 객체가 아니라 고유 유저 id로 관리하는게 맞는걸까?
-//    @OneToMany(mappedBy = "following")
-//    private List<Walkie> followingList = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "follower")
-//    private List<Walkie> followerList = new ArrayList<>();
-
 //    @ManyToMany(cascade = CascadeType.REMOVE)
 //    @JoinTable(
 //            name = "badge_collection",
@@ -68,5 +59,9 @@ public class Walkie {
         this.profileImg = profileImg;
         this.status = status;
         this.authId = authId;
+    }
+
+    public void changeStatus(Character status) {
+        this.status = status;
     }
 }

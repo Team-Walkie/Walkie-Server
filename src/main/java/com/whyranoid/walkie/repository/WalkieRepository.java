@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface WalkieRepository extends JpaRepository<Walkie, Long> {
 
     Optional<Walkie> findByUserName(String userName);
+
+    Optional<Walkie> findByAuthId(String authId);
 }
