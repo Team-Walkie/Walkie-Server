@@ -44,8 +44,8 @@ public class WalkieService {
 
         return WalkieSignUpResponse.builder()
                 .hasDuplicatedName(false)
-                .accessToken("아이디=" + walkie.getUserId())
-                .refreshToken("상태=" + walkie.getStatus())
+                .walkieId(walkie.getUserId())
+                .walkieName(walkie.getUserName())
                 .build();
     }
 
