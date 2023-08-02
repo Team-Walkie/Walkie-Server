@@ -10,7 +10,7 @@ import java.util.Date;
 public class WalkingDto {
 
     @Schema(description = "요청 필수 파라미터 - 워키 아이디", example = "3")
-    private Long uid;
+    private Long walkieId;
 
     @Schema(description = "요청 필수 파라미터 - 운동 시작 시간", example = "2023-07-31T15:08:31.689Z")
     private Date startTime;
@@ -25,8 +25,8 @@ public class WalkingDto {
     private String authId;
 
     @Builder
-    public WalkingDto(Long uid, Date startTime, Long historyId, Character newStatus, String authId) {
-        this.uid = uid;
+    public WalkingDto(Long walkieId, Date startTime, Long historyId, Character newStatus, String authId) {
+        this.walkieId = walkieId;
         this.startTime = startTime;
         this.historyId = historyId;
         this.newStatus = newStatus;
