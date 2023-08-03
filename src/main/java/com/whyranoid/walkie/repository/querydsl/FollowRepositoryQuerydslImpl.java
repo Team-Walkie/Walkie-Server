@@ -3,6 +3,8 @@ package com.whyranoid.walkie.repository.querydsl;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.whyranoid.walkie.dto.FollowDto;
+import com.whyranoid.walkie.dto.QFollowDto;
 import com.whyranoid.walkie.dto.QWalkieDto;
 import com.whyranoid.walkie.dto.WalkieDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,25 @@ public class FollowRepositoryQuerydslImpl implements FollowRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
 
+
+    @Override
+    public void deleteFollowing(Long followerId, Long followedId) {
+        queryFactory
+                .delete(follow)
+                .where(follow.followed.userId.eq(followedId)
+                        .and(follow.follower.userId.eq(followerId)))
+                .execute();
+    }
+
+    @Override
+    public FollowDto findFollowing(Long followerId, Long followedId) {
+        return queryFactory
+                .select(new QFollowDto(follow, follow.isNull()))
+                .from(follow)
+                .where(follow.followed.userId.eq(followedId)
+                        .and(follow.follower.userId.eq(followerId)))
+                .fetchOne();
+    }
 
     @Override
     public List<WalkieDto> findFollowerList(Long whoseId) {
