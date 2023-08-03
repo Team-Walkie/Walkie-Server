@@ -45,7 +45,7 @@ public class WalkieService {
         return WalkieSignUpResponse.builder()
                 .hasDuplicatedName(false)
                 .walkieId(walkie.getUserId())
-                .walkieName(walkie.getUserName())
+                .nickname(walkie.getUserName())
                 .build();
     }
 

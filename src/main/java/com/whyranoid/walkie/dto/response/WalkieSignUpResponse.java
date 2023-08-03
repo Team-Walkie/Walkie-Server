@@ -15,7 +15,7 @@ public class WalkieSignUpResponse {
     private Long walkieId;
     
     @Schema(description = "(검증용) 가입 요청했던 닉네임 반환")
-    private String walkieName;
+    private String nickname;
 
 //    private String accessToken;
 //    private String refreshToken;

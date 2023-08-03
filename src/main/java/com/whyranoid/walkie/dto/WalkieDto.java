@@ -8,14 +8,14 @@ import lombok.Getter;
 public class WalkieDto {
 
     private Long walkieId;
-    private String name;
+    private String nickname;
     private String profileImg;
     private Character status;
 
     @QueryProjection
     public WalkieDto(Walkie walkie) {
         this.walkieId = walkie.getUserId();
-        this.name = walkie.getUserName();
+        this.nickname = walkie.getUserName();
         this.profileImg = walkie.getProfileImg();
         this.status = walkie.getStatus();
     }
