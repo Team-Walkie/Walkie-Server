@@ -31,4 +31,19 @@ public class WalkieController {
     public ResponseEntity<WalkieSignUpResponse> signUp(@RequestBody WalkieSignUpRequest walkieSignUpRequest) {
         return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest));
     }
+
+    @Operation(description = "닉네임 중복 확인 -- 회원가입과 동일한 dto 사용")
+    @Parameters({
+            @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹")
+    })
+    @GetMapping("/signup/check")
+    public ResponseEntity<WalkieSignUpResponse> check(@RequestBody WalkieSignUpRequest walkieSignUpRequest) {
+        return ResponseEntity.ok(
+                WalkieSignUpResponse.builder()
+                        .hasDuplicatedName(
+                                walkieService.checkNameDuplication(walkieSignUpRequest.getUserName())
+                        )
+                        .build()
+        );
+    }
 }
