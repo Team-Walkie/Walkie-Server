@@ -24,14 +24,12 @@ public class FollowController {
     private final FollowService followService;
 
     @Operation(description = "팔로우하기")
-    @Parameter(name = "팔로우 정보", required = true)
     @PostMapping("/follow")
     public ResponseEntity<FollowDto> follow(@RequestBody FollowDto followRequest) {
         return ResponseEntity.ok(followService.doFollow(followRequest));
     }
 
     @Operation(description = "언팔로우하기")
-    @Parameter(name = "언팔로우 정보", required = true)
     @DeleteMapping("/unfollow")
     public ResponseEntity<FollowDto> unfollow(@RequestBody FollowDto followRequest) {
         return ResponseEntity.ok(followService.doUnfollow(followRequest));
