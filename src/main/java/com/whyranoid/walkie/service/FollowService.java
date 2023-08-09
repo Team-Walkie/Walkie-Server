@@ -69,7 +69,6 @@ public class FollowService {
     //  내가 팔로우 하는 사람 목록
     @Transactional(readOnly = true)
     public List<WalkieDto> getFollowingList(Long walkieId) {
-
         walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
 
         return followRepository.findFollowingList(walkieId);
@@ -78,9 +77,15 @@ public class FollowService {
     //  나를 팔로우 하는 사람 목록
     @Transactional(readOnly = true)
     public List<WalkieDto> getFollowerList(Long walkieId) {
-
         walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
 
         return followRepository.findFollowerList(walkieId);
+    }
+
+    // 운동 중인 팔로우 목록
+    public List<WalkieDto> getWalkingFollowingList(Long walkieId) {
+        walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+
+        return followRepository.findWalkingFollwingList(walkieId);
     }
 }

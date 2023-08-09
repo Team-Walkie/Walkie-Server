@@ -40,13 +40,22 @@ public class FollowRepositoryQuerydslImpl implements FollowRepositoryQuerydsl {
     }
 
     @Override
-    public List<WalkieDto> findFollowerList(Long whoseId) {
-        return findFollowerList(whoseId, false, findFollowerIdList(whoseId));
+    public List<WalkieDto> findFollowerList(Long walkieId) {
+        return findFollowerList(walkieId, false, findFollowerIdList(walkieId));
     }
 
     @Override
-    public List<WalkieDto> findFollowingList(Long whoseId) {
-        return  findFollowerList(whoseId, true, findFollowedIdList(whoseId));
+    public List<WalkieDto> findFollowingList(Long walkieId) {
+        return  findFollowerList(walkieId, true, findFollowedIdList(walkieId));
+    }
+
+    @Override
+    public List<WalkieDto> findWalkingFollwingList(Long walkieId) {
+        return queryFactory
+                .select(new QWalkieDto(walkie))
+                .from(walkie)
+                .where(walkie.userId.in(findFollowedIdList(walkieId)).and(walkie.status.eq('o')))
+                .fetch();
     }
 
     public List<WalkieDto> findFollowerList(Long whoseId, boolean isFollowing, JPQLQuery<Long> followIdList) {

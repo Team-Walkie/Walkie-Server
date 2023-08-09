@@ -11,8 +11,10 @@ public interface FollowRepositoryQuerydsl {
 
         FollowDto findFollowing(Long followerId, Long followedId);
 
-        List<WalkieDto> findFollowerList(Long whoseId);
+        List<WalkieDto> findFollowerList(Long walkieId);
 
-        List<WalkieDto> findFollowingList(Long whoseId);
+        List<WalkieDto> findFollowingList(Long walkieId);
+
+        List<WalkieDto> findWalkingFollwingList(Long walkieId);
 
 }
