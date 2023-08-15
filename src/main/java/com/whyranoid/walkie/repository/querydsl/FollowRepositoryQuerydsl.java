@@ -1,13 +1,20 @@
 package com.whyranoid.walkie.repository.querydsl;
 
+import com.whyranoid.walkie.dto.FollowDto;
 import com.whyranoid.walkie.dto.WalkieDto;
 
 import java.util.List;
 
 public interface FollowRepositoryQuerydsl {
 
-        List<WalkieDto> findFollowerList(Long whoseId);
+        void deleteFollowing(Long followerId, Long followedId);
 
-        List<WalkieDto> findFollowingList(Long whoseId);
+        FollowDto findFollowing(Long followerId, Long followedId);
+
+        List<WalkieDto> findFollowerList(Long walkieId);
+
+        List<WalkieDto> findFollowingList(Long walkieId);
+
+        List<WalkieDto> findWalkingFollwingList(Long walkieId);
 
 }

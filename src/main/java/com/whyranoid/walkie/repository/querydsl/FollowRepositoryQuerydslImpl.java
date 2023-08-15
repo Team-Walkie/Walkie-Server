@@ -3,6 +3,8 @@ package com.whyranoid.walkie.repository.querydsl;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.whyranoid.walkie.dto.FollowDto;
+import com.whyranoid.walkie.dto.QFollowDto;
 import com.whyranoid.walkie.dto.QWalkieDto;
 import com.whyranoid.walkie.dto.WalkieDto;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +21,41 @@ public class FollowRepositoryQuerydslImpl implements FollowRepositoryQuerydsl {
 
 
     @Override
-    public List<WalkieDto> findFollowerList(Long whoseId) {
-        return findFollowerList(whoseId, false, findFollowerIdList(whoseId));
+    public void deleteFollowing(Long followerId, Long followedId) {
+        queryFactory
+                .delete(follow)
+                .where(follow.followed.userId.eq(followedId)
+                        .and(follow.follower.userId.eq(followerId)))
+                .execute();
     }
 
     @Override
-    public List<WalkieDto> findFollowingList(Long whoseId) {
-        return  findFollowerList(whoseId, true, findFollowedIdList(whoseId));
+    public FollowDto findFollowing(Long followerId, Long followedId) {
+        return queryFactory
+                .select(new QFollowDto(follow, follow.isNull()))
+                .from(follow)
+                .where(follow.followed.userId.eq(followedId)
+                        .and(follow.follower.userId.eq(followerId)))
+                .fetchOne();
+    }
+
+    @Override
+    public List<WalkieDto> findFollowerList(Long walkieId) {
+        return findFollowerList(walkieId, false, findFollowerIdList(walkieId));
+    }
+
+    @Override
+    public List<WalkieDto> findFollowingList(Long walkieId) {
+        return  findFollowerList(walkieId, true, findFollowedIdList(walkieId));
+    }
+
+    @Override
+    public List<WalkieDto> findWalkingFollwingList(Long walkieId) {
+        return queryFactory
+                .select(new QWalkieDto(walkie))
+                .from(walkie)
+                .where(walkie.userId.in(findFollowedIdList(walkieId)).and(walkie.status.eq('o')))
+                .fetch();
     }
 
     public List<WalkieDto> findFollowerList(Long whoseId, boolean isFollowing, JPQLQuery<Long> followIdList) {
