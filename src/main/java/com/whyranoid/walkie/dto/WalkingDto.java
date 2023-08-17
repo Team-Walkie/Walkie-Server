@@ -21,7 +21,7 @@ public class WalkingDto {
     @Schema(description = "응답 파라미터 - 생성된 기록의 아이디", example = "15")
     private Long historyId;
 
-    @Schema(description = "요청 파라미터 - 갱신할 사용자 상태", example = "o")
+    @Schema(description = "요청 파라미터 - 갱신할 사용자 상태", example = "R")
     private Character newStatus;
 
 //    @Schema(description = "(임시) 요청 파라미터 - 인증 아이디|", example = "SUPER-SECRET-KEY")
