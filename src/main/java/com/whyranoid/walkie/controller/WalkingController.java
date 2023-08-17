@@ -1,7 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.whyranoid.walkie.dto.WalkingDto;
-import com.whyranoid.walkie.dto.response.WalkingStartResponse;
+import com.whyranoid.walkie.dto.WalkingLikeDto;
 import com.whyranoid.walkie.service.WalkingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,4 +27,11 @@ public class WalkingController {
     public ResponseEntity<Long> startWalking(@RequestBody WalkingDto walkingDto) {
         return ResponseEntity.ok(walkingService.startWalking(walkingDto));
     }
+
+    @Operation(description = "운동 중인 친구에게 좋아요 보내기")
+    @PostMapping("/send-like")
+    public ResponseEntity<WalkingLikeDto> sendWalkingLike(@RequestBody WalkingLikeDto walkingLikeDto) {
+        return ResponseEntity.ok(walkingService.sendWalkingLike(walkingLikeDto));
+    }
+
 }
