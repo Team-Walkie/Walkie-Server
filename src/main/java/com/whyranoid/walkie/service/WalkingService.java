@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.service;
 
+import com.whyranoid.walkie.domain.History;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.dto.WalkingDto;
 import com.whyranoid.walkie.dto.response.WalkieStatusChangeResponse;
@@ -10,8 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import javax.persistence.EntityNotFoundException;
 
 @Transactional
 @Service
@@ -21,35 +21,19 @@ public class WalkingService {
     private final WalkieRepository walkieRepository;
     private final HistoryRepository historyRepository;
 
-    public Boolean updateStatus(WalkingDto walkingDto) {
-        AtomicReference<Boolean> updateSuccess = new AtomicReference<>();
-        Optional<Walkie> foundUser = walkieRepository.findByAuthId(walkingDto.getAuthId());
+    public Long startWalking(WalkingDto walkingDto) {
+        Walkie user = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
+        user.changeStatus('o');
+        walkieRepository.save(user);
 
-        foundUser.ifPresentOrElse(
-                user -> {
-                    user.changeStatus(walkingDto.getNewStatus());
-                    walkieRepository.save(user);
-                    updateSuccess.set(true);
-                },
-                () -> updateSuccess.set(false)
-        );
+        Walkie walkie = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
 
-        return updateSuccess.get();
-    }
-
-    public WalkingStartResponse startWalking(WalkingDto walkingDto) {
-        Boolean updateSuccess = updateStatus(walkingDto);
-
-        if (updateSuccess) {
-            //TODO: 히스토리 등록하고 리턴값 거기에 맞게 수정
-            return WalkingStartResponse.builder()
-                    .historyId(-1L)
-                    .walkieStatusChangeResponse(WalkieStatusChangeResponse.builder().updateSuccess(false).build())
-                    .build();
-        }
-        else return WalkingStartResponse.builder()
-                .historyId(-1L)
-                .walkieStatusChangeResponse(WalkieStatusChangeResponse.builder().updateSuccess(false).build())
+        History input = History.builder()
+                .startTime(walkingDto.getStartTime())
+                .user(walkie)
                 .build();
+
+        History history = historyRepository.save(input);
+        return history.getHistoryId();
     }
 }

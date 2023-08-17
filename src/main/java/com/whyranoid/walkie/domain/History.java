@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class History {
 
     @Id
@@ -19,32 +21,22 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long historyId;
 
-    @NotNull
-    @Column(nullable = false)
     private Double distance;
 
     @NotNull
     @Column(name = "start_time", nullable = false)
     private Date startTime;
 
-    @NotNull
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private Date endTime;
 
-    @NotNull
-    @Column(name = "total_time", nullable = false)
+    @Column(name = "total_time")
     private Integer totalTime;
 
-    @NotNull
-    @Column(nullable = false)
     private Integer calorie;
 
-    @NotNull
-    @Column(nullable = false)
     private Integer step;
 
-    @NotNull
-    @Column(nullable = false)
     private String path;
 
     @ManyToOne
