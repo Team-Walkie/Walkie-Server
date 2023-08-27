@@ -29,17 +29,24 @@ public class BadgeController {
 
     @Operation(summary = "유저 아이디로 배지 가져오기", description = "유저 아이디를 통해 배지를 해당 유저가 획득한 배지들을 조회합니다.")
     @Parameters({
-            @Parameter(name = "userId", description = "유저 아이디", example = "123")
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123")
     })
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = BadgeDto.class))))
     @GetMapping("/badges")
-    public ResponseEntity getBadges(@RequestParam("userId") Long userId) {
-        List<BadgeDto> badges = badgeService.getBadges(userId);
+    public ResponseEntity getBadges(@RequestParam("walkieId") Long walkieId) {
+        List<BadgeDto> badges = badgeService.getBadges(walkieId);
         return new ResponseEntity<>(badges, httpHeaders, HttpStatus.OK);
     }
 
+    @Operation(summary = "배지 획득하기", description = "챌린지 조건에 만족할 때 해당 api를 호출하면 유저가 배지를 획득합니다.")
+    @Parameters({
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123"),
+            @Parameter(name = "badgeId", description = "배지 아이디", example = "3")
+    })
+    @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = com.whyranoid.walkie.dto.response.ApiResponse.class))))
+
     @PostMapping("/obtain-badge")
-    public ResponseEntity obtainBadge(@RequestParam("userId") Long userId, @RequestParam("badgeId") Long badgeId) {
-        return ResponseEntity.ok(badgeService.obtainBadge(userId, badgeId));
+    public ResponseEntity obtainBadge(@RequestParam("walkieId") Long walkieId, @RequestParam("badgeId") Long badgeId) {
+        return ResponseEntity.ok(badgeService.obtainBadge(walkieId, badgeId));
     }
 }

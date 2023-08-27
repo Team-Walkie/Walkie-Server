@@ -17,13 +17,13 @@ import java.util.List;
 public class BadgeService {
     private final BadgeRepository badgeRepository;
 
-    public List<BadgeDto> getBadges(Long userId) {
-        return badgeRepository.getBadges(userId);
+    public List<BadgeDto> getBadges(Long walkieId) {
+        return badgeRepository.getBadges(walkieId);
     }
 
-    public ApiResponse obtainBadge(Long userId, Long badgeId) {
+    public ApiResponse obtainBadge(Long walkieId, Long badgeId) {
         BadgeCollection bc = new BadgeCollection();
-        bc.setUserId(userId);
+        bc.setWalkieId(walkieId);
         bc.setBadgeId(badgeId);
         bc.setReceivedAt(LocalDate.now().toString());
         badgeRepository.obtainBadge(bc);

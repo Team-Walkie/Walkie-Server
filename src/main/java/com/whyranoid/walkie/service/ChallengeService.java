@@ -25,25 +25,25 @@ public class ChallengeService{
 
     private final ChallengeRepository challengeRepository;
 
-    public List<ChallengePreviewDto> getNewChallenges(Long userId) {
-        return challengeRepository.getNewChallenges(userId);
+    public List<ChallengePreviewDto> getNewChallenges(Long walkieId) {
+        return challengeRepository.getNewChallenges(walkieId);
     }
 
     public List<ChallengePreviewDto> getPopularChallenges() {
         return challengeRepository.getPopularChallenges();
     }
 
-    public List<ChallengePreviewDto> getChallengesByCategory(Long userId, char category) {
-        return challengeRepository.getChallengesByCategory(userId, category);
+    public List<ChallengePreviewDto> getChallengesByCategory(Long walkieId, char category) {
+        return challengeRepository.getChallengesByCategory(walkieId, category);
     }
 
-    public List<ChallengePreviewDto> getProgressChallenges(Long userId) {
-        return challengeRepository.getProgressChallenges(userId);
+    public List<ChallengePreviewDto> getProgressChallenges(Long walkieId) {
+        return challengeRepository.getProgressChallenges(walkieId);
     }
 
-    public ChallengeDetailDto getChallengeDetail(Long challengeId, Long userId) {
-        Object cs = challengeRepository.getChallengeDetail(challengeId, userId);
-        List<Walkie> walkies = challengeRepository.getChallengeMember(challengeId, userId);
+    public ChallengeDetailDto getChallengeDetail(Long challengeId, Long walkieId) {
+        Object cs = challengeRepository.getChallengeDetail(challengeId, walkieId);
+        List<Walkie> walkies = challengeRepository.getChallengeMember(challengeId, walkieId);
 
         if(cs == null) {
             return null;
@@ -57,12 +57,12 @@ public class ChallengeService{
 
     public ApiResponse createChallengeStatus(ChallengeStatusCreateRequest challengeStatusCreateRequest) {
 
-        // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 userId랑 challengeId만 받고 싶은데..?
-        Long userId = challengeStatusCreateRequest.getUserId();
+        // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 walkieId랑 challengeId만 받고 싶은데..?
+        Long walkieId = challengeStatusCreateRequest.getWalkieId();
         Long challengeId = challengeStatusCreateRequest.getChallengeId();
 
         Challenge challenge = challengeRepository.getChallengeById(challengeId);
-        Walkie walkie = challengeRepository.getWalkieById(userId);
+        Walkie walkie = challengeRepository.getWalkieById(walkieId);
 
         ChallengeStatus cs = new ChallengeStatus();
         cs.setWalkie(walkie);

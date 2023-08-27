@@ -31,12 +31,12 @@ public class ChallengeController {
 
     @Operation(summary = "새로운 챌린지 가져오기", description = "새로운 챌린지들을 가져옵니다.")
     @Parameters({
-            @Parameter(name = "userId", description = "유저 아이디", example = "123")
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123")
     })
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChallengePreviewDto.class))))
     @GetMapping("/challenges/new")
-    public ResponseEntity getNewChallenges(@RequestParam("userId") Long userId) {
-        List<ChallengePreviewDto> challenges = challengeService.getNewChallenges(userId);
+    public ResponseEntity getNewChallenges(@RequestParam("walkieId") Long walkieId) {
+        List<ChallengePreviewDto> challenges = challengeService.getNewChallenges(walkieId);
         return new ResponseEntity<>(challenges, httpHeaders, HttpStatus.OK);
     }
 
@@ -51,35 +51,35 @@ public class ChallengeController {
     @Operation(summary = "카테고리별 챌린지 가져오기", description = "카테고리를 넣어주면 해당 카테고리의 챌린지들을 반환합니다.")
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChallengePreviewDto.class))))
     @Parameters({
-            @Parameter(name = "userId", description = "유저 아이디", example = "123"),
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123"),
             @Parameter(name = "category", description = "카테고리(L은 라이프, C는 칼로리, D는 거리)", example = "C")
     })
     @GetMapping("/challenges/category")
-    public ResponseEntity getChallengesByCategory(@RequestParam("userId") Long userId, @RequestParam("category") char category) {
-        List<ChallengePreviewDto> challenges = challengeService.getChallengesByCategory(userId, category);
+    public ResponseEntity getChallengesByCategory(@RequestParam("walkieId") Long walkieId, @RequestParam("category") char category) {
+        List<ChallengePreviewDto> challenges = challengeService.getChallengesByCategory(walkieId, category);
         return new ResponseEntity<>(challenges, httpHeaders, HttpStatus.OK);
     }
 
     @Operation(summary = "진행중인 챌린지 가져오기", description = "현재 유저가 진행 중인 챌린지들을 반환합니다.")
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = ChallengePreviewDto.class))))
     @Parameters({
-            @Parameter(name = "userId", description = "유저 아이디", example = "123")
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123")
     })
     @GetMapping("/challenges/progress")
-    public ResponseEntity getProgressChallenge(@RequestParam("userId") Long userId) {
-        List<ChallengePreviewDto> progressChallenges = challengeService.getProgressChallenges(userId);
+    public ResponseEntity getProgressChallenge(@RequestParam("walkieId") Long walkieId) {
+        List<ChallengePreviewDto> progressChallenges = challengeService.getProgressChallenges(walkieId);
         return new ResponseEntity<>(progressChallenges, httpHeaders, HttpStatus.OK);
     }
 
     @Operation(summary = "챌린지 상세 정보 보기", description = "챌린지의 상세한 정보를 반환합니다.")
     @Parameters({
             @Parameter(name = "challengeId", description = "챌린지 아이디", example = "2"),
-            @Parameter(name = "userId", description = "유저 아이디", example = "123")
+            @Parameter(name = "walkieId", description = "유저 아이디", example = "123")
     })
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(schema = @Schema(implementation = ChallengeDetailDto.class)))
     @GetMapping("/challenge-detail")
-    public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("userId") Long userId) {
-        ChallengeDetailDto challenge = challengeService.getChallengeDetail(challengeId, userId);
+    public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("walkieId") Long walkieId) {
+        ChallengeDetailDto challenge = challengeService.getChallengeDetail(challengeId, walkieId);
         return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
     }
 

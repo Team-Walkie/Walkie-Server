@@ -17,9 +17,9 @@ public class BadgeRepository {
     @PersistenceContext
     private final EntityManager em;
 
-    public List<BadgeDto> getBadges(Long userId) {
-        return em.createQuery("select new com.whyranoid.walkie.dto.response.BadgeDto(b.badgeId, b.img, b.badgeName, bc.receivedAt) from BadgeCollection bc left join Badge b on bc.badgeId = b.badgeId where bc.userId = :userId")
-                .setParameter("userId", userId)
+    public List<BadgeDto> getBadges(Long walkieId) {
+        return em.createQuery("select new com.whyranoid.walkie.dto.response.BadgeDto(b.badgeId, b.img, b.badgeName, bc.receivedAt) from BadgeCollection bc left join Badge b on bc.badgeId = b.badgeId where bc.userId = :walkieId")
+                .setParameter("walkieId", walkieId)
                 .getResultList();
     }
 
