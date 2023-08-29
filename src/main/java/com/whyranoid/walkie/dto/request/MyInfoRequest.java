@@ -7,10 +7,10 @@ import lombok.*;
 @Getter
 @Setter
 public class MyInfoRequest {
-    @Schema(description = "변경하고자 하는 프로필 이미지")
+    @Schema(description = "변경하고자 하는 프로필 이미지", example = "seungmin_profile_img")
     private String profileImg;
 
-    @Schema(description = "변경하고자 하는 닉네임")
+    @Schema(description = "변경하고자 하는 닉네임", example = "주용한바보")
     private String nickname;
 
     @Builder

@@ -42,7 +42,7 @@ public class WalkieController {
         );
     }
 
-    @Operation(description = "마이페이지에서 내 정보를 불러오는 api")
+    @Operation(summary = "내 정보 불러오기", description = "마이페이지에서 내 정보를 불러오는 api")
     @Parameters({
             @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
     })
@@ -53,7 +53,7 @@ public class WalkieController {
         );
     }
 
-    @Operation(description = "마이페이지에서 내 정보를 수정하는 api")
+    @Operation(summary = "내 정보 변경하기", description = "마이페이지에서 내 정보를 수정하는 api")
     @Parameters({
             @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
     })
