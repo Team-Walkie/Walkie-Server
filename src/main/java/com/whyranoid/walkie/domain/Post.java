@@ -3,15 +3,16 @@ package com.whyranoid.walkie.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -30,7 +31,7 @@ public class Post {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Date date;
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // referencedColumnName는 디폴트가 pk
@@ -42,7 +43,7 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false))
     private List<Walkie> liker = new ArrayList<>();
 
-    @OneToOne(optional = false) // optional = false 안해주면 history가 겹치는 경우가 발생 시 에러
-    @JoinColumn(name = "history", nullable = false)
-    private History history;
+//    @OneToOne(optional = false) // optional = false 안해주면 history가 겹치는 경우가 발생 시 에러
+//    @JoinColumn(name = "history", nullable = false)
+//    private History history;
 }

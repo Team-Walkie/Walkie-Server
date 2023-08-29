@@ -1,8 +1,10 @@
 package com.whyranoid.walkie.controller;
 
-import com.whyranoid.walkie.service.WalkieService;
+import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
+import com.whyranoid.walkie.dto.response.MyInfoResponse;
 import com.whyranoid.walkie.dto.response.WalkieSignUpResponse;
+import com.whyranoid.walkie.service.WalkieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -37,6 +39,28 @@ public class WalkieController {
                                 walkieService.checkNameDuplication(userName)
                         )
                         .build()
+        );
+    }
+
+    @Operation(description = "마이페이지에서 내 정보를 불러오는 api")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
+    })
+    @GetMapping("/my")
+    public ResponseEntity<MyInfoResponse> getMyInfo(@RequestParam Long walkieId) {
+        return ResponseEntity.ok(
+                walkieService.getMyInfo(walkieId)
+        );
+    }
+
+    @Operation(description = "마이페이지에서 내 정보를 수정하는 api")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
+    })
+    @PostMapping("/my")
+    public ResponseEntity<MyInfoResponse> changeMyInfo(@RequestParam Long walkieId, @RequestBody MyInfoRequest myInfoRequest) {
+        return ResponseEntity.ok(
+                walkieService.changeMyInfo(walkieId, myInfoRequest)
         );
     }
 }
