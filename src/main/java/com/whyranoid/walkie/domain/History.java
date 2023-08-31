@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class History {
 
     @Id
@@ -34,20 +36,13 @@ public class History {
     @Column(name = "end_time", nullable = false)
     private String endTime;
 
-    @NotNull
-    @Column(name = "total_time", nullable = false)
+    @Column(name = "total_time")
     private Integer totalTime;
 
-    @NotNull
-    @Column(nullable = false)
     private Integer calorie;
 
-    @NotNull
-    @Column(nullable = false)
     private Integer step;
 
-    @NotNull
-    @Column(nullable = false)
     private String path;
 
     @ManyToOne

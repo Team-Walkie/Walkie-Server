@@ -1,17 +1,20 @@
 package com.whyranoid.walkie.service;
 
+import com.whyranoid.walkie.domain.History;
 import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.domain.WalkingLike;
 import com.whyranoid.walkie.dto.WalkingDto;
-import com.whyranoid.walkie.dto.response.WalkieStatusChangeResponse;
-import com.whyranoid.walkie.dto.response.WalkingStartResponse;
+import com.whyranoid.walkie.dto.WalkingLikeDto;
 import com.whyranoid.walkie.repository.HistoryRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
+import com.whyranoid.walkie.repository.WalkingLikeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import javax.persistence.EntityNotFoundException;
+import java.security.InvalidParameterException;
 
 @Transactional
 @Service
@@ -20,36 +23,56 @@ public class WalkingService {
 
     private final WalkieRepository walkieRepository;
     private final HistoryRepository historyRepository;
+    private final WalkingLikeRepository walkingLikeRepository;
 
-    public Boolean updateStatus(WalkingDto walkingDto) {
-        AtomicReference<Boolean> updateSuccess = new AtomicReference<>();
-        Optional<Walkie> foundUser = walkieRepository.findByAuthId(walkingDto.getAuthId());
+    public Long startWalking(WalkingDto walkingDto) {
+        Walkie user = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
+        user.changeStatus('o');
+        walkieRepository.save(user);
 
-        foundUser.ifPresentOrElse(
-                user -> {
-                    user.changeStatus(walkingDto.getNewStatus());
-                    walkieRepository.save(user);
-                    updateSuccess.set(true);
-                },
-                () -> updateSuccess.set(false)
-        );
+        Walkie walkie = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
 
-        return updateSuccess.get();
+        History input = History.builder()
+                .startTime(walkingDto.getStartTime())
+                .user(walkie)
+                .build();
+
+        History history = historyRepository.save(input);
+        return history.getHistoryId();
     }
 
-    public WalkingStartResponse startWalking(WalkingDto walkingDto) {
-        Boolean updateSuccess = updateStatus(walkingDto);
+    public WalkingLikeDto sendWalkingLike(WalkingLikeDto request) {
+        Walkie receiver = walkieRepository.findByUserIdAndStatus(request.getReceiverId(), 'o').orElseThrow(EntityNotFoundException::new);
 
-        if (updateSuccess) {
-            //TODO: 히스토리 등록하고 리턴값 거기에 맞게 수정
-            return WalkingStartResponse.builder()
-                    .historyId(-1L)
-                    .walkieStatusChangeResponse(WalkieStatusChangeResponse.builder().updateSuccess(false).build())
-                    .build();
-        }
-        else return WalkingStartResponse.builder()
-                .historyId(-1L)
-                .walkieStatusChangeResponse(WalkieStatusChangeResponse.builder().updateSuccess(false).build())
+        Walkie sender = walkieRepository.findById(request.getSenderId()).orElseThrow(EntityNotFoundException::new);
+
+        History history = historyRepository.findFirst1ByUser(receiver, Sort.by("startTime").descending()).get(0);
+
+        boolean already = !walkingLikeRepository.findByHistoryAndLiker(history, sender).isEmpty();
+        if (already) return request;
+
+        WalkingLike input = WalkingLike.builder()
+                .history(history)
+                .liker(sender)
                 .build();
+
+        walkingLikeRepository.save(input);
+        return request;
+    }
+
+    public Long countWalkingLike(Long walkieId, String authId) {
+        Walkie authWalkie = walkieRepository.findByAuthId(authId).orElseThrow(EntityNotFoundException::new);
+
+        if (!authWalkie.getUserId().equals(walkieId)) throw new InvalidParameterException();
+
+        return walkingLikeRepository.findWalkingLikeCount(authWalkie.getUserId());
+    }
+
+    public WalkingLikeDto getTotalWalkingLike(Long walkieId, String authId) {
+        Walkie authWalkie = walkieRepository.findByAuthId(authId).orElseThrow(EntityNotFoundException::new);
+
+        if (!authWalkie.getUserId().equals(walkieId)) throw new InvalidParameterException();
+
+        return walkingLikeRepository.findWalkingLikePeople(walkieId);
     }
 }
