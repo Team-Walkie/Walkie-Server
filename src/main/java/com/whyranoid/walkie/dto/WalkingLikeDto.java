@@ -1,8 +1,8 @@
 package com.whyranoid.walkie.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ public class WalkingLikeDto {
     @Schema(description = "요청 필수 파라미터 - 좋아요 받은 유저의 워키 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long receiverId;
 
-    @Builder
+    @QueryProjection
     public WalkingLikeDto(Long senderId, Long receiverId) {
         this.senderId = senderId;
         this.receiverId = receiverId;
