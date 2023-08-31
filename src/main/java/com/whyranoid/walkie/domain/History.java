@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -24,12 +23,16 @@ public class History {
     private Double distance;
 
     @NotNull
+    @Column(nullable = false)
+    private String date;
+
+    @NotNull
     @Column(name = "start_time", nullable = false)
-    private Date startTime;
+    private String startTime;
 
     @NotNull
     @Column(name = "end_time", nullable = false)
-    private Date endTime;
+    private String endTime;
 
     @NotNull
     @Column(name = "total_time", nullable = false)
