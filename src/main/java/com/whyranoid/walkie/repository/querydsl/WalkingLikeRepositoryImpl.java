@@ -1,4 +1,4 @@
-package com.whyranoid.walkie.repository;
+package com.whyranoid.walkie.repository.querydsl;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
