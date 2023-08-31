@@ -11,5 +11,7 @@ public interface WalkieRepository extends JpaRepository<Walkie, Long> {
 
     Optional<Walkie> findByAuthId(String authId);
 
+    Optional<Walkie> findByUserId(Long walkieId);
+
     Optional<Walkie> findByUserIdAndStatus(Long id, Character status);
 }

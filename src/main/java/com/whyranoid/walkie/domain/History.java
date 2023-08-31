@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -21,14 +20,21 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long historyId;
 
+    @NotNull
+    @Column(nullable = false)
     private Double distance;
 
     @NotNull
-    @Column(name = "start_time", nullable = false)
-    private Date startTime;
+    @Column(nullable = false)
+    private String date;
 
-    @Column(name = "end_time")
-    private Date endTime;
+    @NotNull
+    @Column(name = "start_time", nullable = false)
+    private String startTime;
+
+    @NotNull
+    @Column(name = "end_time", nullable = false)
+    private String endTime;
 
     @Column(name = "total_time")
     private Integer totalTime;

@@ -22,7 +22,7 @@ public class BadgeCollection {
 
     @NotNull
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Long walkieId;
 
     @NotNull
     @Column(name = "badge_id", nullable = false)
