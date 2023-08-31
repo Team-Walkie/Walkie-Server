@@ -67,4 +67,12 @@ public class WalkingService {
 
         return walkingLikeRepository.findWalkingLikeCount(authWalkie.getUserId());
     }
+
+    public WalkingLikeDto getTotalWalkingLike(Long walkieId, String authId) {
+        Walkie authWalkie = walkieRepository.findByAuthId(authId).orElseThrow(EntityNotFoundException::new);
+
+        if (!authWalkie.getUserId().equals(walkieId)) throw new InvalidParameterException();
+
+        return walkingLikeRepository.findWalkingLikePeople(walkieId);
+    }
 }

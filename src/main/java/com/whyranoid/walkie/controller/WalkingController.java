@@ -42,4 +42,9 @@ public class WalkingController {
         return ResponseEntity.ok(walkingService.countWalkingLike(walkieId, authId));
     }
 
+    @Operation(description = "운동 종료 시 받은 좋아요 수와 좋아요 누른 사람 프로필 가져오기")
+    @GetMapping("/count-total")
+    public ResponseEntity<WalkingLikeDto> getTotalWalkingLike(@RequestParam Long walkieId, @RequestParam String authId) {
+        return ResponseEntity.ok(walkingService.getTotalWalkingLike(walkieId, authId));
+    }
 }

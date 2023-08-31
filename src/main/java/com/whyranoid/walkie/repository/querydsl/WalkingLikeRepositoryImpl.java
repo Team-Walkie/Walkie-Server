@@ -3,8 +3,12 @@ package com.whyranoid.walkie.repository.querydsl;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.whyranoid.walkie.repository.querydsl.WalkingLikeRepositoryCustom;
+import com.whyranoid.walkie.dto.QWalkieDto;
+import com.whyranoid.walkie.dto.WalkieDto;
+import com.whyranoid.walkie.dto.WalkingLikeDto;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 import static com.whyranoid.walkie.domain.QHistory.history;
 import static com.whyranoid.walkie.domain.QWalkingLike.walkingLike;
@@ -24,6 +28,15 @@ public class WalkingLikeRepositoryImpl implements WalkingLikeRepositoryCustom {
                 .stream().count();
     }
 
+    @Override
+    public WalkingLikeDto findWalkingLikePeople(Long walkieId) {
+        return WalkingLikeDto.builder()
+                .receiverId(walkieId)
+                .likerCount(findWalkingLikeCount(walkieId))
+                .likerProfiles(findLikerList(walkieId))
+                .build();
+    }
+
     public JPQLQuery<Long> findCurrentHistory(Long walkieId) {
         return JPAExpressions
                 .select(history.historyId)
@@ -31,5 +44,13 @@ public class WalkingLikeRepositoryImpl implements WalkingLikeRepositoryCustom {
                 .where(history.user.userId.eq(walkieId))
                 .orderBy(history.historyId.desc())
                 .limit(1);
+    }
+
+    public List<WalkieDto> findLikerList(Long walkerId) {
+        return queryFactory
+                .select(new QWalkieDto(walkingLike.liker))
+                .from(walkingLike)
+                .where(walkingLike.history.historyId.eq(findCurrentHistory(walkerId)))
+                .fetch();
     }
 }
