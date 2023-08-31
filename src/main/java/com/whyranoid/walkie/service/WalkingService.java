@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.security.InvalidParameterException;
 
 @Transactional
 @Service
@@ -46,6 +47,9 @@ public class WalkingService {
         Walkie sender = walkieRepository.findById(request.getSenderId()).orElseThrow(EntityNotFoundException::new);
 
         History history = historyRepository.findFirst1ByUser(receiver, Sort.by("startTime").descending()).get(0);
+
+        boolean already = !walkingLikeRepository.findByHistoryAndLiker(history, sender).isEmpty();
+        if (already) return request;
 
         WalkingLike input = WalkingLike.builder()
                 .history(history)
