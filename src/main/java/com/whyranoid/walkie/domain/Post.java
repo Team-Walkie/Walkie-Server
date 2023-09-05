@@ -38,8 +38,8 @@ public class Post {
     private Integer colorMode;
 
     @NotNull
-    @Column(name = "history_flag", nullable = false)
-    private Integer historyFlag;
+    @Column(name = "history_content", nullable = true)
+    private String historyContent;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // referencedColumnName는 디폴트가 pk

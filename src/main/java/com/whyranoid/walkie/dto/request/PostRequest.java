@@ -28,15 +28,15 @@ public class PostRequest {
     private Integer colorMode;
 
     @NotNull
-    @Schema(example = "0")
-    private Integer historyFlag;
+    @Schema(example = "07.51km 01:03:45 08'29 운동기록 안보낼거면 null로 보내주세요")
+    private String historyContent;
 
     @Builder
-    public PostRequest(Long walkieId, String photo, String content, Integer colorMode, Integer historyFlag) {
+    public PostRequest(Long walkieId, String photo, String content, Integer colorMode, String historyContent) {
         this.walkieId = walkieId;
         this.photo = photo;
         this.content = content;
         this.colorMode = colorMode;
-        this.historyFlag = historyFlag;
+        this.historyContent = historyContent;
     }
 }
