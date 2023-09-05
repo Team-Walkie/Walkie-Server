@@ -33,7 +33,7 @@ public class WalkingService {
         Walkie walkie = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
 
         History input = History.builder()
-                .startTime(walkingDto.getStartTime())
+                .startTime(walkingDto.getStartTime().toString())
                 .user(walkie)
                 .build();
 

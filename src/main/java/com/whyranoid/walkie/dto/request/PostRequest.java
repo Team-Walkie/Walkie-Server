@@ -23,10 +23,20 @@ public class PostRequest {
     @Schema(example = "오늘 진짜 많이 걸었다~~")
     private String content;
 
+    @NotNull
+    @Schema(example = "0")
+    private Integer colorMode;
+
+    @NotNull
+    @Schema(example = "0")
+    private Integer historyFlag;
+
     @Builder
-    public PostRequest(Long walkieId, String photo, String content) {
+    public PostRequest(Long walkieId, String photo, String content, Integer colorMode, Integer historyFlag) {
         this.walkieId = walkieId;
         this.photo = photo;
         this.content = content;
+        this.colorMode = colorMode;
+        this.historyFlag = historyFlag;
     }
 }

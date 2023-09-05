@@ -23,9 +23,13 @@ public class CommunityService {
         Long walkieId = postRequest.getWalkieId();
         String photo = postRequest.getPhoto();
         String content = postRequest.getContent();
+        Integer colorMode = postRequest.getColorMode();
+        Integer historyFlag = postRequest.getHistoryFlag();
         post.setPhoto(photo);
         post.setContent(content);
         post.setDate(LocalDateTime.now().toString());
+        post.setColorMode(colorMode);
+        post.setHistoryFlag(historyFlag);
         // 어떤 에러 던져야 할 지 논의해봐야 할 듯
         post.setUser(walkieRepository.findByUserId(walkieId).orElseThrow());
         communityRepository.uploadPost(post);
