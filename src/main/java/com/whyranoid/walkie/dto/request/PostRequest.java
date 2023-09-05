@@ -16,10 +16,6 @@ public class PostRequest {
     private Long walkieId;
 
     @NotNull
-    @Schema(example = "업로드할 사진 이미지 url")
-    private String photo;
-
-    @NotNull
     @Schema(example = "오늘 진짜 많이 걸었다~~")
     private String content;
 
@@ -34,7 +30,6 @@ public class PostRequest {
     @Builder
     public PostRequest(Long walkieId, String photo, String content, Integer colorMode, String historyContent) {
         this.walkieId = walkieId;
-        this.photo = photo;
         this.content = content;
         this.colorMode = colorMode;
         this.historyContent = historyContent;

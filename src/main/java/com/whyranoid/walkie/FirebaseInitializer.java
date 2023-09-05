@@ -1,3 +1,5 @@
+package com.whyranoid.walkie;
+
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -18,13 +20,10 @@ public class FirebaseInitializer {
     @PostConstruct
     public void initialize() {
         try {
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(
-                            GoogleCredentials.fromStream(
-                                    new ClassPathResource(firebaseConfigPath).getInputStream()
-                            )
-                    ).build();
-
+            ApiBaseUrlSingleton.getInstance().setBaseUrl("https://walkie-5bfb3.appspot.com");
+            FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(
+                GoogleCredentials.fromStream(
+                        new ClassPathResource(firebaseConfigPath).getInputStream())).build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 log.info("Firebase application has been initialized");
