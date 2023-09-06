@@ -33,6 +33,14 @@ public class Post {
     @Column(name = "date", nullable = false)
     private String date;
 
+    @NotNull
+    @Column(name = "color_mode", nullable = false)
+    private Integer colorMode;
+
+    @NotNull
+    @Column(name = "history_content", nullable = true)
+    private String historyContent;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false) // referencedColumnName는 디폴트가 pk
     private Walkie user;
