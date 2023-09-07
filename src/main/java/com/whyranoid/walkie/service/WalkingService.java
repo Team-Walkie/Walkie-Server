@@ -3,6 +3,7 @@ package com.whyranoid.walkie.service;
 import com.whyranoid.walkie.domain.History;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.domain.WalkingLike;
+import com.whyranoid.walkie.dto.HistoryDto;
 import com.whyranoid.walkie.dto.WalkingDto;
 import com.whyranoid.walkie.dto.WalkingLikeDto;
 import com.whyranoid.walkie.repository.HistoryRepository;
@@ -33,7 +34,8 @@ public class WalkingService {
         Walkie walkie = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
 
         History input = History.builder()
-                .startTime(walkingDto.getStartTime().toString())
+                //.date(walkingDto.getStartTime())  // TODO 날짜 형식 반영
+                .startTime(walkingDto.getStartTime())    // TODO 날짜 형식 반영
                 .user(walkie)
                 .build();
 
@@ -74,5 +76,14 @@ public class WalkingService {
         if (!authWalkie.getUserId().equals(walkieId)) throw new InvalidParameterException();
 
         return walkingLikeRepository.findWalkingLikePeople(walkieId);
+    }
+
+    public Long saveWalkingHistory(HistoryDto historyDto) {
+        Walkie authWalkie = walkieRepository.findByAuthId(historyDto.getAuthId()).orElseThrow(EntityNotFoundException::new);
+
+        if (!authWalkie.getUserId().equals(historyDto.getWalkieId())) throw new InvalidParameterException();
+
+        return walkingLikeRepository.updateCurrentWalkingHistory(historyDto);
+
     }
 }

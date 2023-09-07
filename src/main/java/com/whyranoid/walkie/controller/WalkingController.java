@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.whyranoid.walkie.dto.HistoryDto;
 import com.whyranoid.walkie.dto.WalkingDto;
 import com.whyranoid.walkie.dto.WalkingLikeDto;
 import com.whyranoid.walkie.service.WalkingService;
@@ -46,5 +47,12 @@ public class WalkingController {
     @GetMapping("/count-total")
     public ResponseEntity<WalkingLikeDto> getTotalWalkingLike(@RequestParam Long walkieId, @RequestParam String authId) {
         return ResponseEntity.ok(walkingService.getTotalWalkingLike(walkieId, authId));
+    }
+
+    @Operation(description = "운동 종료 시 데이터 저장하기")
+    @ApiResponse(description = "저장 성공 시 기록의 DB pk값, 실패 시 -1")
+    @PostMapping("/save")
+    public ResponseEntity<Long> saveWalkingHistory(@RequestBody HistoryDto historyDto) {
+        return ResponseEntity.ok(walkingService.saveWalkingHistory(historyDto));
     }
 }
