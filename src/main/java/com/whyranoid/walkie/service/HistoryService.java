@@ -31,7 +31,6 @@ public class HistoryService {
                         .totalTime(history.getTotalTime())
                         .calorie(history.getCalorie())
                         .step(history.getStep())
-                        .path(history.getPath())
                         .build()
         ));
         return result.stream().toList();

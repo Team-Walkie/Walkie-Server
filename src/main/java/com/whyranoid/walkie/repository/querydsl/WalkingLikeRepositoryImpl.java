@@ -47,7 +47,6 @@ public class WalkingLikeRepositoryImpl implements WalkingLikeRepositoryCustom {
                 .set(history.totalTime, historyDto.getTotalTime())
                 .set(history.calorie, historyDto.getCalorie())
                 .set(history.step, historyDto.getStep())
-                .set(history.path, historyDto.getPath())
                 .where(history.historyId.eq(historyDto.getHistoryId()))
                 .execute();
 

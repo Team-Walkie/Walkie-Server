@@ -34,9 +34,6 @@ public class HistoryDto {
     @Schema(description = "요청 파라미터 - 걸음 수", requiredMode = Schema.RequiredMode.REQUIRED, example = "3094")
     private Integer step;
 
-    @Schema(description = "요청 필수 파라미터 - 달린 경로", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String path;
-
     @Builder
     public HistoryDto(Long walkieId, String authId, Long historyId, String date, String endTime, Integer totalTime, Double distance, Integer calorie, Integer step, String path) {
         this.walkieId = walkieId;
@@ -47,6 +44,5 @@ public class HistoryDto {
         this.distance = distance;
         this.calorie = calorie;
         this.step = step;
-        this.path = path;
     }
 }

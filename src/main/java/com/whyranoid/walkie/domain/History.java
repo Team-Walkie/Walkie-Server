@@ -43,8 +43,6 @@ public class History {
 
     private Integer step;
 
-    private String path;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Walkie user;
