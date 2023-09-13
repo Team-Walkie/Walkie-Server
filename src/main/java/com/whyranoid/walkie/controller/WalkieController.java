@@ -8,10 +8,18 @@ import com.whyranoid.walkie.service.WalkieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "WalkieController")
 @RequiredArgsConstructor
@@ -21,16 +29,18 @@ public class WalkieController {
 
     private final WalkieService walkieService;
 
-    @Operation(description = "소셜 로그인 이후 워키 회원가입 요청")
+    @Operation(summary = "회원가입", description = "소셜 로그인 이후 워키 회원가입 요청")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieSignUpResponse.class)),
+            description = "성공 시 요청한 아이디, 닉네임과 hasDuplicated=false를, 닉네임 중복 시 hasDuplicated=true를 반환")
     @PostMapping("/signup")
     public ResponseEntity<WalkieSignUpResponse> signUp(@RequestBody WalkieSignUpRequest walkieSignUpRequest) {
         return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest));
     }
 
-    @Operation(description = "닉네임 중복 확인 -- 회원가입과 동일한 dto 사용")
-    @Parameters({
-            @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹")
-    })
+    @Operation(summary = "닉네임 중복 확인", description = "회원가입과 동일한 dto를 응답으로 사용")
+    @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieSignUpResponse.class)),
+            description = "통과 시 false, 중복 시 true를 반환")
     @GetMapping("/signup/check")
     public ResponseEntity<WalkieSignUpResponse> check(@RequestParam String userName) {
         return ResponseEntity.ok(

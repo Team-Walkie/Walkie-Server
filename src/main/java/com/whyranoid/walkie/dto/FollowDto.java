@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FollowDto {
 
-    @Schema(description = "팔로우 신청 유저 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "24576")
+    @Schema(description = "[요청 필수] 팔로우 신청 유저 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "24576")
     private Long followerId;
 
-    @Schema(description = "팔로우 받은 유저 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "1608")
+    @Schema(description = "[요청 필수] 팔로우 받은 유저 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "1608")
     private Long followedId;
 
-    @Schema(description = "(검증용) 언팔로우 되었는지 여부", example = "false")
+    @Schema(description = "(검증용) 언팔로우 시 true 반환", example = "true")
     private boolean unfollow;
 
     @QueryProjection
