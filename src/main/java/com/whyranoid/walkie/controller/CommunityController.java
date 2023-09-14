@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,4 +49,13 @@ public class CommunityController {
     ) throws IOException, FirebaseAuthException {
         return ResponseEntity.ok(communityService.uploadPost(image, walkieId, content, colorMode, historyContent));
     }
+
+    @Operation(summary = "게시글에 좋아요 누르기")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = PostLikeDto.class)),
+            description = "성공 시 요청에 게시글의 현재 좋아요 수를 넣어 반환, 중복 좋아요 시 좋아요 수에 -1을 넣어 반환, 실패 시 예외발생")
+    @PostMapping("/send-like")
+    public ResponseEntity<PostLikeDto> sendPostLike(@RequestBody PostLikeDto postLikeDto) {
+        return ResponseEntity.ok(communityService.sendPostLike(postLikeDto));
+    }
+
 }
