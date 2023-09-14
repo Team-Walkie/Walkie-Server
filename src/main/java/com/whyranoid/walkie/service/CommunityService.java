@@ -6,8 +6,13 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.cloud.StorageClient;
 import com.whyranoid.walkie.ApiBaseUrlSingleton;
 import com.whyranoid.walkie.domain.Post;
+import com.whyranoid.walkie.domain.PostLike;
+import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.dto.response.ApiResponse;
 import com.whyranoid.walkie.repository.CommunityRepository;
+import com.whyranoid.walkie.repository.PostLikeRepository;
+import com.whyranoid.walkie.repository.PostRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,6 +35,8 @@ import java.util.UUID;
 public class CommunityService {
     private final CommunityRepository communityRepository;
     private final WalkieRepository walkieRepository;
+    private final PostRepository postRepository;
+    private final PostLikeRepository postLikeRepository;
 
     @Value("${app.firebase-bucket-name}")
     private String firebaseBucket;
@@ -55,5 +65,33 @@ public class CommunityService {
         InputStream content = new ByteArrayInputStream(image.getBytes());
         Blob blob = bucket.create(nameFile, content, image.getContentType());
         return blob.getMediaLink();
+    }
+
+    public PostLikeDto sendPostLike(PostLikeDto postLikeDto) {
+        Post post = postRepository.findByPostId(postLikeDto.getPostId()).orElseThrow(EntityNotFoundException::new);
+        Walkie liker = walkieRepository.findById(postLikeDto.getLikerId()).orElseThrow(EntityNotFoundException::new);
+
+        PostLike input = PostLike.builder()
+                .post(post)
+                .liker(liker)
+                .build();
+
+        List<PostLike> already = new ArrayList<>(postLikeRepository.findByPostAndLiker(post, liker));
+        if (!already.isEmpty()) {
+            postLikeRepository.delete(already.get(0));
+            postLikeDto.setLikerCount(-1L);
+        }
+        else {
+            postLikeRepository.save(input);
+            postLikeDto.setLikerCount(countPostLike(postLikeDto.getPostId()));
+        }
+
+        return postLikeDto;
+    }
+
+    public Long countPostLike(Long postId) {
+        Post post = postRepository.findByPostId(postId).orElseThrow(EntityNotFoundException::new);
+
+        return postLikeRepository.findPostLikeCount(postId);
     }
 }
