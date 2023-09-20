@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,9 +40,9 @@ public class CommunityController {
             @Parameter(name = "colorMode", description = "글자색 카테고리(0은 검정, 1은 흰색)", example = "1"),
             @Parameter(name = "historyContent", description = "운동기록 정보", example = "7.51km 01:03:45 08'29\"")
     })
-    @PostMapping(value = "/upload-post")
+    @PostMapping(value = "/upload-post", consumes = {"multipart/form-data"})
     public ResponseEntity uploadPost(
-        @RequestParam("image")MultipartFile image,
+        @RequestPart(value = "image", required = false) MultipartFile image,
         @RequestParam("walkieId")Long walkieId,
         @RequestParam("content")String content,
         @RequestParam("colorMode")Integer colorMode,
