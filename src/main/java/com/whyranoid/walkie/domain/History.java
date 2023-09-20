@@ -44,6 +44,6 @@ public class History {
     private Integer step;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie user;
 }
