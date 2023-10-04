@@ -28,7 +28,7 @@ public class WalkingService {
 
     public Long startWalking(WalkingDto walkingDto) {
         Walkie user = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
-        user.changeStatus('o');
+        user.changeStatus('W');
         walkieRepository.save(user);
 
         Walkie walkie = walkieRepository.findById(walkingDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
@@ -79,9 +79,7 @@ public class WalkingService {
     }
 
     public Long saveWalkingHistory(HistoryDto historyDto) {
-        Walkie authWalkie = walkieRepository.findByAuthId(historyDto.getAuthId()).orElseThrow(EntityNotFoundException::new);
-
-        if (!authWalkie.getUserId().equals(historyDto.getWalkieId())) throw new InvalidParameterException();
+        Walkie walkie = walkieRepository.findById(historyDto.getWalkieId()).orElseThrow(EntityNotFoundException::new);
 
         return walkingLikeRepository.updateCurrentWalkingHistory(historyDto);
 
