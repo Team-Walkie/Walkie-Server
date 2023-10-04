@@ -20,20 +20,15 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long historyId;
 
-    @NotNull
-    @Column(nullable = false)
     private Double distance;
 
-    @NotNull
-    @Column(nullable = false)
     private String date;
 
     @NotNull
     @Column(name = "start_time", nullable = false)
     private String startTime;
 
-    @NotNull
-    @Column(name = "end_time", nullable = false)
+    @Column(name = "end_time")
     private String endTime;
 
     @Column(name = "total_time")
@@ -44,6 +39,6 @@ public class History {
     private Integer step;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie user;
 }

@@ -13,25 +13,25 @@ public class HistoryDto {
     @Schema(description = "요청 필수 파라미터 - 워키 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "3")
     private Long walkieId;
 
-    @Schema(description = "요청 필수 파라미터 - 구글 uid", requiredMode = Schema.RequiredMode.REQUIRED, example = "super-secret-key")
+    @Schema(description = "요청 필수 파라미터 - 구글 uid", example = "super-secret-key")
     private String authId;
 
-    @Schema(description = "요청 필수 파라미터 - 히스토리 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "57245")
+    @Schema(description = "요청 필수 파라미터 - 히스토리 아이디", example = "57245")
     private Long historyId;
 
-    @Schema(description = "요청 필수 파라미터 - 운동을 끝낸 시각", requiredMode = Schema.RequiredMode.REQUIRED, example = "2023-09-09 09:09:09")
+    @Schema(description = "요청 필수 파라미터 - 운동을 끝낸 시각", example = "2023-09-09 09:09:09")
     private String endTime;
 
-    @Schema(description = "요청 필수 파라미터 - 운동한 시간(초)", requiredMode = Schema.RequiredMode.REQUIRED, example = "39431")
+    @Schema(description = "요청 필수 파라미터 - 운동한 시간(초)", example = "39431")
     private Integer totalTime;
 
-    @Schema(description = "요청 파라미터 - 운동한 거리(미터)", requiredMode = Schema.RequiredMode.REQUIRED, example = "1842.5")
+    @Schema(description = "요청 파라미터 - 운동한 거리(미터)", example = "1842.5")
     private Double distance;
 
-    @Schema(description = "요청 파라미터 - 소비 칼로리", requiredMode = Schema.RequiredMode.REQUIRED, example = "300")
+    @Schema(description = "요청 파라미터 - 소비 칼로리", example = "300")
     private Integer calorie;
 
-    @Schema(description = "요청 파라미터 - 걸음 수", requiredMode = Schema.RequiredMode.REQUIRED, example = "3094")
+    @Schema(description = "요청 파라미터 - 걸음 수", example = "3094")
     private Integer step;
 
     @Builder

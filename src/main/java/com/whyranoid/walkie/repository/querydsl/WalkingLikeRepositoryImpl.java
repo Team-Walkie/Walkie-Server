@@ -41,21 +41,13 @@ public class WalkingLikeRepositoryImpl implements WalkingLikeRepositoryCustom {
 
     @Override
     public Long updateCurrentWalkingHistory(HistoryDto historyDto) {
-        Long updatedHistory = queryFactory.update(history)
-                .set(history.distance, historyDto.getDistance())
-                .set(history.endTime, historyDto.getEndTime())
-                .set(history.totalTime, historyDto.getTotalTime())
-                .set(history.calorie, historyDto.getCalorie())
-                .set(history.step, historyDto.getStep())
-                .where(history.historyId.eq(historyDto.getHistoryId()))
-                .execute();
 
         Long updatedWalkie = queryFactory.update(walkie)
                 .set(walkie.status, 'N')
                 .where(walkie.userId.eq(historyDto.getWalkieId()))
                 .execute();
 
-        if (updatedHistory == 1 && updatedWalkie == 1) return historyDto.getHistoryId();
+        if (updatedWalkie == 1) return historyDto.getHistoryId();
         return -1L;
     }
 

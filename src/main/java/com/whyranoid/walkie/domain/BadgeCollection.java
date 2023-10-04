@@ -21,7 +21,7 @@ public class BadgeCollection {
     private Long collectionId;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "walkie_id", nullable = false)
     private Long walkieId;
 
     @NotNull

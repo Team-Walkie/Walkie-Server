@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터가 없는 기본 생성자 생성
 public class Walkie {
     @Id // Entity의 primary key임을 명시
-    @Column(name = "user_id")
+    @Column(name = "walkie_id")
     @Schema(example = "123")
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 생성을 데이터베이스에 위임, mysql의 경우 auto-increment가 기본
     private Long userId;

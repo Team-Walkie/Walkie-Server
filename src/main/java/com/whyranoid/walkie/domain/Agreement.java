@@ -24,7 +24,7 @@ public class Agreement {
     private Long agreementId;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie user;
 
     @Column(name = "gps_service", nullable = false)

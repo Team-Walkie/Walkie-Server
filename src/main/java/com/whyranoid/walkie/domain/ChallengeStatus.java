@@ -18,7 +18,7 @@ public class ChallengeStatus {
     private Long statusId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie walkie;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -42,13 +42,13 @@ public class Post {
     private String historyContent;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // referencedColumnName는 디폴트가 pk
+    @JoinColumn(name = "walkie_id", nullable = false) // referencedColumnName는 디폴트가 pk
     private Walkie user;
 
     @ManyToMany
     @JoinTable(name = "walkie_post_like",
             joinColumns = @JoinColumn(name = "post_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false))
+            inverseJoinColumns = @JoinColumn(name = "walkie_id", nullable = false))
     private List<Walkie> liker = new ArrayList<>();
 
 //    @OneToOne(optional = false) // optional = false 안해주면 history가 겹치는 경우가 발생 시 에러
