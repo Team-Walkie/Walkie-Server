@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
@@ -8,6 +9,7 @@ import com.whyranoid.walkie.service.WalkieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Tag(name = "WalkieController")
 @RequiredArgsConstructor
@@ -72,5 +76,18 @@ public class WalkieController {
         return ResponseEntity.ok(
                 walkieService.changeMyInfo(walkieId, myInfoRequest)
         );
+    }
+
+    @Operation(summary = "나의 게시글 불러오기", description = "내가 작성한 게시글들을 가져옵니다.")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PostDto.class))),
+            description = "내가 작성한 게시글 정보 리스트를 반환")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "유저 아이디", example = "123"),
+            @Parameter(name = "pagingSize", description = "페이징 사이즈", example = "30"),
+            @Parameter(name = "pagingStart", description = "페이징 오프셋", example = "0")
+    })
+    @GetMapping("/listup-my-post")
+    public ResponseEntity<List<PostDto>> getPostList(@RequestParam Long walkieId, @RequestParam(required = false) Integer pagingSize, @RequestParam(required = false) Integer pagingStart) {
+        return ResponseEntity.ok(walkieService.getMyPostList(walkieId, pagingSize, pagingStart));
     }
 }

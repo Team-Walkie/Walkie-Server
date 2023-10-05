@@ -29,4 +29,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .limit(pagingSize)
                 .fetch();
     }
+
+    // TODO: 나의 좋아요 여부 반영
+    // TODO: 좋아요 누른 사람 목록 반영
+    @Override
+    public List<PostDto> findMyPosts(Long viewerId, Integer pagingSize, Integer pagingStart) {
+        return queryFactory
+                .select(new QPostDto(post, Expressions.asNumber(viewerId)))
+                .from(post)
+                .where(post.user.userId.eq(viewerId))
+                .orderBy(post.date.desc())
+                .offset(pagingStart)
+                .limit(pagingSize)
+                .fetch();
+    }
 }
