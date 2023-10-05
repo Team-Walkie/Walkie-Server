@@ -1,11 +1,13 @@
 package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Tag(name = "community", description = "커뮤니티 API")
 @RestController
@@ -53,10 +57,23 @@ public class CommunityController {
 
     @Operation(summary = "게시글에 좋아요 누르기")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = PostLikeDto.class)),
-            description = "성공 시 요청에 게시글의 현재 좋아요 수를 넣어 반환, 중복 좋아요 시 좋아요 수에 -1을 넣어 반환, 실패 시 예외발생")
+            description = "성공 시 요청에 게시글의 현재 좋아요 수를 넣어 반환, 중복 좋아요 시 좋아요를 삭제하고 likerCount에 -1을 넣어 반환, 실패 시 예외발생")
     @PostMapping("/send-like")
     public ResponseEntity<PostLikeDto> sendPostLike(@RequestBody PostLikeDto postLikeDto) {
         return ResponseEntity.ok(communityService.sendPostLike(postLikeDto));
+    }
+
+    @Operation(summary = "게시글 불러오기", description = "팔로우하는 유저들의 게시글을 가져옵니다.")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PostDto.class))),
+            description = "팔로우하는 유저들의 게시글 정보 리스트를 반환")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "유저 아이디", example = "123"),
+            @Parameter(name = "pagingSize", description = "페이징 사이즈", example = "30"),
+            @Parameter(name = "pagingStart", description = "페이징 오프셋", example = "0")
+    })
+    @GetMapping("/listup-post")
+    public ResponseEntity<List<PostDto>> getPostList(@RequestParam Long walkieId, @RequestParam(required = false) Integer pagingSize, @RequestParam(required = false) Integer pagingStart) {
+        return ResponseEntity.ok(communityService.getPostList(walkieId, pagingSize, pagingStart));
     }
 
 }
