@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.repository.querydsl;
 
+import com.querydsl.jpa.JPQLQuery;
 import com.whyranoid.walkie.dto.FollowDto;
 import com.whyranoid.walkie.dto.WalkieDto;
 
@@ -16,5 +17,11 @@ public interface FollowRepositoryQuerydsl {
         List<WalkieDto> findFollowingList(Long walkieId);
 
         List<WalkieDto> findWalkingFollwingList(Long walkieId);
+
+        List<WalkieDto> findFollowerList(Long whoseId, boolean isFollowing, JPQLQuery<Long> followIdList);
+
+        JPQLQuery<Long> findFollowerIdList(Long whoseId);
+
+        JPQLQuery<Long> findFollowedIdList(Long whoseId);
 
 }

@@ -8,9 +8,11 @@ import com.whyranoid.walkie.ApiBaseUrlSingleton;
 import com.whyranoid.walkie.domain.Post;
 import com.whyranoid.walkie.domain.PostLike;
 import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.dto.response.ApiResponse;
 import com.whyranoid.walkie.repository.CommunityRepository;
+import com.whyranoid.walkie.repository.FollowRepository;
 import com.whyranoid.walkie.repository.PostLikeRepository;
 import com.whyranoid.walkie.repository.PostRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
@@ -37,6 +39,7 @@ public class CommunityService {
     private final WalkieRepository walkieRepository;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final FollowRepository followRepository;
 
     @Value("${app.firebase-bucket-name}")
     private String firebaseBucket;
@@ -93,5 +96,14 @@ public class CommunityService {
         Post post = postRepository.findByPostId(postId).orElseThrow(EntityNotFoundException::new);
 
         return postLikeRepository.findPostLikeCount(postId);
+    }
+
+    public List<PostDto> getPostList(Long walkieId, Integer _pagingSize, Integer _pagingStart) {
+        Walkie walkie = walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+
+        Integer pagingSize = _pagingSize == null ? 30 : _pagingSize;
+        Integer pagingStart = _pagingStart == null ? 0 : _pagingStart;
+
+        return postRepository.findCurrentPosts(followRepository.findFollowedIdList(walkieId), walkieId, pagingSize, pagingStart);
     }
 }
