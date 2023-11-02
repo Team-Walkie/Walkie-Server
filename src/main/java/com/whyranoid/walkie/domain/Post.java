@@ -5,10 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -45,11 +49,6 @@ public class Post {
     @JoinColumn(name = "walkie_id", nullable = false) // referencedColumnName는 디폴트가 pk
     private Walkie user;
 
-    @ManyToMany
-    @JoinTable(name = "walkie_post_like",
-            joinColumns = @JoinColumn(name = "post_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "walkie_id", nullable = false))
-    private List<Walkie> liker = new ArrayList<>();
 
 //    @OneToOne(optional = false) // optional = false 안해주면 history가 겹치는 경우가 발생 시 에러
 //    @JoinColumn(name = "history", nullable = false)

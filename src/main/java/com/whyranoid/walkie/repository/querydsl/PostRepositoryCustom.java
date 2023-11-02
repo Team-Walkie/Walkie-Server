@@ -10,4 +10,6 @@ public interface PostRepositoryCustom {
     List<PostDto> findCurrentPosts(JPQLQuery<Long> following, Long viewerId, Integer pagingSize, Integer pagingStart);
 
     List<PostDto> findMyPosts(Long viewerId, Integer pagingSize, Integer pagingStart);
+
+    Long findPostId(String photo, String date);
 }

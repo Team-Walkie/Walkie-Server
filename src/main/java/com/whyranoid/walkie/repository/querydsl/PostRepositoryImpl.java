@@ -5,42 +5,62 @@ import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.QPostDto;
+import com.whyranoid.walkie.dto.QWalkieDto;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
 import static com.whyranoid.walkie.domain.QPost.post;
+import static com.whyranoid.walkie.domain.QPostLike.postLike;
+import static com.whyranoid.walkie.domain.QWalkie.walkie;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    // TODO: 나의 좋아요 여부 반영
-    // TODO: 좋아요 누른 사람 목록 반영
     @Override
     public List<PostDto> findCurrentPosts(JPQLQuery<Long> following, Long viewerId, Integer pagingSize, Integer pagingStart) {
-        return queryFactory
-                .select(new QPostDto(post, Expressions.asNumber(viewerId)))
+        return new ArrayList<>(queryFactory
                 .from(post)
                 .where(post.user.userId.in(following))
                 .orderBy(post.date.desc())
                 .offset(pagingStart)
                 .limit(pagingSize)
-                .fetch();
+                .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
+                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .transform(groupBy(post.postId).as(new QPostDto(
+                        post,
+                        Expressions.asNumber(viewerId),
+                        list(new QWalkieDto(walkie))
+                ))).values());
     }
 
-    // TODO: 나의 좋아요 여부 반영
-    // TODO: 좋아요 누른 사람 목록 반영
     @Override
     public List<PostDto> findMyPosts(Long viewerId, Integer pagingSize, Integer pagingStart) {
-        return queryFactory
-                .select(new QPostDto(post, Expressions.asNumber(viewerId)))
+        return new ArrayList<>(queryFactory
                 .from(post)
                 .where(post.user.userId.eq(viewerId))
                 .orderBy(post.date.desc())
                 .offset(pagingStart)
                 .limit(pagingSize)
-                .fetch();
+                .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
+                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .transform(groupBy(post.postId).as(new QPostDto(
+                        post,
+                        Expressions.asNumber(viewerId),
+                        list(new QWalkieDto(walkie))
+                ))).values());
+    }
+
+    @Override
+    public Long findPostId(String photo, String date) {
+        return queryFactory
+                .select(post.postId)
+                .where(post.photo.eq(photo).and(post.date.eq(date)))
+                .fetchOne();
     }
 }
