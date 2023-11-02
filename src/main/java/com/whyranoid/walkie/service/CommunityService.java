@@ -56,6 +56,15 @@ public class CommunityService {
         uploadImage(image, imageUrl);
         post.setPhoto(ApiBaseUrlSingleton.getInstance().getBaseUrl()+ '/' + imageUrl);
         communityRepository.uploadPost(post);
+
+        // TODO: 셀프좋아요 하지 않아도 되도록 게시글 조회 쿼리 수정
+        PostLikeDto selfLike = PostLikeDto.builder()
+                        .likerId(walkieId)
+                        .postId(postRepository.findPostId(post.getPhoto(), post.getDate()))
+                        .build();
+
+        sendPostLike(selfLike);
+
         return ApiResponse.builder()
                 .status(200)
                 .message("게시글 업로드 완료!")
