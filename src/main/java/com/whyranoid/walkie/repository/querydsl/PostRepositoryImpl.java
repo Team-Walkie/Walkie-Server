@@ -60,6 +60,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Long findPostId(String photo, String date) {
         return queryFactory
                 .select(post.postId)
+                .from(post)
                 .where(post.photo.eq(photo).and(post.date.eq(date)))
                 .fetchOne();
     }
