@@ -3,6 +3,7 @@ package com.whyranoid.walkie.controller;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
+import com.whyranoid.walkie.dto.WalkieDto;
 import com.whyranoid.walkie.service.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -76,4 +77,12 @@ public class CommunityController {
         return ResponseEntity.ok(communityService.getPostList(walkieId, pagingSize, pagingStart));
     }
 
+    @Operation(summary = "닉네임 검색결과 불러오기", description = "keyword로 시작하는 닉네임의 유저 리스트를 가져옵니다.")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = WalkieDto.class))),
+            description = "닉네임이 keyword로 시작하는 유저 리스트를 반환")
+    @Parameter(name = "keyword", required = true, description = "검색한 문자열. 문자열 뒤를 와일드카드 처리하여 검색한다", example = "군자")
+    @GetMapping("/search-nickname")
+    public ResponseEntity<List<WalkieDto>> getSearchResult(@RequestParam String keyword) {
+        return ResponseEntity.ok(communityService.getSearchResult(keyword));
+    }
 }

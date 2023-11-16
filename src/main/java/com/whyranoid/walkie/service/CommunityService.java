@@ -10,6 +10,7 @@ import com.whyranoid.walkie.domain.PostLike;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
+import com.whyranoid.walkie.dto.WalkieDto;
 import com.whyranoid.walkie.dto.response.ApiResponse;
 import com.whyranoid.walkie.repository.CommunityRepository;
 import com.whyranoid.walkie.repository.FollowRepository;
@@ -114,5 +115,9 @@ public class CommunityService {
         Integer pagingStart = _pagingStart == null ? 0 : _pagingStart;
 
         return postRepository.findCurrentPosts(followRepository.findFollowedIdList(walkieId), walkieId, pagingSize, pagingStart);
+    }
+
+    public List<WalkieDto> getSearchResult(String keyword) {
+        return walkieRepository.findByUserNameMatched(keyword);
     }
 }
