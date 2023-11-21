@@ -1,17 +1,15 @@
 package com.whyranoid.walkie.domain;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Comment {
     @Id
     @Column(name = "comment_id")
@@ -20,7 +18,7 @@ public class Comment {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Date date;
+    private String date;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -32,4 +30,13 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie user;
+
+    @Builder
+    public Comment(Long commentId, String date, String content, Post post, Walkie user) {
+        this.commentId = commentId;
+        this.date = date;
+        this.content = content;
+        this.post = post;
+        this.user = user;
+    }
 }

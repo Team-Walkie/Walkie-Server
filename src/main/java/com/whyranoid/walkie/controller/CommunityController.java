@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.dto.CommentDto;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.dto.WalkieDto;
@@ -84,5 +85,13 @@ public class CommunityController {
     @GetMapping("/search-nickname")
     public ResponseEntity<List<WalkieDto>> getSearchResult(@RequestParam String keyword) {
         return ResponseEntity.ok(communityService.getSearchResult(keyword));
+    }
+
+    @Operation(summary = "게시글에 댓글 달기")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CommentDto.class)),
+            description = "성공 시 댓글 생성 완료, 실패 시 예외 발생")
+    @PostMapping("/write-comment")
+    public ResponseEntity writeComment(@RequestBody CommentDto commentDto) {
+        return ResponseEntity.ok(communityService.writeComment(commentDto));
     }
 }

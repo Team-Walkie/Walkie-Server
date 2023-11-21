@@ -5,9 +5,11 @@ import com.google.cloud.storage.Bucket;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.cloud.StorageClient;
 import com.whyranoid.walkie.ApiBaseUrlSingleton;
+import com.whyranoid.walkie.domain.Comment;
 import com.whyranoid.walkie.domain.Post;
 import com.whyranoid.walkie.domain.PostLike;
 import com.whyranoid.walkie.domain.Walkie;
+import com.whyranoid.walkie.dto.CommentDto;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.PostLikeDto;
 import com.whyranoid.walkie.dto.WalkieDto;
@@ -17,6 +19,7 @@ import com.whyranoid.walkie.repository.FollowRepository;
 import com.whyranoid.walkie.repository.PostLikeRepository;
 import com.whyranoid.walkie.repository.PostRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
+import com.whyranoid.walkie.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,6 +44,7 @@ public class CommunityService {
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
     private final FollowRepository followRepository;
+    private final CommentRepository commentRepository;
 
     @Value("${app.firebase-bucket-name}")
     private String firebaseBucket;
@@ -119,5 +123,24 @@ public class CommunityService {
 
     public List<WalkieDto> getSearchResult(String keyword) {
         return walkieRepository.findByUserNameMatched(keyword);
+    }
+
+    public ApiResponse writeComment(CommentDto commentDto) {
+        Walkie walkie = walkieRepository.findById(commentDto.getCommenter()).orElseThrow(EntityNotFoundException::new);
+        Post post = postRepository.findByPostId(commentDto.getPostId()).orElseThrow(EntityNotFoundException::new);
+
+        Comment input = Comment.builder()
+                .post(post)
+                .user(walkie)
+                .date(commentDto.getDate())
+                .content(commentDto.getContent())
+                .build();
+
+        commentRepository.save(input);
+
+        return ApiResponse.builder()
+                .status(200)
+                .message("댓글 생성 완료!")
+                .build();
     }
 }
