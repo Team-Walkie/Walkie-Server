@@ -94,4 +94,13 @@ public class CommunityController {
     public ResponseEntity writeComment(@RequestBody CommentDto commentDto) {
         return ResponseEntity.ok(communityService.writeComment(commentDto));
     }
+
+    @Operation(summary = "댓글 불러오기", description = "특정 게시글의 댓글 리스트를 불러옵니다.")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = CommentDto.class))),
+            description = "특정 게시글의 댓글 리스트를 반환")
+    @Parameter(name = "postId", required = true, description = "게시글 pk", example = "123")
+    @GetMapping("/listup-comment")
+    public ResponseEntity<List<CommentDto>> getPostCommentList(@RequestParam Long postId) {
+        return ResponseEntity.ok(communityService.getPostCommentList(postId));
+    }
 }

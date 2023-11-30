@@ -126,7 +126,7 @@ public class CommunityService {
     }
 
     public ApiResponse writeComment(CommentDto commentDto) {
-        Walkie walkie = walkieRepository.findById(commentDto.getCommenter()).orElseThrow(EntityNotFoundException::new);
+        Walkie walkie = walkieRepository.findById(commentDto.getCommenterId()).orElseThrow(EntityNotFoundException::new);
         Post post = postRepository.findByPostId(commentDto.getPostId()).orElseThrow(EntityNotFoundException::new);
 
         Comment input = Comment.builder()
@@ -142,5 +142,11 @@ public class CommunityService {
                 .status(200)
                 .message("댓글 생성 완료!")
                 .build();
+    }
+
+    public List<CommentDto> getPostCommentList(Long postId) {
+        postRepository.findByPostId(postId).orElseThrow(EntityNotFoundException::new);
+
+        return commentRepository.findByPostId(postId);
     }
 }
