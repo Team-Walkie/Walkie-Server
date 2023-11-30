@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.response.BadgeDto;
 import com.whyranoid.walkie.service.BadgeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "badge", description = "배지 API")
@@ -55,5 +58,13 @@ public class BadgeController {
     @PostMapping("/update-badge-indices")
     public ResponseEntity updateBadgeIndices(@RequestBody BadgeDto badgeDto) {
         return ResponseEntity.ok(badgeService.updateBadgeIndices(badgeDto));
+    }
+
+    @PostMapping(value = "/admin-update-post", consumes = {"multipart/form-data"})
+    public ResponseEntity adminUpdateBadge(
+        @RequestPart(required = false)MultipartFile image,
+        @RequestParam String badgeName
+    ) throws IOException, FirebaseAuthException {
+        return ResponseEntity.ok(badgeService.adminUpdateBadge(image, badgeName));
     }
 }

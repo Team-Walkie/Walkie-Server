@@ -2,6 +2,7 @@ package com.whyranoid.walkie.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,10 @@ public class Badge {
     @Schema(example = "햄버거 세트 배지")
     @Column(name = "badge_name", nullable = false)
     private String badgeName;
+
+    @Builder
+    public Badge(String img, String badgeName) {
+        this.img = img;
+        this.badgeName = badgeName;
+    }
 }
