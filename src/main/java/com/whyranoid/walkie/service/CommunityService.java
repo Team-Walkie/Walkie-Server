@@ -50,7 +50,9 @@ public class CommunityService {
     private String firebaseBucket;
 
     public ApiResponse uploadPost(MultipartFile image, Long walkieId, String content, Integer colorMode, String historyContent) throws IOException, FirebaseAuthException {
-        String imageUrl = "post/" + UUID.randomUUID() + ".jpg";
+		String fileName = UUID.randomUUID() + ".jpg";
+        String imageUrl = "post/" + fileName;
+		String storeUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/post%2F" + fileName + "?alt=media";
         Post post = new Post();
         post.setContent(content);
         post.setDate(LocalDateTime.now().toString());
@@ -59,7 +61,8 @@ public class CommunityService {
         // 어떤 에러 던져야 할 지 논의해봐야 할 듯
         post.setUser(walkieRepository.findByUserId(walkieId).orElseThrow());
         uploadImage(image, imageUrl);
-        post.setPhoto(ApiBaseUrlSingleton.getInstance().getBaseUrl()+ '/' + imageUrl);
+        // post.setPhoto(ApiBaseUrlSingleton.getInstance().getBaseUrl()+ '/' + imageUrl);
+		post.setPhoto(storeUrl);
         communityRepository.uploadPost(post);
 
         // TODO: 셀프좋아요 하지 않아도 되도록 게시글 조회 쿼리 수정
