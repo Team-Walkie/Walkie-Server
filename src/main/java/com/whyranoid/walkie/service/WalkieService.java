@@ -95,4 +95,8 @@ public class WalkieService {
 
         return postRepository.findMyPosts(walkieId, pagingSize, pagingStart);
     }
+
+    public Long getWalkieId(String uid) {
+        return walkieRepository.findByAuthId(uid).map(Walkie::getUserId).orElse(-1L);
+    }
 }

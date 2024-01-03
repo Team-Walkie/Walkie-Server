@@ -56,6 +56,14 @@ public class WalkieController {
         );
     }
 
+    @Operation(summary = "가입 여부 및 워키아이디 확인", description = "구글 uid를 통해 가입 여부와 워키 아이디를 확인")
+    @Parameter(name = "uid", required = true, description = "구글 uid", example = "ja9438yweirushf")
+    @ApiResponse(responseCode = "200", description = "가입했던 구글 uid라면 walkieId를 반환, 아니라면 -1을 반환")
+    @GetMapping("/login")
+    public ResponseEntity<Long> getWalkieId(@RequestParam String uid) {
+        return ResponseEntity.ok(walkieService.getWalkieId(uid));
+    }
+
     @Operation(summary = "내 정보 불러오기", description = "마이페이지에서 내 정보를 불러오는 api")
     @Parameters({
             @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
