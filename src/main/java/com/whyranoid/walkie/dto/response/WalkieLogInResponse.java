@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 public class WalkieLogInResponse {
 
     @Schema(description = "가입된 사용자 고유 키 -- 사용자 조회 시 사용")
