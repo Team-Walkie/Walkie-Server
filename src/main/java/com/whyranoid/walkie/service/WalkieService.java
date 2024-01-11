@@ -6,6 +6,7 @@ import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
+import com.whyranoid.walkie.dto.response.WalkieLogInResponse;
 import com.whyranoid.walkie.dto.response.WalkieSignUpResponse;
 import com.whyranoid.walkie.repository.AgreementRepository;
 import com.whyranoid.walkie.repository.PostRepository;
@@ -96,7 +97,7 @@ public class WalkieService {
         return postRepository.findMyPosts(walkieId, pagingSize, pagingStart);
     }
 
-    public Long getWalkieId(String uid) {
-        return walkieRepository.findByAuthId(uid).map(Walkie::getUserId).orElse(-1L);
+    public WalkieLogInResponse getWalkieId(String uid) throws EntityNotFoundException {
+        return walkieRepository.findByAuthId(uid).map(WalkieLogInResponse::new).orElseThrow(EntityNotFoundException::new);
     }
 }

@@ -4,6 +4,7 @@ import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
+import com.whyranoid.walkie.dto.response.WalkieLogInResponse;
 import com.whyranoid.walkie.dto.response.WalkieSignUpResponse;
 import com.whyranoid.walkie.service.WalkieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -58,9 +59,10 @@ public class WalkieController {
 
     @Operation(summary = "가입 여부 및 워키아이디 확인", description = "구글 uid를 통해 가입 여부와 워키 아이디를 확인")
     @Parameter(name = "uid", required = true, description = "구글 uid", example = "ja9438yweirushf")
-    @ApiResponse(responseCode = "200", description = "가입했던 구글 uid라면 walkieId를 반환, 아니라면 -1을 반환")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieLogInResponse.class)),
+            description = "가입했던 구글 uid라면 사용자 정보를 반환, 아니라면 null을 반환")
     @GetMapping("/login")
-    public ResponseEntity<Long> getWalkieId(@RequestParam String uid) {
+    public ResponseEntity<WalkieLogInResponse> getWalkieId(@RequestParam String uid) {
         return ResponseEntity.ok(walkieService.getWalkieId(uid));
     }
 
