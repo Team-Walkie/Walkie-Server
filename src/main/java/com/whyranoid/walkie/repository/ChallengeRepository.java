@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.repository;
 
+import com.whyranoid.walkie.domain.Badge;
 import com.whyranoid.walkie.domain.Challenge;
 import com.whyranoid.walkie.domain.ChallengeStatus;
 import com.whyranoid.walkie.domain.Walkie;
@@ -247,5 +248,9 @@ public class ChallengeRepository {
                 .getResultList();
 
         return cs.get(0);
+    }
+
+    public void adminUpdateChallenge(Challenge challenge) {
+        em.persist(challenge);
     }
 }

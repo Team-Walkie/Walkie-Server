@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.ChallengeDetailDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
@@ -19,7 +20,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Challenge", description = "챌린지 API")
@@ -105,5 +108,13 @@ public class ChallengeController {
     @PostMapping("/challenge-detail/start")
     public ResponseEntity startChallenge(@RequestBody ChallengeStatusCreateRequest challengeStatusCreateRequest) {
         return ResponseEntity.ok(challengeService.createChallengeStatus(challengeStatusCreateRequest));
+    }
+
+    @PostMapping(value = "/admin-update-challenge", consumes = {"multipart/form-data"})
+    public ResponseEntity adminUpdateBadge(
+            @RequestPart(required = false) MultipartFile image,
+            @RequestParam String challengeName
+    ) throws IOException, FirebaseAuthException {
+        return ResponseEntity.ok(challengeService.adminUpdateChallenge(image, challengeName));
     }
 }
