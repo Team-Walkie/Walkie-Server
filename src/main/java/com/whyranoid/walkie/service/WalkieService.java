@@ -40,7 +40,7 @@ public class WalkieService {
         final Walkie walkie = walkieRepository.save(
                 Walkie.builder()
                         .userName(walkieSignUpRequest.getUserName())
-                        .profileImg(img == null ? baseImgUrl : img)
+                        .profileImg(img == null || img.isEmpty() ? baseImgUrl : img)
                         .authId(walkieSignUpRequest.getAuthId())
                         .status('x')
                         .build()
