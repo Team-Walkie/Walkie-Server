@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,8 +80,13 @@ public class ChallengeController {
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(schema = @Schema(implementation = ChallengeDetailDto.class)))
     @GetMapping("/challenge-detail")
     public ResponseEntity getChallengeDetail(@RequestParam("challengeId") Long challengeId, @RequestParam("walkieId") Long walkieId) {
-        ChallengeDetailDto challenge = challengeService.getChallengeDetail(challengeId, walkieId);
-        return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
+        try {
+            ChallengeDetailDto challenge = challengeService.getChallengeDetail(challengeId, walkieId);
+            return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
+        } catch(EmptyResultDataAccessException e) {
+            ChallengeDetailDto challenge = challengeService.getChallengeOnlyDetail(challengeId, walkieId);
+            return new ResponseEntity<>(challenge, httpHeaders, HttpStatus.OK);
+        }
     }
 
     // 챌린지를 중도 포기할 때나 챌린지 조건에 도달하여 성공하였을 때

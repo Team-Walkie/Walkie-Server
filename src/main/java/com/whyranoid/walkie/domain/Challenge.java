@@ -40,14 +40,14 @@ public class Challenge {
     private String img;
 
     @Column(name = "period")
-    private int period;
+    private Integer period;
 
     @Column(name = "start_value")
-    private int startValue;
+    private Integer startValue;
 
     @Column(name = "end_value")
-    private int endValue;
+    private Integer endValue;
 
     @Column(name = "new_flag")
-    private int newFlag;
+    private Integer newFlag;
 }

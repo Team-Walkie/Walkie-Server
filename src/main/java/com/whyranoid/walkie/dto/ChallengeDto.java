@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.dto;
 
 import com.whyranoid.walkie.domain.Badge;
+import com.whyranoid.walkie.domain.Challenge;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,4 +28,13 @@ public class ChallengeDto {
     private Character status;
     @Schema(example = "N")
     private Integer progress;
+
+    public ChallengeDto(Challenge challenge) {
+        this.challengeId = challenge.getChallengeId();
+        this.category = challenge.getCategory();
+        this.badge = challenge.getBadge();
+        this.content = challenge.getContent();
+        this.name = challenge.getName();
+        this.img = challenge.getImg();
+    }
 }

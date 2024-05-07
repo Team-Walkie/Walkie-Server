@@ -55,6 +55,16 @@ public class ChallengeService{
         }
     }
 
+    public ChallengeDetailDto getChallengeOnlyDetail(Long challengeId, Long walkieId) {
+        Challenge challenge = challengeRepository.getChallengeById(challengeId);
+        List<Walkie> walkies = challengeRepository.getChallengeMember(challengeId, walkieId);
+
+        return ChallengeDetailDto.builder()
+                .challenge(new ChallengeDto(challenge))
+                .walkies(walkies)
+                .build();
+    }
+
     public ApiResponse createChallengeStatus(ChallengeStatusCreateRequest challengeStatusCreateRequest) {
 
         // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 walkieId랑 challengeId만 받고 싶은데..?
