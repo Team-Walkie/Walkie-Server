@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,4 +32,11 @@ public class BadgeCollection {
     @NotNull
     @Column(name = "received_at", nullable = false)
     private String receivedAt;
+
+    @Column(name = "is_rep", nullable = false)
+    @ColumnDefault("false")
+    private Boolean isRep;
+
+    @Column(name = "rep_position")
+    private Integer repPosition;
 }

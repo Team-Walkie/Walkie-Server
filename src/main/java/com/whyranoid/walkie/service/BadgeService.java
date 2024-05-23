@@ -26,10 +26,24 @@ public class BadgeService {
         bc.setWalkieId(badgeDto.getWalkieId());
         bc.setBadgeId(badgeDto.getBadgeId());
         bc.setReceivedAt(LocalDate.now().toString());
+        bc.setIsRep(false);
         badgeRepository.obtainBadge(bc);
         return ApiResponse.builder()
                 .status(200)
                 .message("배지 획득!")
+                .build();
+    }
+
+    public ApiResponse updateRepBadges(BadgeDto badgeDto) {
+        Long walkieId = badgeDto.getWalkieId();
+        List<Long> repBadgeIdList = badgeDto.getRepBadgeIdList();
+
+        if (repBadgeIdList.isEmpty()) repBadgeIdList.add(-1L);
+        badgeRepository.updateRepBadges(walkieId, repBadgeIdList);
+
+        return ApiResponse.builder()
+                .status(200)
+                .message("대표뱃지 설정 업데이트 완료")
                 .build();
     }
 }
