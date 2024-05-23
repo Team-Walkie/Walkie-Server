@@ -38,7 +38,7 @@ public class BadgeController {
         return new ResponseEntity<>(badges, httpHeaders, HttpStatus.OK);
     }
 
-    @Operation(summary = "배지 획득하기", description = "챌린지 조건에 만족할 때 해당 api를 호출하면 유저가 배지를 획득합니다.")
+    @Operation(summary = "배지 획득하기 (지금 중복처리가 안되어있습니다 주의!!)", description = "챌린지 조건에 만족할 때 해당 api를 호출하면 유저가 배지를 획득합니다.")
     @Parameters({
             @Parameter(name = "walkieId", description = "유저 아이디", example = "123"),
             @Parameter(name = "badgeId", description = "배지 아이디", example = "3")
@@ -46,7 +46,7 @@ public class BadgeController {
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = com.whyranoid.walkie.dto.response.ApiResponse.class))))
 
     @PostMapping("/obtain-badge")
-    public ResponseEntity obtainBadge(@RequestParam("walkieId") Long walkieId, @RequestParam("badgeId") Long badgeId) {
-        return ResponseEntity.ok(badgeService.obtainBadge(walkieId, badgeId));
+    public ResponseEntity obtainBadge(@RequestBody BadgeDto badgeDto) {
+        return ResponseEntity.ok(badgeService.obtainBadge(badgeDto));   //TODO: 중복방지
     }
 }

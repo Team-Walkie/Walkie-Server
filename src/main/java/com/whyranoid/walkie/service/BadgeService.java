@@ -21,10 +21,10 @@ public class BadgeService {
         return badgeRepository.getBadges(walkieId);
     }
 
-    public ApiResponse obtainBadge(Long walkieId, Long badgeId) {
+    public ApiResponse obtainBadge(BadgeDto badgeDto) {
         BadgeCollection bc = new BadgeCollection();
-        bc.setWalkieId(walkieId);
-        bc.setBadgeId(badgeId);
+        bc.setWalkieId(badgeDto.getWalkieId());
+        bc.setBadgeId(badgeDto.getBadgeId());
         bc.setReceivedAt(LocalDate.now().toString());
         badgeRepository.obtainBadge(bc);
         return ApiResponse.builder()

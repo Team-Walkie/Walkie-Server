@@ -18,7 +18,7 @@ public class BadgeRepository {
     private final EntityManager em;
 
     public List<BadgeDto> getBadges(Long walkieId) {
-        return em.createQuery("select new com.whyranoid.walkie.dto.response.BadgeDto(b.badgeId, b.img, b.badgeName, bc.receivedAt) from BadgeCollection bc left join Badge b on bc.badgeId = b.badgeId where bc.userId = :walkieId")
+        return em.createQuery("select new com.whyranoid.walkie.dto.response.BadgeDto(b.badgeId, b.img, b.badgeName, bc.receivedAt) from BadgeCollection bc left join Badge b on bc.badgeId = b.badgeId where bc.walkieId = :walkieId")
                 .setParameter("walkieId", walkieId)
                 .getResultList();
     }
