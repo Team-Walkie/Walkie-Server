@@ -16,7 +16,7 @@ public class BadgeDto {
     private String badgeImg;
     @Schema(description = "뱃지 이름\n[REQ]\n[RES]badges", example = "햄버거 세트 배애찌")
     private String badgeName;
-    @Schema(description = "뱃지 획득일시\n[REQ]\n[RES]badges", example = "20230801(이거 localdatetime으로 넘겨주세용)")
+    @Schema(description = "뱃지 획득일시\n[REQ]\n[RES]badges", example = "2023-07-31 15:08:31")
     private String receivedAt;
     @Schema(description = "뱃지 대표여부\n[REQ]\n[RES]badges", example = "true")
     private Boolean isRep;

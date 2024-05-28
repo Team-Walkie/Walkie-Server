@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,7 +26,7 @@ public class BadgeService {
         BadgeCollection bc = new BadgeCollection();
         bc.setWalkieId(badgeDto.getWalkieId());
         bc.setBadgeId(badgeDto.getBadgeId());
-        bc.setReceivedAt(LocalDate.now().toString());
+        bc.setReceivedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         bc.setIsRep(false);
         badgeRepository.obtainBadge(bc);
         return ApiResponse.builder()
