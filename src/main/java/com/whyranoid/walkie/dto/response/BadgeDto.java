@@ -20,20 +20,17 @@ public class BadgeDto {
     private String receivedAt;
     @Schema(description = "뱃지 대표여부\n[REQ]\n[RES]badges", example = "true")
     private Boolean isRep;
-    @Schema(description = "뱃지 대표인덱스\n[REQ]\n[RES]badges", example = "2")
-    private Integer repPosition;
-    @Schema(description = "뱃지 소유 유저 아이디\n[REQ]obtain-badge, update-rep-badges\n[RES]badges", requiredMode = Schema.RequiredMode.REQUIRED, example = "24")
+    @Schema(description = "뱃지 소유 유저 아이디\n[REQ]obtain-badge, update-badge-indices\n[RES]badges", requiredMode = Schema.RequiredMode.REQUIRED, example = "24")
     private Long walkieId;
-    @Schema(description = "대표뱃지 아이디 리스트\n[REQ]update-rep-badges\n[RES]", requiredMode = Schema.RequiredMode.REQUIRED, example = "[ 1, 5, 3 ]")
-    private List<Long> repBadgeIdList;
+    @Schema(description = "전체 뱃지 순서 아이디 리스트. 맨 앞 5개를 대표 뱃지로 간주\n[REQ]update-badge-indices\n[RES]", requiredMode = Schema.RequiredMode.REQUIRED, example = "[ 1, 5, 3 ]")
+    private List<Long> badgeIdList;
 
-    public BadgeDto(Long badgeId, String badgeImg, String badgeName, String receivedAt, Boolean isRep, Integer repPosition, Long walkieId) {
+    public BadgeDto(Long badgeId, String badgeImg, String badgeName, String receivedAt, Boolean isRep, Long walkieId) {
         this.badgeId = badgeId;
         this.badgeImg = badgeImg;
         this.badgeName = badgeName;
         this.receivedAt = receivedAt;
         this.isRep = isRep;
-        this.repPosition = repPosition;
         this.walkieId = walkieId;
     }
 }

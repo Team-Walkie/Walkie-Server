@@ -50,10 +50,10 @@ public class BadgeController {
         return ResponseEntity.ok(badgeService.obtainBadge(badgeDto));   //TODO: 중복방지
     }
 
-    @Operation(summary = "대표뱃지 설정 업데이트", description = "대표 뱃지를 업데이트 합니다.")
+    @Operation(summary = "전체 뱃지 순서 업데이트", description = "전체 뱃지의 순서를 badgeIdList 대로 업데이트합니다.")
     @ApiResponse(responseCode = "200", description = "호출 성공", content = @Content(schema = @Schema(implementation = BadgeDto.class)))
-    @PostMapping("/update-rep-badges")
-    public ResponseEntity updateRepBadges(@RequestBody BadgeDto badgeDto) {
-        return ResponseEntity.ok(badgeService.updateRepBadges(badgeDto));
+    @PostMapping("/update-badge-indices")
+    public ResponseEntity updateBadgeIndices(@RequestBody BadgeDto badgeDto) {
+        return ResponseEntity.ok(badgeService.updateBadgeIndices(badgeDto));
     }
 }

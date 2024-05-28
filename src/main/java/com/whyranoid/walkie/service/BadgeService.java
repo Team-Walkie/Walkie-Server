@@ -36,7 +36,7 @@ public class BadgeService {
         bc.setWalkieId(badgeDto.getWalkieId());
         bc.setBadgeId(badgeDto.getBadgeId());
         bc.setReceivedAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        bc.setIsRep(false);
+        bc.setIsRep(badgeIds.size() < 5);
         badgeRepository.obtainBadge(bc);
         return ApiResponse.builder()
                 .status(200)
@@ -44,12 +44,12 @@ public class BadgeService {
                 .build();
     }
 
-    public ApiResponse updateRepBadges(BadgeDto badgeDto) {
+    public ApiResponse updateBadgeIndices(BadgeDto badgeDto) {
         Long walkieId = badgeDto.getWalkieId();
-        List<Long> repBadgeIdList = badgeDto.getRepBadgeIdList();
+        List<Long> badgeIdList = badgeDto.getBadgeIdList();
 
-        if (repBadgeIdList.isEmpty()) repBadgeIdList.add(-1L);
-        badgeRepository.updateRepBadges(walkieId, repBadgeIdList);
+        if (badgeIdList.isEmpty()) badgeIdList.add(-1L);
+        badgeRepository.updateBadgeIndices(walkieId, badgeIdList);
 
         return ApiResponse.builder()
                 .status(200)

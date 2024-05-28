@@ -37,6 +37,6 @@ public class BadgeCollection {
     @ColumnDefault("false")
     private Boolean isRep;
 
-    @Column(name = "rep_position")
-    private Integer repPosition;
+    @Column(name = "position")
+    private Integer position;
 }
