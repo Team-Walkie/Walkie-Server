@@ -23,6 +23,15 @@ public class BadgeService {
     }
 
     public ApiResponse obtainBadge(BadgeDto badgeDto) {
+        List<Long> badgeIds = badgeRepository.getBadgeIds(badgeDto.getWalkieId());
+
+        if (badgeIds.contains(badgeDto.getBadgeId())) {
+            return ApiResponse.builder()
+                    .status(200)
+                    .message("이미 획득한 배지입니다")
+                    .build();
+        }
+
         BadgeCollection bc = new BadgeCollection();
         bc.setWalkieId(badgeDto.getWalkieId());
         bc.setBadgeId(badgeDto.getBadgeId());

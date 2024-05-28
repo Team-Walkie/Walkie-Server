@@ -38,7 +38,7 @@ public class BadgeController {
         return new ResponseEntity<>(badges, httpHeaders, HttpStatus.OK);
     }
 
-    @Operation(summary = "배지 획득하기 (지금 중복처리가 안되어있습니다 주의!!)", description = "챌린지 조건에 만족할 때 해당 api를 호출하면 유저가 배지를 획득합니다.")
+    @Operation(summary = "배지 획득하기", description = "챌린지 조건에 만족할 때 해당 api를 호출하면 유저가 배지를 획득합니다.")
     @Parameters({
             @Parameter(name = "walkieId", description = "유저 아이디", example = "123"),
             @Parameter(name = "badgeId", description = "배지 아이디", example = "3")
