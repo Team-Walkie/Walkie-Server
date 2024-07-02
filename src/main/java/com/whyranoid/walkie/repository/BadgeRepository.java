@@ -27,7 +27,7 @@ public class BadgeRepository {
     { em.persist(bc); }
 
     public void updateBadgeIndices(Long walkieId, List<Long> badgeIdList) {
-        List<BadgeCollection> preBadgeList = em.createQuery("FROM BadgeCollection WHERE walkieId = :walkieId")
+        List<BadgeCollection> preBadgeList = em.createQuery("SELECT * FROM BadgeCollection WHERE walkieId = :walkieId")
                 .setParameter("walkieId", walkieId)
                 .getResultList();
 
