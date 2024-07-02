@@ -68,13 +68,23 @@ public class ChallengeRepository {
 
     public void insertChallengeStatus(ChallengeStatus cs) { em.persist(cs); }
 
-    public void updateChallengeStatus(Long statusId, char status) {
-        ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
+    public void updateChallengeStatus(Long walkieId, Long challengeId, char status) {
+        ChallengeStatus cs = getChallengeStatus(walkieId, challengeId);
         cs.setStatus(status);
     }
 
-    public void deleteChallengeStatus(Long statusId) {
-        ChallengeStatus cs = em.find(ChallengeStatus.class, statusId);
+    public void deleteChallengeStatus(Long walkieId, Long challengeId) {
+        ChallengeStatus cs = getChallengeStatus(walkieId, challengeId);
         em.remove(cs);
+        em.flush();
+    }
+
+    public ChallengeStatus getChallengeStatus(Long walkieId, Long challengeId) {
+        List<ChallengeStatus> cs = em.createQuery("FROM ChallengeStatus where walkie_id = :walkieId and challenge.challengeId = :challengeId")
+                .setParameter("walkieId", walkieId)
+                .setParameter("challengeId", challengeId)
+                .getResultList();
+
+        return cs.get(0);
     }
 }

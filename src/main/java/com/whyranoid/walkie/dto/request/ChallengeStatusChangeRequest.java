@@ -11,16 +11,17 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ChallengeStatusChangeRequest {
-    @NotNull
     @Schema(example = "3")
-    private Long statusId;
-    @NotNull
+    private Long walkieId;
+    @Schema(example = "3")
+    private Long challengeId;
     @Schema(example = "P")
     private Character status;
 
     @Builder
-    public ChallengeStatusChangeRequest(Long statusId, char status) {
-        this.statusId = statusId;
+    public ChallengeStatusChangeRequest(Long walkieId, Long challengeId, Character status) {
+        this.walkieId = walkieId;
+        this.challengeId = challengeId;
         this.status = status;
     }
 }

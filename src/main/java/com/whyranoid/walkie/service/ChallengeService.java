@@ -90,14 +90,16 @@ public class ChallengeService{
 
     public ApiResponse updateChallengeStatus(ChallengeStatusChangeRequest challengeStatusChangeRequest) {
             Character requestStatus = challengeStatusChangeRequest.getStatus();
-            Long requestStatusId = challengeStatusChangeRequest.getStatusId();
+            Long requestWalkieId = challengeStatusChangeRequest.getWalkieId();
+            Long requestChallengeId = challengeStatusChangeRequest.getChallengeId();
+
             // 챌린지 중도 포기해서 삭제하려는 경우
             if(requestStatus == 'N') {
-                challengeRepository.deleteChallengeStatus(requestStatusId);
+                challengeRepository.deleteChallengeStatus(requestWalkieId, requestChallengeId);
             }
             // 챌린지 조건에 도달해서 완료로 표시해야 하는 경우
             else if(requestStatus == 'C') {
-                challengeRepository.updateChallengeStatus(requestStatusId, requestStatus);
+                challengeRepository.updateChallengeStatus(requestWalkieId, requestChallengeId, requestStatus);
             }
 
             return ApiResponse.builder()
