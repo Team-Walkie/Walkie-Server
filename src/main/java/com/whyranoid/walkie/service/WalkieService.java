@@ -26,7 +26,7 @@ public class WalkieService {
     private final WalkieRepository walkieRepository;
     private final AgreementRepository agreementRepository;
     private final PostRepository postRepository;
-	private final String baseImgUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/post%2Ffc1461c9-ba72-4ef0-982d-44ff9d0ebcbb.jpg?alt=media";
+	private final String baseImgUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/profile%2Fbase.png?alt=media";
 
     public WalkieSignUpResponse joinWalkie(WalkieSignUpRequest walkieSignUpRequest) {
         if (checkNameDuplication(walkieSignUpRequest.getUserName())) {
