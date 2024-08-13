@@ -29,6 +29,9 @@ public class PostDto {
     @Schema(description = "[응답] 좋아요 누른 유저 리스트")
     private List<WalkieDto> likers = new ArrayList<>();
 
+    @Schema(description = "[응답] 댓글 개수")
+    private Integer commentCount;
+
     @Schema(description = "[응답] 사진파일 URI")
     private String photo;
 
@@ -45,12 +48,13 @@ public class PostDto {
     private String historyContent;
 
     @QueryProjection
-    public PostDto(Post post, Long viewerId, List<WalkieDto> liker) {
+    public PostDto(Post post, Long viewerId, List<WalkieDto> liker, Long commentCount) {
         this.viewerId = viewerId;
         this.poster = new WalkieDto(post.getUser());
         this.postId = post.getPostId();
         this.liked = liker.stream().map(WalkieDto::getWalkieId).anyMatch(id -> id.longValue() == viewerId.longValue());
         this.likers = liker;
+        this.commentCount = Math.toIntExact(commentCount);
         this.photo = post.getPhoto();
         this.content = post.getContent();
         this.date = post.getDate();
@@ -59,11 +63,12 @@ public class PostDto {
     }
 
     @QueryProjection
-    public PostDto(Post post, Long viewerId) {
+    public PostDto(Post post, Long viewerId, Long commentCount) {
         this.viewerId = viewerId;
         this.poster = new WalkieDto(post.getUser());
         this.postId = post.getPostId();
         this.liked = likers.stream().map(WalkieDto::getWalkieId).anyMatch(id -> id.longValue() == viewerId.longValue());
+        this.commentCount = Math.toIntExact(commentCount);
         this.photo = post.getPhoto();
         this.content = post.getContent();
         this.date = post.getDate();

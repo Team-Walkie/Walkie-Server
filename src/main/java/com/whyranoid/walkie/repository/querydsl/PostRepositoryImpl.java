@@ -1,6 +1,8 @@
 package com.whyranoid.walkie.repository.querydsl;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.whyranoid.walkie.dto.PostDto;
@@ -13,6 +15,8 @@ import java.util.List;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
+import static com.querydsl.core.types.ExpressionUtils.count;
+import static com.whyranoid.walkie.domain.QComment.comment;
 import static com.whyranoid.walkie.domain.QPost.post;
 import static com.whyranoid.walkie.domain.QPostLike.postLike;
 import static com.whyranoid.walkie.domain.QWalkie.walkie;
@@ -35,7 +39,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .transform(groupBy(post.postId).as(new QPostDto(
                         post,
                         Expressions.asNumber(viewerId),
-                        list(new QWalkieDto(walkie))
+                        list(new QWalkieDto(walkie)),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(count(comment.commentId))
+                                        .from(comment)
+                                        .where(comment.post.postId.eq(post.postId)),
+                                "commentCount")
                 ))).values());
     }
 
@@ -52,7 +61,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .transform(groupBy(post.postId).as(new QPostDto(
                         post,
                         Expressions.asNumber(viewerId),
-                        list(new QWalkieDto(walkie))
+                        list(new QWalkieDto(walkie)),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(count(comment.commentId))
+                                        .from(comment)
+                                        .where(comment.post.postId.eq(post.postId)),
+                                "commentCount")
                 ))).values());
     }
 
