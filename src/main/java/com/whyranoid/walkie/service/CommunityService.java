@@ -152,4 +152,13 @@ public class CommunityService {
 
         return commentRepository.findByPostId(postId);
     }
+
+    public List<PostDto> getEveryPostList(Long walkieId, Integer _pagingSize, Integer _pagingStart) {
+        Walkie walkie = walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+
+        Integer pagingSize = _pagingSize == null ? 30 : _pagingSize;
+        Integer pagingStart = _pagingStart == null ? 0 : _pagingStart;
+
+        return postRepository.findEveryPosts(walkieId, pagingSize, pagingStart);
+    }
 }

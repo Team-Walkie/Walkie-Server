@@ -71,6 +71,27 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
+    public List<PostDto> findEveryPosts(Long viewerId, Integer pagingSize, Integer pagingStart) {
+        return new ArrayList<>(queryFactory
+                .from(post)
+                .orderBy(post.date.desc())
+                .offset(pagingStart)
+                .limit(pagingSize)
+                .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
+                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .transform(groupBy(post.postId).as(new QPostDto(
+                        post,
+                        Expressions.asNumber(viewerId),
+                        list(new QWalkieDto(walkie)),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(count(comment.commentId))
+                                        .from(comment)
+                                        .where(comment.post.postId.eq(post.postId)),
+                                "commentCount")
+                ))).values());
+    }
+
+    @Override
     public Long findPostId(String photo, String date) {
         return queryFactory
                 .select(post.postId)

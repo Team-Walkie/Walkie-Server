@@ -103,4 +103,17 @@ public class CommunityController {
     public ResponseEntity<List<CommentDto>> getPostCommentList(@RequestParam Long postId) {
         return ResponseEntity.ok(communityService.getPostCommentList(postId));
     }
+
+    @Operation(summary = "모든 게시글 불러오기", description = "전체 유저들의 게시글을 최신순으로 가져옵니다.")
+    @ApiResponse(responseCode = "200", content = @Content(array = @ArraySchema(schema = @Schema(implementation = PostDto.class))),
+            description = "전체 유저들의 게시글 정보 리스트를 반환")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "유저 아이디", example = "123"),
+            @Parameter(name = "pagingSize", description = "페이징 사이즈", example = "30"),
+            @Parameter(name = "pagingStart", description = "페이징 오프셋", example = "0")
+    })
+    @GetMapping("/listup-every-post")
+    public ResponseEntity<List<PostDto>> getEveryPostList(@RequestParam Long walkieId, @RequestParam(required = false) Integer pagingSize, @RequestParam(required = false) Integer pagingStart) {
+        return ResponseEntity.ok(communityService.getEveryPostList(walkieId, pagingSize, pagingStart));
+    }
 }
