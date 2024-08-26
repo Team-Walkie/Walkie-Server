@@ -98,6 +98,12 @@ public class WalkieService {
         return postRepository.findMyPosts(walkieId, pagingSize, pagingStart);
     }
 
+    public Integer getMyPostCount(Long walkieId) {
+        Walkie walkie = walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+
+        return postRepository.countMyPosts(walkieId);
+    }
+
     public WalkieLogInResponse getWalkieId(String uid) throws EntityNotFoundException {
         return walkieRepository.findByAuthId(uid).map(WalkieLogInResponse::new).orElseThrow(EntityNotFoundException::new);
     }

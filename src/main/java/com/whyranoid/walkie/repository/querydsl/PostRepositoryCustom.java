@@ -14,4 +14,6 @@ public interface PostRepositoryCustom {
     List<PostDto> findEveryPosts(Long viewerId, Integer pagingSize, Integer pagingStart);
 
     Long findPostId(String photo, String date);
+
+    Integer countMyPosts(Long walkieId);
 }

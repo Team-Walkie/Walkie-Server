@@ -99,4 +99,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(post.photo.eq(photo).and(post.date.eq(date)))
                 .fetchOne();
     }
+
+    @Override
+    public Integer countMyPosts(Long walkieId) {
+        return Math.toIntExact(queryFactory
+                .select(count(post.postId))
+                .from(post)
+                .where(post.user.userId.eq(walkieId))
+                .fetchFirst()
+        );
+    }
 }

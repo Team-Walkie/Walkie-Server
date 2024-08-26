@@ -100,4 +100,14 @@ public class WalkieController {
     public ResponseEntity<List<PostDto>> getPostList(@RequestParam Long walkieId, @RequestParam(required = false) Integer pagingSize, @RequestParam(required = false) Integer pagingStart) {
         return ResponseEntity.ok(walkieService.getMyPostList(walkieId, pagingSize, pagingStart));
     }
+
+    @Operation(summary = "나의 게시글 수 가져오기", description = "내가 작성한 총 게시글 수를 가져옵니다.")
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
+    })
+    @GetMapping("/count-my-post")
+    public ResponseEntity<Integer> getPostCount(@RequestParam Long walkieId) {
+        return ResponseEntity.ok(walkieService.getMyPostCount(walkieId));
+    }
+
 }
