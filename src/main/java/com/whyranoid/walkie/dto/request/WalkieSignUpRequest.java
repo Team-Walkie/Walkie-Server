@@ -16,6 +16,10 @@ public class WalkieSignUpRequest {
     @Schema(name = "userName", requiredMode = Schema.RequiredMode.REQUIRED, description = "닉네임", example = "군자동 불주먹")
     private String userName;
 
+    //@NotNull
+    @Schema(name = "name", description = "실명", example = "김아무개")
+    private String name;
+
     @Schema(name = "profileImg", description = "프로필 사진 URI")
     private String profileImg;
 

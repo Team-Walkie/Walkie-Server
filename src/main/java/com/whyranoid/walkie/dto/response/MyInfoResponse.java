@@ -12,4 +12,7 @@ public class MyInfoResponse {
 
     @Schema(description = "나의 닉네임", example = "주용한바보")
     private String nickname;
+
+    @Schema(description = "나의 실명", example = "홍길동")
+    private String name;
 }

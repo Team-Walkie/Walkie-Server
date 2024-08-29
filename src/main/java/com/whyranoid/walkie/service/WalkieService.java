@@ -40,6 +40,7 @@ public class WalkieService {
         final Walkie walkie = walkieRepository.save(
                 Walkie.builder()
                         .userName(walkieSignUpRequest.getUserName())
+                        .name(walkieSignUpRequest.getName())
                         .profileImg((img == null || img.isBlank()) ? baseImgUrl : img)
                         .authId(walkieSignUpRequest.getAuthId())
                         .status('x')
@@ -71,6 +72,7 @@ public class WalkieService {
             return MyInfoResponse.builder()
                     .profileImg(walkie.getProfileImg())
                     .nickname(walkie.getUserName())
+                    .name(walkie.getName())
                     .build();
         } else {
             return null;
@@ -79,10 +81,19 @@ public class WalkieService {
 
     public MyInfoResponse changeMyInfo(Long walkieId, MyInfoRequest myInfoRequest) {
         Walkie walkie = walkieRepository.findByUserId(walkieId).orElseThrow();
+
         String img = myInfoRequest.getProfileImg();
         walkie.setProfileImg((img == null || img.isBlank()) ? baseImgUrl : img);
+
         walkie.setUserName(myInfoRequest.getNickname());
+
+        String name = myInfoRequest.getName();
+        if (name != null && !name.isBlank()) {
+            walkie.setName(name);
+        }
+
         walkieRepository.save(walkie);
+
         return MyInfoResponse.builder()
                 .profileImg(walkie.getProfileImg())
                 .nickname(walkie.getUserName())

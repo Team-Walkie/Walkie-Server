@@ -24,6 +24,12 @@ public class Walkie {
     @Schema(example = "승민")
     private String userName;
 
+//    @NotNull
+    @Column(name = "name") // nullable = false
+    @Size(max = 50)
+    @Schema(example = "홍길동")
+    private String name;
+
     @Column(name = "profile_img")
     @Schema(example = "seungmin_profile_img")
     private String profileImg;
@@ -46,8 +52,9 @@ public class Walkie {
 //    private List<Badge> badges = new ArrayList<>();
 
     @Builder
-    private Walkie(String userName, String profileImg, Character status, String authId) {
+    private Walkie(String userName, String name, String profileImg, Character status, String authId) {
         this.userName = userName;
+        this.name = name;
         this.profileImg = profileImg;
         this.status = status;
         this.authId = authId;
