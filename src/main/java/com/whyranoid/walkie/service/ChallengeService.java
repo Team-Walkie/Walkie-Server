@@ -74,7 +74,8 @@ public class ChallengeService{
         Challenge challenge = challengeRepository.getChallengeById(challengeId);
         Walkie walkie = challengeRepository.getWalkieById(walkieId);
 
-        if (getChallengeDetail(challengeId, walkieId) != null) {
+        ChallengeDetailDto challengeDetailDto = getChallengeDetail(challengeId, walkieId);
+        if (challengeDetailDto.getChallenge().getStatus() != null) {
             return ApiResponse.builder()
                     .status(200)
                     .message("이미 시작한 챌린지입니다.")

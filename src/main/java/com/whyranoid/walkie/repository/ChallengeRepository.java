@@ -45,14 +45,14 @@ public class ChallengeRepository {
     }
 
     public Object getChallengeDetail(Long challengeId, Long walkieId) {
-        return em.createQuery("select new com.whyranoid.walkie.dto.ChallengeDto(c.challengeId, c.category, c.badge, c.content, c.name, c.img, cs.status, cs.progress) from ChallengeStatus cs left join Challenge c on c.challengeId = cs.challenge.challengeId where c.challengeId = :challengeId and cs.walkie.userId = :walkieId")
+        return em.createQuery("select new com.whyranoid.walkie.dto.ChallengeDto(c.challengeId, c.category, c.badge, c.content, c.name, c.img, cs.status, cs.progress) from Challenge c left join ChallengeStatus cs on c.challengeId = cs.challenge.challengeId and cs.walkie.userId = :walkieId where c.challengeId = :challengeId")
                 .setParameter("challengeId", challengeId)
                 .setParameter("walkieId", walkieId)
                 .getSingleResult();
     }
 
     public List<Walkie> getChallengeMember(Long challengeId, Long walkieId) {
-        return em.createQuery("select cs.walkie from ChallengeStatus cs where cs.challenge.challengeId = :challengeId and cs.walkie.userId != :walkieId")
+        return em.createQuery("select walkie from ChallengeStatus cs left join Walkie walkie on cs.walkie.userId = walkie.userId where cs.challenge.challengeId = :challengeId and cs.walkie.userId != :walkieId")
                 .setParameter("challengeId", challengeId)
                 .setParameter("walkieId", walkieId)
                 .getResultList();
