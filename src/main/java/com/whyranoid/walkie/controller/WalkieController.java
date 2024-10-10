@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
@@ -23,7 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "WalkieController")
@@ -37,9 +41,31 @@ public class WalkieController {
     @Operation(summary = "회원가입", description = "소셜 로그인 이후 워키 회원가입 요청")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieSignUpResponse.class)),
             description = "성공 시 요청한 아이디, 닉네임과 hasDuplicated=false를, 닉네임 중복 시 hasDuplicated=true를 반환")
-    @PostMapping("/signup")
-    public ResponseEntity<WalkieSignUpResponse> signUp(@RequestBody WalkieSignUpRequest walkieSignUpRequest) {
-        return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest));
+    @Parameters({
+            @Parameter(name = "image", description = "업로드할 이미지 multipart", example = "image.jpg"),
+            @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹"),
+            @Parameter(name = "name", description = "실명", example = "김아무개"),
+            @Parameter(name = "authId", required = true, description = "구글 로그인 UID", example = "aslks4283wd-asdjk23oitwdfj"),
+            @Parameter(name = "agreeGps", required = true, description = "위치 정보 사용 동의", example = "true"),
+            @Parameter(name = "agreeSubscription", required = true, description = "마케팅 정보 수신 동의", example = "false")
+    })
+    @PostMapping(value = "/signup", consumes = {"multipart/form-data"})
+    public ResponseEntity<WalkieSignUpResponse> signUp(
+            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestParam("userName") String userName,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam("authId")String authId,
+            @RequestParam("agreeGps")Boolean agreeGps,
+            @RequestParam("agreeSubscription")Boolean agreeSubscription
+    ) throws IOException, FirebaseAuthException {
+        WalkieSignUpRequest walkieSignUpRequest = WalkieSignUpRequest.builder()
+                .userName(userName)
+                .name(name)
+                .authId(authId)
+                .agreeGps(agreeGps)
+                .agreeSubscription(agreeSubscription)
+                .build();
+        return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest, image));
     }
 
     @Operation(summary = "닉네임 중복 확인", description = "회원가입과 동일한 dto를 응답으로 사용")

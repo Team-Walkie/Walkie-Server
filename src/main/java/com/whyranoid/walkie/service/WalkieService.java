@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.service;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.domain.Agreement;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.dto.PostDto;
@@ -12,11 +13,15 @@ import com.whyranoid.walkie.repository.AgreementRepository;
 import com.whyranoid.walkie.repository.PostRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,20 +33,28 @@ public class WalkieService {
     private final PostRepository postRepository;
 	private final String baseImgUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/profile%2Fbase.png?alt=media";
 
-    public WalkieSignUpResponse joinWalkie(WalkieSignUpRequest walkieSignUpRequest) {
+    @Autowired
+    private CommunityService communityService;
+
+    public WalkieSignUpResponse joinWalkie(WalkieSignUpRequest walkieSignUpRequest, MultipartFile image) throws IOException, FirebaseAuthException {
         if (checkNameDuplication(walkieSignUpRequest.getUserName())) {
             return WalkieSignUpResponse.builder()
                     .hasDuplicatedName(true)
                     .build();
         }
-		
-		String img = walkieSignUpRequest.getProfileImg();
+
+        String fileName = UUID.randomUUID() + ".jpg";
+        String imageUrl = "profile/" + fileName;
+        String storeUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/profile%2F" + fileName + "?alt=media";
+		if (!image.isEmpty()) {
+            communityService.uploadImage(image, imageUrl);
+        }
 
         final Walkie walkie = walkieRepository.save(
                 Walkie.builder()
                         .userName(walkieSignUpRequest.getUserName())
                         .name(walkieSignUpRequest.getName())
-                        .profileImg((img == null || img.isBlank()) ? baseImgUrl : img)
+                        .profileImg((image.isEmpty() ? baseImgUrl : storeUrl))
                         .authId(walkieSignUpRequest.getAuthId())
                         .status('x')
                         .build()

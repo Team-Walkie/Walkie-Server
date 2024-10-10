@@ -20,9 +20,6 @@ public class WalkieSignUpRequest {
     @Schema(name = "name", description = "실명", example = "김아무개")
     private String name;
 
-    @Schema(name = "profileImg", description = "프로필 사진 URI")
-    private String profileImg;
-
     @NotNull
     @Schema(name = "authId", requiredMode = Schema.RequiredMode.REQUIRED, description = "구글 로그인 UID", example = "aslks4283wd-asdjk23oitwdfj")
     private String authId;
@@ -36,9 +33,9 @@ public class WalkieSignUpRequest {
     private Boolean agreeSubscription;
 
     @Builder
-    public WalkieSignUpRequest(String userName, String profileImg, String authId, Boolean agreeGps, Boolean agreeSubscription) {
+    public WalkieSignUpRequest(String userName, String name, String authId, Boolean agreeGps, Boolean agreeSubscription) {
         this.userName = userName;
-        this.profileImg = profileImg;
+        this.name = name;
         this.authId = authId;
         this.agreeGps = agreeGps;
         this.agreeSubscription = agreeSubscription;
