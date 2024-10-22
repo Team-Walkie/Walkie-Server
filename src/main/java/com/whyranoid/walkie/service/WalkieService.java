@@ -100,16 +100,12 @@ public class WalkieService {
 
         walkie.setUserName(myInfoRequest.getNickname());
 
-        String name = myInfoRequest.getName();
-        if (name != null && !name.isBlank()) {
-            walkie.setName(name);
-        }
-
         walkieRepository.save(walkie);
 
         return MyInfoResponse.builder()
                 .profileImg(walkie.getProfileImg())
                 .nickname(walkie.getUserName())
+                .name(walkie.getName())
                 .build();
     }
 

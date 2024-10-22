@@ -13,13 +13,9 @@ public class MyInfoRequest {
     @Schema(description = "변경하고자 하는 닉네임", example = "주용한바보")
     private String nickname;
 
-    @Schema(description = "변경하고자 하는 실명", example = "홍길동")
-    private String name;
-
     @Builder
     MyInfoRequest(String profileImg, String nickname, String name) {
         this.profileImg = profileImg;
         this.nickname = nickname;
-        this.name = name;
     }
 }
