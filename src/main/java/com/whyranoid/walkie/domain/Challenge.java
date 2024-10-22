@@ -42,11 +42,17 @@ public class Challenge {
     @Column(name = "period")
     private Integer period;
 
-    @Column(name = "start_value")
-    private Integer startValue;
+    @Column(name = "start_time", length = 25)
+    private String startTime;
 
-    @Column(name = "end_value")
-    private Integer endValue;
+    @Column(name = "end_time", length = 25)
+    private String endTime;
+
+    @Column(name = "calorie")
+    private Integer calorie;
+
+    @Column(name = "distance")
+    private Integer distance;
 
     @Column(name = "new_flag")
     private Integer newFlag;

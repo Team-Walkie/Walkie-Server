@@ -13,28 +13,56 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChallengeDto {
-    @Schema(example = "2")
+    @Schema(description = "챌린지 키값", example = "2")
     private Long challengeId;
-    @Schema(example = "L")
+
+    @Schema(description = "챌린지 카테고리(C, D, L)", example = "L")
     private Character category;
+
+    @Schema(description = "L카테고리의 기준 시작시간", example = "0600")
+    private String startTime;
+
+    @Schema(description = "L카테고리의 기준 종료시간", example = "1200")
+    private String endTime;
+
+    @Schema(description = "C카테고리의 기준 칼로리", example = "1110")
+    private Integer calorie;
+
+    @Schema(description = "D카테고리의 기준 거리", example = "1000(m)")
+    private Integer distance;
+
+    @Schema(description = "챌린지에 매핑된 뱃지 정보")
     private Badge badge;
-    @Schema(example = "햄버거 세트의 평균 칼로리는 1110kcal 입니다. 일주일 동안 걷기로 햄버거 세트 태우기 도전!")
+
+    @Schema(description = "챌린지 내용", example = "햄버거 세트의 평균 칼로리는 1110kcal 입니다. 일주일 동안 걷기로 햄버거 세트 태우기 도전!")
     private String content;
-    @Schema(example = "햄버거 세트 불태우기")
+
+    @Schema(description = "챌린지 제목", example = "햄버거 세트 불태우기")
     private String name;
-    @Schema(example = "challenge_img2")
+
+    @Schema(description = "챌린지 이미지", example = "challenge_img2")
     private String img;
-    @Schema(example = "0")
+
+    @Schema(description = "L카테고리의 달성기준 운동시간(분)", example = "20")
+    private Integer period;
+
+    @Schema(description = "유저의 챌린지 도전 상태", example = "P")
     private Character status;
-    @Schema(example = "N")
+
+    @Schema(description = "유저의 챌린지 진행도", example = "0")
     private Integer progress;
 
     public ChallengeDto(Challenge challenge) {
         this.challengeId = challenge.getChallengeId();
         this.category = challenge.getCategory();
+        this.startTime = challenge.getStartTime();
+        this.endTime = challenge.getEndTime();
+        this.calorie = challenge.getCalorie();
+        this.distance = challenge.getDistance();
         this.badge = challenge.getBadge();
         this.content = challenge.getContent();
         this.name = challenge.getName();
         this.img = challenge.getImg();
+        this.period = challenge.getPeriod();
     }
 }

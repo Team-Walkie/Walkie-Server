@@ -45,7 +45,28 @@ public class ChallengeRepository {
     }
 
     public Object getChallengeDetail(Long challengeId, Long walkieId) {
-        return em.createQuery("select new com.whyranoid.walkie.dto.ChallengeDto(c.challengeId, c.category, c.badge, c.content, c.name, c.img, cs.status, cs.progress) from Challenge c left join ChallengeStatus cs on c.challengeId = cs.challenge.challengeId and cs.walkie.userId = :walkieId where c.challengeId = :challengeId")
+        return em.createQuery(
+                    """
+                    select new com.whyranoid.walkie.dto.ChallengeDto(
+                        c.challengeId,
+                        c.category,
+                        c.startTime,
+                        c.endTime,
+                        c.calorie,
+                        c.distance,
+                        c.badge,
+                        c.content,
+                        c.name,
+                        c.img,
+                        c.period,
+                        cs.status,
+                        cs.progress
+                    )
+                    from Challenge c left join ChallengeStatus cs
+                    on c.challengeId = cs.challenge.challengeId and cs.walkie.userId = :walkieId
+                    where c.challengeId = :challengeId
+                    """
+                )
                 .setParameter("challengeId", challengeId)
                 .setParameter("walkieId", walkieId)
                 .getSingleResult();
