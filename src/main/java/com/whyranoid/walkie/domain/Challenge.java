@@ -20,7 +20,7 @@ public class Challenge {
 
     @NotNull
     @Column(nullable = false)
-    private char category;  // { C: 칼로리, T: 시간대, D: 거리 }
+    private char category;  // { C: 칼로리, L: 시간대, D: 거리 }
 
     // 외래키기라서 데이터는 배지를 먼저 추가한 후에 챌린지를 추가해야 함
     @NotNull
@@ -53,6 +53,12 @@ public class Challenge {
 
     @Column(name = "distance")
     private Integer distance;
+
+    @Column(name = "goal_count")
+    private Integer goalCount;
+
+    @Column(name = "time_limit")
+    private Integer timeLimit;
 
     @Column(name = "new_flag")
     private Integer newFlag;
