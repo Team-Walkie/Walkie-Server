@@ -14,6 +14,8 @@ public class BadgeDto {
     private Long badgeId;
     @Schema(description = "뱃지 이미지\n[REQ]\n[RES]badges", example = "badge_image2")
     private String badgeImg;
+    @Schema(description = "뱃지 실패 이미지\n[REQ]\n[RES]badges", example = "badge_image2")
+    private String badgeFailureImg;
     @Schema(description = "뱃지 이름\n[REQ]\n[RES]badges", example = "햄버거 세트 배애찌")
     private String badgeName;
     @Schema(description = "뱃지 획득일시\n[REQ]\n[RES]badges", example = "2023-07-31 15:08:31")
@@ -25,9 +27,10 @@ public class BadgeDto {
     @Schema(description = "전체 뱃지 순서 아이디 리스트. 맨 앞 5개를 대표 뱃지로 간주\n[REQ]update-badge-indices\n[RES]", requiredMode = Schema.RequiredMode.REQUIRED, example = "[ 1, 5, 3 ]")
     private List<Long> badgeIdList;
 
-    public BadgeDto(Long badgeId, String badgeImg, String badgeName, String receivedAt, Boolean isRep, Long walkieId) {
+    public BadgeDto(Long badgeId, String badgeImg, String badgeFailureImg, String badgeName, String receivedAt, Boolean isRep, Long walkieId) {
         this.badgeId = badgeId;
         this.badgeImg = badgeImg;
+        this.badgeFailureImg = badgeFailureImg;
         this.badgeName = badgeName;
         this.receivedAt = receivedAt;
         this.isRep = isRep;
