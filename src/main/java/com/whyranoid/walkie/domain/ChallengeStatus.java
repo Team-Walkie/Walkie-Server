@@ -31,6 +31,23 @@ public class ChallengeStatus {
 
     @NotNull
     @Column(nullable = false)
-    private int progress = 0;
+    private Integer progress = 0;
 
+    @Column(name = "challenge_sdate", length = 19)
+    private String challengeSdate;
+
+    @Column(name = "challenge_edate", length = 19)
+    private String challengeEdate;
+
+    @Column(name = "acc_distance")
+    private Double accDistance;
+
+    @Column(name = "acc_time", length = 19)
+    private String accTime;
+
+    @Column(name = "acc_calories")
+    private Double accCalories;
+
+    @Column(name = "acc_count")
+    private Integer accCount;
 }

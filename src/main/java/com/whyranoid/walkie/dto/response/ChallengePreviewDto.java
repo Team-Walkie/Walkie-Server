@@ -28,7 +28,7 @@ public class ChallengePreviewDto {
     @Schema(example = "1")
     private Integer newFlag;
 
-    @Schema(example = "20", description = "1회 당 목표 지속시간")
+    @Schema(example = "20", description = "1회 당 목표 지속시간(분)")
     private Integer period;
 
     @Schema(example = "0600", description = "달성 인정 시간대 시작시각")

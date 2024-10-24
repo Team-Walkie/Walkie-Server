@@ -155,7 +155,15 @@ public class ChallengeRepository {
     }
 
     public List<Walkie> getChallengeMember(Long challengeId, Long walkieId) {
-        return em.createQuery("select walkie from ChallengeStatus cs left join Walkie walkie on cs.walkie.userId = walkie.userId where cs.challenge.challengeId = :challengeId and cs.walkie.userId != :walkieId")
+        return em.createQuery(
+                """
+                select walkie 
+                from ChallengeStatus cs left join Walkie walkie 
+                    on cs.walkie.userId = walkie.userId 
+                where cs.challenge.challengeId = :challengeId 
+                    and cs.walkie.userId != :walkieId
+                """
+                )
                 .setParameter("challengeId", challengeId)
                 .setParameter("walkieId", walkieId)
                 .getResultList();
@@ -183,7 +191,13 @@ public class ChallengeRepository {
     }
 
     public ChallengeStatus getChallengeStatus(Long walkieId, Long challengeId) {
-        List<ChallengeStatus> cs = em.createQuery("FROM ChallengeStatus where walkie_id = :walkieId and challenge.challengeId = :challengeId")
+        List<ChallengeStatus> cs = em.createQuery(
+                """
+                FROM ChallengeStatus 
+                where walkie_id = :walkieId 
+                    and challenge.challengeId = :challengeId
+                """
+                )
                 .setParameter("walkieId", walkieId)
                 .setParameter("challengeId", challengeId)
                 .getResultList();
