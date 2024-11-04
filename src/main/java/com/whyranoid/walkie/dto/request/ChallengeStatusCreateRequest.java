@@ -19,9 +19,14 @@ public class ChallengeStatusCreateRequest {
     @Schema(example = "4")
     private Long challengeId;
 
+    @NotNull
+    @Schema(example = "2024-01-01 08:30:00", description = "챌린지 시작 시간")
+    private String challengeSdate;
+
     @Builder
-    public ChallengeStatusCreateRequest(Long walkieId, Long challengeId) {
+    public ChallengeStatusCreateRequest(Long walkieId, Long challengeId, String challengeSdate) {
         this.walkieId = walkieId;
         this.challengeId = challengeId;
+        this.challengeSdate = challengeSdate;
     }
 }

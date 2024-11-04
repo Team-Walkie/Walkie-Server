@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
 
 @Slf4j
@@ -70,6 +71,7 @@ public class ChallengeService{
         // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 walkieId랑 challengeId만 받고 싶은데..?
         Long walkieId = challengeStatusCreateRequest.getWalkieId();
         Long challengeId = challengeStatusCreateRequest.getChallengeId();
+        String challengeSdate = challengeStatusCreateRequest.getChallengeSdate();
 
         Challenge challenge = challengeRepository.getChallengeById(challengeId);
         Walkie walkie = challengeRepository.getWalkieById(walkieId);
@@ -86,6 +88,7 @@ public class ChallengeService{
         cs.setWalkie(walkie);
         cs.setChallenge(challenge);
         cs.setStatus('P');
+        cs.setChallengeSdate(challengeSdate);
 
         challengeRepository.insertChallengeStatus(cs);
 
@@ -105,9 +108,16 @@ public class ChallengeService{
             if(requestStatus == 'N') {
                 challengeRepository.deleteChallengeStatus(requestWalkieId, requestChallengeId);
             }
-            // 챌린지 조건에 도달해서 완료로 표시해야 하는 경우
-            else if(requestStatus == 'C') {
-                challengeRepository.updateChallengeStatus(requestWalkieId, requestChallengeId, requestStatus);
+            // 챌린지 현황 업데이트(완료 혹은 진행)
+            else {
+                try {
+                    challengeRepository.updateChallengeStatus(requestWalkieId, requestChallengeId, challengeStatusChangeRequest);
+                } catch (ParseException e) {
+                    return ApiResponse.builder()
+                            .status(500)
+                            .message("시간 포맷 에러")
+                            .build();
+                }
             }
 
             return ApiResponse.builder()
