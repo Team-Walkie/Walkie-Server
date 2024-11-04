@@ -132,17 +132,25 @@ public class ChallengeRepository {
                     select new com.whyranoid.walkie.dto.ChallengeDto(
                         c.challengeId,
                         c.category,
+                        c.name,
+                        c.img,
+                        c.badge,
+                        c.content,
+                        cs.status,
+                        cs.progress,
+                        c.period,
                         c.startTime,
                         c.endTime,
                         c.calorie,
                         c.distance,
-                        c.badge,
-                        c.content,
-                        c.name,
-                        c.img,
-                        c.period,
-                        cs.status,
-                        cs.progress
+                        c.goalCount,
+                        c.timeLimit,
+                        cs.challengeSdate,
+                        cs.challengeEdate,
+                        cs.accDistance,
+                        cs.accTime,
+                        cs.accCalories,
+                        cs.accCount
                     )
                     from Challenge c left join ChallengeStatus cs
                     on c.challengeId = cs.challenge.challengeId and cs.walkie.userId = :walkieId

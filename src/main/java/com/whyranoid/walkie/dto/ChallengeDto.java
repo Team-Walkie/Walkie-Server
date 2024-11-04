@@ -52,11 +52,29 @@ public class ChallengeDto {
     @Schema(description = "목표 달성 거리", example = "1000(m)")
     private Integer distance;
 
-    @Schema(example = "10", description = "목표 달성 운동횟수")
+    @Schema(example = "10", description = "목표 달성 운동 횟수")
     private Integer goalCount;
 
     @Schema(example = "1", description = "제한기간(일) (ex.도전 시작 후 7일 이내)")
     private Integer timeLimit;
+
+    @Schema(example = "2024-01-01 08:30:00", description = "챌린지 도전 시작 시각")
+    private String challengeSdate;
+
+    @Schema(example = "2024-12-31 20:30:00", description = "챌린지 도전 종료 시각")
+    private String challengeEdate;
+
+    @Schema(example = "1521.79", description = "챌린지 도전 후 누적 운동 거리(m)")
+    private Double accDistance;
+
+    @Schema(example = "10", description = "챌린지 도전 후 누적 운동 횟수")
+    private String accTime;
+
+    @Schema(example = "250.5", description = "챌린지 도전 후 누적 소모 칼로리")
+    private Double accCalories;
+
+    @Schema(example = "2", description = "챌린지 도전 후 누적 운동 횟수")
+    private Integer accCount;
 
     public ChallengeDto(Challenge challenge) {
         this.challengeId = challenge.getChallengeId();
