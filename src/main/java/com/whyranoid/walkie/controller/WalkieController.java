@@ -42,7 +42,7 @@ public class WalkieController {
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieSignUpResponse.class)),
             description = "성공 시 요청한 아이디, 닉네임과 hasDuplicated=false를, 닉네임 중복 시 hasDuplicated=true를 반환")
     @Parameters({
-            @Parameter(name = "image", description = "업로드할 이미지 multipart", example = "image.jpg"),
+            @Parameter(name = "profileImg", description = "업로드할 이미지 multipart", example = ""),
             @Parameter(name = "userName", required = true, description = "닉네임", example = "군자동 불주먹"),
             @Parameter(name = "name", description = "실명", example = "김아무개"),
             @Parameter(name = "authId", required = true, description = "구글 로그인 UID", example = "aslks4283wd-asdjk23oitwdfj"),
