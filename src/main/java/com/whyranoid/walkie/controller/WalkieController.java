@@ -51,7 +51,7 @@ public class WalkieController {
     })
     @PostMapping(value = "/signup", consumes = {"multipart/form-data"})
     public ResponseEntity<WalkieSignUpResponse> signUp(
-            @RequestPart(value = "image", required = false) MultipartFile profileImg,
+            @RequestPart(value = "profileImg", required = false) MultipartFile profileImg,
             @RequestParam("userName") String userName,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam("authId")String authId,
