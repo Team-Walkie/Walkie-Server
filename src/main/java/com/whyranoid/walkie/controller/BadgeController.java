@@ -60,11 +60,12 @@ public class BadgeController {
         return ResponseEntity.ok(badgeService.updateBadgeIndices(badgeDto));
     }
 
-    @PostMapping(value = "/admin-update-post", consumes = {"multipart/form-data"})
+    @PostMapping(value = "/admin-update-badge", consumes = {"multipart/form-data"})
     public ResponseEntity adminUpdateBadge(
         @RequestPart(required = false)MultipartFile image,
+        @RequestPart(required = false)MultipartFile failureImage,
         @RequestParam String badgeName
     ) throws IOException, FirebaseAuthException {
-        return ResponseEntity.ok(badgeService.adminUpdateBadge(image, badgeName));
+        return ResponseEntity.ok(badgeService.adminUpdateBadge(image, failureImage, badgeName));
     }
 }

@@ -161,4 +161,13 @@ public class CommunityService {
 
         return postRepository.findEveryPosts(walkieId, pagingSize, pagingStart);
     }
+
+    public String uploadCategorizedImg(MultipartFile image, String category) throws IOException, FirebaseAuthException {
+        String fileName = UUID.randomUUID() + ".jpg";
+        String imageUrl = category + "/" + fileName;
+        String storeUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/" + category + "%2F" + fileName + "?alt=media";
+
+        uploadImage(image, imageUrl);
+        return storeUrl;
+    }
 }

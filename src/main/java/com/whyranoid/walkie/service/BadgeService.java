@@ -1,13 +1,18 @@
 package com.whyranoid.walkie.service;
 
+import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.domain.Badge;
 import com.whyranoid.walkie.domain.BadgeCollection;
+import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.dto.response.ApiResponse;
 import com.whyranoid.walkie.dto.response.BadgeDto;
 import com.whyranoid.walkie.repository.BadgeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -17,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BadgeService {
     private final BadgeRepository badgeRepository;
+    private final CommunityService communityService;
 
     public List<BadgeDto> getBadges(Long walkieId) {
         return badgeRepository.getBadges(walkieId);
@@ -54,6 +60,23 @@ public class BadgeService {
         return ApiResponse.builder()
                 .status(200)
                 .message("대표뱃지 설정 업데이트 완료")
+                .build();
+    }
+
+    public ApiResponse adminUpdateBadge(MultipartFile badgeImg, MultipartFile badgeFailureImg, String badgeName) throws IOException, FirebaseAuthException {
+        String badgeImgUrl = communityService.uploadCategorizedImg(badgeImg, "badge");
+        String badgeFailureImgUrl = communityService.uploadCategorizedImg(badgeFailureImg, "badge");
+
+        Badge badge = Badge.builder()
+                .badgeName(badgeName)
+                .img(badgeImgUrl)
+                .failureImg(badgeFailureImgUrl)
+                .build();
+
+        badgeRepository.uploadBadge(badge);
+        return ApiResponse.builder()
+                .status(200)
+                .message("어드민 뱃지 등록 완료")
                 .build();
     }
 }

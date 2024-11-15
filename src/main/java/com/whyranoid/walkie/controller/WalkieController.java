@@ -51,7 +51,7 @@ public class WalkieController {
     })
     @PostMapping(value = "/signup", consumes = {"multipart/form-data"})
     public ResponseEntity<WalkieSignUpResponse> signUp(
-            @RequestPart(value = "image", required = false) MultipartFile image,
+            @RequestPart(value = "image", required = false) MultipartFile profileImg,
             @RequestParam("userName") String userName,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam("authId")String authId,
@@ -65,7 +65,7 @@ public class WalkieController {
                 .agreeGps(agreeGps)
                 .agreeSubscription(agreeSubscription)
                 .build();
-        return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest, image));
+        return ResponseEntity.ok(walkieService.joinWalkie(walkieSignUpRequest, profileImg));
     }
 
     @Operation(summary = "닉네임 중복 확인", description = "회원가입과 동일한 dto를 응답으로 사용")

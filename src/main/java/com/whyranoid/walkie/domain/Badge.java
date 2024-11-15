@@ -37,8 +37,9 @@ public class Badge {
     private String badgeName;
 
     @Builder
-    public Badge(String img, String badgeName) {
+    public Badge(String img, String failureImg, String badgeName) {
         this.img = img;
+        this.failureImg = failureImg;
         this.badgeName = badgeName;
     }
 }

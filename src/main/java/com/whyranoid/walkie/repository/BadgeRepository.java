@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.repository;
 
+import com.whyranoid.walkie.domain.Badge;
 import com.whyranoid.walkie.domain.BadgeCollection;
 import com.whyranoid.walkie.dto.response.BadgeDto;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,15 @@ public class BadgeRepository {
         return em.createQuery("SELECT badgeId FROM BadgeCollection WHERE walkieId = :walkieId")
                 .setParameter("walkieId", walkieId)
                 .getResultList();
+    }
+
+    public void uploadBadge(Badge badge) {
+        em.persist(badge);
+    }
+
+    public Badge getBadgeInfo(Long badgeId) {
+        return (Badge) em.createQuery("FROM Badge WHERE badgeId = :badgeId")
+                .setParameter("badgeId", badgeId)
+                .getSingleResult();
     }
 }

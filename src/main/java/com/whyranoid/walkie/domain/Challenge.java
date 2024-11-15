@@ -64,4 +64,12 @@ public class Challenge {
 
     @Column(name = "new_flag")
     private Integer newFlag;
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
 }

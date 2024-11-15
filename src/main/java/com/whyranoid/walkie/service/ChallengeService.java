@@ -1,22 +1,29 @@
 package com.whyranoid.walkie.service;
 
-import com.whyranoid.walkie.domain.Challenge;
-import com.whyranoid.walkie.domain.ChallengeStatus;
-import com.whyranoid.walkie.domain.Walkie;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.domain.*;
 import com.whyranoid.walkie.dto.ChallengeDetailDto;
 import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.dto.response.ApiResponse;
+import com.whyranoid.walkie.dto.response.BadgeDto;
 import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
+import com.whyranoid.walkie.repository.BadgeRepository;
 import com.whyranoid.walkie.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -25,6 +32,8 @@ import java.util.List;
 public class ChallengeService{
 
     private final ChallengeRepository challengeRepository;
+    private final CommunityService communityService;
+    private final BadgeRepository badgeRepository;
 
     public List<ChallengePreviewDto> getNewChallenges(Long walkieId) {
         return challengeRepository.getNewChallenges(walkieId);
@@ -125,4 +134,49 @@ public class ChallengeService{
                     .message("성공")
                     .build();
     }
+
+    public ApiResponse adminUpdateChallenge(
+            Character category,
+            String startTime,
+            String endTime,
+            String content,
+            MultipartFile challengeImg,
+            String challengeName,
+            Integer newFlag,
+            Integer period,
+            Long badgeId,
+            Integer calorie,
+            Integer distance,
+            Integer goalCount,
+            Integer timeLimit
+    ) throws IOException, FirebaseAuthException {
+
+        String challengeImgUrl = communityService.uploadCategorizedImg(challengeImg, "challenge");
+        Badge badge = badgeRepository.getBadgeInfo(badgeId);
+
+        Challenge challenge = Challenge.builder()
+                .category(category)
+                .badge(badge)
+                .content(content)
+                .name(challengeName)
+                .img(challengeImgUrl)
+                .period(period)
+                .startTime(startTime)
+                .endTime(endTime)
+                .calorie(calorie)
+                .distance(distance)
+                .goalCount(goalCount)
+                .timeLimit(timeLimit)
+                .newFlag(newFlag)
+                .build();
+
+        challengeRepository.adminUpdateChallenge(challenge);
+
+        return ApiResponse.builder()
+                .status(200)
+                .message("성공")
+                .build();
+    }
+
+
 }

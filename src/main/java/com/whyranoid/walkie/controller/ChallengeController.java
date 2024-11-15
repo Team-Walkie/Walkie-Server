@@ -2,8 +2,10 @@ package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.ChallengeDetailDto;
+import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
+import com.whyranoid.walkie.dto.response.BadgeDto;
 import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
 import com.whyranoid.walkie.service.ChallengeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -111,10 +113,35 @@ public class ChallengeController {
     }
 
     @PostMapping(value = "/admin-update-challenge", consumes = {"multipart/form-data"})
-    public ResponseEntity adminUpdateBadge(
-            @RequestPart(required = false) MultipartFile image,
-            @RequestParam String challengeName
-    ) throws IOException, FirebaseAuthException {
-        return ResponseEntity.ok(challengeService.adminUpdateChallenge(image, challengeName));
+    public ResponseEntity adminUpdateChallenge(
+            @RequestParam Character category,
+            @RequestParam(required = false) String startTime,
+            @RequestParam(required = false) String endTime,
+            @RequestParam String content,
+            @RequestPart MultipartFile challengeImg,
+            @RequestParam String challengeName,
+            @RequestParam(required = false) Integer newFlag,
+            @RequestParam(required = false) Integer period,
+            @RequestParam Long badgeId,
+            @RequestParam(required = false) Integer calorie,
+            @RequestParam(required = false) Integer distance,
+            @RequestParam(required = false) Integer goalCount,
+            @RequestParam(required = false) Integer timeLimit
+            ) throws IOException, FirebaseAuthException {
+        return ResponseEntity.ok(challengeService.adminUpdateChallenge(
+                category,
+                startTime,
+                endTime,
+                content,
+                challengeImg,
+                challengeName,
+                newFlag,
+                period,
+                badgeId,
+                calorie,
+                distance,
+                goalCount,
+                timeLimit
+        ));
     }
 }
