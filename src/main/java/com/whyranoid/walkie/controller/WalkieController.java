@@ -2,7 +2,6 @@ package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.dto.PostDto;
-import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
 import com.whyranoid.walkie.dto.response.WalkieLogInResponse;
@@ -20,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -105,12 +103,19 @@ public class WalkieController {
 
     @Operation(summary = "내 정보 변경하기", description = "마이페이지에서 내 정보를 수정하는 api")
     @Parameters({
-            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
+            @Parameter(name = "profileImg", description = "업로드할 이미지 multipart", example = ""),
+            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123"),
+            @Parameter(name = "nickname", description = "변경할 닉네임", example = "newname"),
+            @Parameter(name = "isImgDeleted", description = "이미지 삭제 여부", example = "false")
     })
     @PostMapping("/my")
-    public ResponseEntity<MyInfoResponse> changeMyInfo(@RequestParam Long walkieId, @RequestBody MyInfoRequest myInfoRequest) {
+    public ResponseEntity<MyInfoResponse> changeMyInfo(
+            @RequestPart(value = "profileImg", required = false) MultipartFile profileImg,
+            @RequestParam(value = "nickname", required = false) String userName,
+            @RequestParam(value = "walkieId") Long walkieId,
+            @RequestParam(value = "isImgDeleted", required = false) Boolean isImgDeleted) {
         return ResponseEntity.ok(
-                walkieService.changeMyInfo(walkieId, myInfoRequest)
+                walkieService.changeMyInfo(walkieId, profileImg, userName, isImgDeleted)
         );
     }
 

@@ -92,13 +92,32 @@ public class WalkieService {
         }
     }
 
-    public MyInfoResponse changeMyInfo(Long walkieId, MyInfoRequest myInfoRequest) {
+    public MyInfoResponse changeMyInfo(Long walkieId, MultipartFile profileImg, String userName, Boolean isImgDeleted) {
         Walkie walkie = walkieRepository.findByUserId(walkieId).orElseThrow();
 
-        String img = myInfoRequest.getProfileImg();
-        walkie.setProfileImg((img == null || img.isBlank()) ? baseImgUrl : img);
+        if (isImgDeleted != null && isImgDeleted) {
+            walkie.setProfileImg(baseImgUrl);
+        }
+        else if (profileImg != null) {
+            String fileName = UUID.randomUUID() + ".jpg";
+            String imageUrl = "profile/" + fileName;
+            String storeUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/profile%2F" + fileName + "?alt=media";
 
-        walkie.setUserName(myInfoRequest.getNickname());
+            try {
+                communityService.uploadImage(profileImg, imageUrl);
+                walkie.setProfileImg(storeUrl);
+            } catch (Exception e) {
+                return MyInfoResponse.builder()
+                        .profileImg("사진변경 오류")
+                        .nickname(walkie.getUserName())
+                        .name(walkie.getName())
+                        .build();
+            }
+        }
+
+        if (userName != null && !userName.isBlank()) {
+            walkie.setUserName(userName);
+        }
 
         walkieRepository.save(walkie);
 
