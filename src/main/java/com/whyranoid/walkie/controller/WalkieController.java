@@ -106,7 +106,7 @@ public class WalkieController {
             @Parameter(name = "profileImg", description = "업로드할 이미지 multipart", example = ""),
             @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123"),
             @Parameter(name = "nickname", description = "변경할 닉네임", example = "newname"),
-            @Parameter(name = "isImgDeleted", description = "이미지 삭제 여부", example = "false")
+            @Parameter(name = "isImgDeleted", description = "이미지 삭제 여부 | nullable | true일 경우 보낸 profileImg와 상관없이 기본 이미지로 수정됨", example = "false")
     })
     @PostMapping("/my")
     public ResponseEntity<MyInfoResponse> changeMyInfo(
