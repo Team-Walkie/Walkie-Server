@@ -19,7 +19,7 @@ public class ChallengePreviewDto {
     @Schema(example = "햄버거 세트 불태우기")
     private String name;
 
-    @Schema(example = "N")
+    @Schema(example = "N", description = "챌린지 시작 전 : ‘N’, 챌린지 진행 중 : ‘P’, 챌린지 완료 ‘C’")
     private Character status;
 
     @Schema(example = "0")
