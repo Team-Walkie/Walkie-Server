@@ -78,9 +78,22 @@ public class ChallengeService{
 
         ChallengeDetailDto challengeDetailDto = getChallengeDetail(challengeId, walkieId);
         if (challengeDetailDto.getChallenge().getStatus() != null) {
+            char status = challengeDetailDto.getChallenge().getStatus();
+            String message;
+
+            if (status == 'P') {
+                message = "이미 진행중인 챌린지입니다.";
+            }
+            else if (status == 'C') {
+                message = "이미 완료한 챌린지입니다.";
+            }
+            else {
+                message = "챌린지 상태 오류로 시작하지 못했습니다.";
+            }
+
             return ApiResponse.builder()
                     .status(200)
-                    .message("이미 시작한 챌린지입니다.")
+                    .message(message)
                     .build();
         }
 
