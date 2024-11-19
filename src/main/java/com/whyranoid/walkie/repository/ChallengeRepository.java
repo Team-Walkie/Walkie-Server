@@ -126,6 +126,7 @@ public class ChallengeRepository {
                 from ChallengeStatus cs left join Challenge c 
                     on cs.challenge.challengeId = c.challengeId 
                 where cs.walkie.userId = :walkieId
+                  and cs.status = 'P'
                 """
                 )
                 .setParameter("walkieId", walkieId)
