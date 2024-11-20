@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.dto.response;
 
+import com.whyranoid.walkie.domain.Badge;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import java.util.List;
@@ -35,5 +36,12 @@ public class BadgeDto {
         this.receivedAt = receivedAt;
         this.isRep = isRep;
         this.walkieId = walkieId;
+    }
+
+    public BadgeDto(Badge badge) {
+        this.badgeId = badge.getBadgeId();
+        this.badgeImg = badge.getImg();
+        this.badgeFailureImg = badge.getFailureImg();
+        this.badgeName = badge.getBadgeName();
     }
 }

@@ -8,6 +8,7 @@ import com.whyranoid.walkie.dto.ChallengeDto;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
 import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.dto.response.ApiResponse;
+import com.whyranoid.walkie.dto.response.BadgeDto;
 import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
 import com.whyranoid.walkie.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import java.util.List;
 public class ChallengeService{
 
     private final ChallengeRepository challengeRepository;
+    private final BadgeService badgeService;
 
     public List<ChallengePreviewDto> getNewChallenges(Long walkieId) {
         return challengeRepository.getNewChallenges(walkieId);
@@ -123,6 +125,22 @@ public class ChallengeService{
             }
             // 챌린지 현황 업데이트(완료 혹은 진행)
             else {
+                if (requestStatus == 'C') {
+                    if (challengeStatusChangeRequest.getProgress() < 100) {
+                        return ApiResponse.builder()
+                                .status(200)
+                                .message("진행도가 100% 미만으로 완료할 수 없습니다.")
+                                .build();
+                    }
+
+                    BadgeDto badgeDto = getObtainedBadge(requestChallengeId);
+                    badgeDto.setWalkieId(requestWalkieId);
+                    ApiResponse res = badgeService.obtainBadge(badgeDto);
+
+                    if (!res.getMessage().equals("배지 획득!")) {
+                        return res;
+                    }
+                }
                 try {
                     challengeRepository.updateChallengeStatus(requestWalkieId, requestChallengeId, challengeStatusChangeRequest);
                 } catch (ParseException e) {
@@ -137,5 +155,9 @@ public class ChallengeService{
                     .status(200)
                     .message("성공")
                     .build();
+    }
+
+    public BadgeDto getObtainedBadge(Long challengeId) {
+        return new BadgeDto(challengeRepository.getObtainedBadge(challengeId));
     }
 }
