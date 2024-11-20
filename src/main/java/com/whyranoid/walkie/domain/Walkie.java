@@ -36,7 +36,7 @@ public class Walkie {
 
     @NotNull
     @Column(name = "status", nullable = false)
-    @Schema(example = "N")
+    @Schema(example = "N", description = " W(walkie), N(online), F(offline), B(block)")
     private Character status;
 
     @NotNull

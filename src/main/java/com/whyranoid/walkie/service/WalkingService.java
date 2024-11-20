@@ -44,7 +44,7 @@ public class WalkingService {
     }
 
     public WalkingLikeDto sendWalkingLike(WalkingLikeDto request) {
-        Walkie receiver = walkieRepository.findByUserIdAndStatus(request.getReceiverId(), 'o').orElseThrow(EntityNotFoundException::new);
+        Walkie receiver = walkieRepository.findByUserIdAndStatus(request.getReceiverId(), 'W').orElseThrow(EntityNotFoundException::new);
 
         Walkie sender = walkieRepository.findById(request.getSenderId()).orElseThrow(EntityNotFoundException::new);
 
