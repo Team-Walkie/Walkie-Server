@@ -4,7 +4,6 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.cloud.StorageClient;
-import com.whyranoid.walkie.ApiBaseUrlSingleton;
 import com.whyranoid.walkie.domain.Comment;
 import com.whyranoid.walkie.domain.Post;
 import com.whyranoid.walkie.domain.PostLike;
@@ -30,10 +29,12 @@ import javax.persistence.EntityNotFoundException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Date;
+import java.util.Locale;
 
 @Service
 @Transactional
@@ -55,7 +56,7 @@ public class CommunityService {
 		String storeUrl = "https://firebasestorage.googleapis.com/v0/b/walkie-5bfb3.appspot.com/o/post%2F" + fileName + "?alt=media";
         Post post = new Post();
         post.setContent(content);
-        post.setDate(LocalDateTime.now().toString());
+        post.setDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA).format(new Date()));
         post.setColorMode(colorMode);
         post.setHistoryContent(historyContent);
         // 어떤 에러 던져야 할 지 논의해봐야 할 듯
