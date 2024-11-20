@@ -7,4 +7,6 @@ import java.util.List;
 public interface WalkieRepositoryCustom {
 
     List<WalkieDto> findByUserNameMatched(String keyword);
+
+    void deleteLeftUser(Long walkieId);
 }

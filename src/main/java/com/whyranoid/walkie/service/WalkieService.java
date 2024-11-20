@@ -4,8 +4,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.whyranoid.walkie.domain.Agreement;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.dto.PostDto;
-import com.whyranoid.walkie.dto.request.MyInfoRequest;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
+import com.whyranoid.walkie.dto.response.ApiResponse;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
 import com.whyranoid.walkie.dto.response.WalkieLogInResponse;
 import com.whyranoid.walkie.dto.response.WalkieSignUpResponse;
@@ -145,5 +145,15 @@ public class WalkieService {
 
     public WalkieLogInResponse getWalkieId(String uid) throws EntityNotFoundException {
         return walkieRepository.findByAuthId(uid).map(WalkieLogInResponse::new).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public ApiResponse leaveWalkie(Long walkieId) {
+        walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+        walkieRepository.deleteLeftUser(walkieId);
+
+        return ApiResponse.builder()
+                .status(200)
+                .message("탈퇴 성공")
+                .build();
     }
 }

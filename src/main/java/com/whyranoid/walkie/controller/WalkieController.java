@@ -17,12 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -141,4 +136,18 @@ public class WalkieController {
         return ResponseEntity.ok(walkieService.getMyPostCount(walkieId));
     }
 
+    @Operation(summary = "가입탈퇴", description = """
+            모든 데이터를 삭제하고 탈퇴합니다.
+            (약관동의1/4, 획득뱃지2/3, 챌린지도전기록3/6,
+            팔로잉(5/93)/팔로워(4/93), 남긴(19/23)/받은(4/23) 댓글,
+            남긴(2/16)/받은(3/16) 게시글 좋아요, 작성한 게시글(2/11),
+            남긴(2/7)/받은(3/7) 운동 좋아요, 운동기록2/42)
+            """)
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
+    })
+    @DeleteMapping("/leave")
+    public ResponseEntity leaveWalkie(@RequestParam Long walkieId) {
+        return ResponseEntity.ok(walkieService.leaveWalkie(walkieId));
+    }
 }
