@@ -1,6 +1,7 @@
 package com.whyranoid.walkie.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.whyranoid.walkie.dto.FollowDto;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.request.WalkieSignUpRequest;
 import com.whyranoid.walkie.dto.response.MyInfoResponse;
@@ -146,6 +147,7 @@ public class WalkieController {
     @Parameters({
             @Parameter(name = "walkieId", required = true, description = "내 walkieId", example = "123")
     })
+    @ApiResponse(responseCode = "200", description = "가입탈퇴 성공",  content = @Content(schema = @Schema(implementation = com.whyranoid.walkie.dto.response.ApiResponse.class)))
     @DeleteMapping("/leave")
     public ResponseEntity leaveWalkie(@RequestParam Long walkieId) {
         return ResponseEntity.ok(walkieService.leaveWalkie(walkieId));
