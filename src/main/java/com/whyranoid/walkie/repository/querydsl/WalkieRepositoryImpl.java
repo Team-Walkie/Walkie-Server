@@ -109,5 +109,11 @@ public class WalkieRepositoryImpl implements WalkieRepositoryCustom {
                 .delete(history)
                 .where(history.user.userId.eq(walkieId))
                 .execute();
+
+        // walkie 삭제
+        queryFactory
+                .delete(walkie)
+                .where(walkie.userId.eq(walkieId))
+                .execute();
     }
 }
