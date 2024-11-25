@@ -42,8 +42,10 @@ public class ChallengeRepository {
                     c.endTime,
                     c.calorie,
                     c.distance,
+                    c.time,
                     c.goalCount,
-                    c.timeLimit
+                    c.timeLimit,
+                    c.limitPerDay
                 ) 
                 from Challenge c left join ChallengeStatus cs 
                     on cs.challenge.challengeId = c.challengeId 
@@ -71,8 +73,10 @@ public class ChallengeRepository {
                     c.endTime,
                     c.calorie,
                     c.distance,
+                    c.time,
                     c.goalCount,
-                    c.timeLimit
+                    c.timeLimit,
+                    c.limitPerDay
                 )
                 from Challenge c left join ChallengeStatus cs 
                     on c.challengeId = cs.challenge.challengeId 
@@ -92,7 +96,16 @@ public class ChallengeRepository {
                     c.name, 
                     cs.status, 
                     cs.progress, 
-                    c.newFlag
+                    c.newFlag,
+                    c.period,
+                    c.startTime,
+                    c.endTime,
+                    c.calorie,
+                    c.distance,
+                    c.time,
+                    c.goalCount,
+                    c.timeLimit,
+                    c.limitPerDay
                 ) 
                 from Challenge c left join ChallengeStatus cs 
                     on cs.challenge.challengeId = c.challengeId 
@@ -121,8 +134,10 @@ public class ChallengeRepository {
                     c.endTime,
                     c.calorie,
                     c.distance,
+                    c.time,
                     c.goalCount,
-                    c.timeLimit
+                    c.timeLimit,
+                    c.limitPerDay
                 ) 
                 from ChallengeStatus cs left join Challenge c 
                     on cs.challenge.challengeId = c.challengeId 
@@ -151,8 +166,10 @@ public class ChallengeRepository {
                         c.endTime,
                         c.calorie,
                         c.distance,
+                        c.time,
                         c.goalCount,
                         c.timeLimit,
+                        c.limitPerDay,
                         cs.challengeSdate,
                         cs.challengeEdate,
                         cs.accDistance,

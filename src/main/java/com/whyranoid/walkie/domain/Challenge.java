@@ -54,11 +54,17 @@ public class Challenge {
     @Column(name = "distance")
     private Integer distance;
 
+    @Column(name = "time")
+    private Integer time;
+
     @Column(name = "goal_count")
     private Integer goalCount;
 
     @Column(name = "time_limit")
     private Integer timeLimit;
+
+    @Column(name = "limit_per_day")
+    private Integer limitPerDay;
 
     @Column(name = "new_flag")
     private Integer newFlag;

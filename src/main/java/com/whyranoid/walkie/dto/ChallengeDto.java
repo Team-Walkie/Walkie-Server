@@ -31,7 +31,7 @@ public class ChallengeDto {
     @Schema(description = "챌린지 내용", example = "햄버거 세트의 평균 칼로리는 1110kcal 입니다. 일주일 동안 걷기로 햄버거 세트 태우기 도전!")
     private String content;
 
-    @Schema(description = "유저의 챌린지 도전 상태", nullable = true, example = "P")
+    @Schema(description = "유저의 챌린지 도전 상태. 챌린지 시작 전 : ‘N’, 챌린지 진행 중 : ‘P’, 챌린지 완료 ‘C’", nullable = true, example = "P")
     private Character status;
 
     @Schema(description = "유저의 챌린지 진행도", nullable = true, example = "0")
@@ -52,11 +52,17 @@ public class ChallengeDto {
     @Schema(description = "목표 달성 거리", nullable = true, example = "1000(m)")
     private Integer distance;
 
+    @Schema(example = "60", nullable = true, description = "목표 달성 시간(분)")
+    private Integer time;
+
     @Schema(example = "10", nullable = true, description = "목표 달성 운동 횟수")
     private Integer goalCount;
 
     @Schema(example = "1", nullable = true, description = "제한기간(일) (ex.도전 시작 후 7일 이내)")
     private Integer timeLimit;
+
+    @Schema(example = "1", nullable = true, description = "1일 당 인정 가능한 최대 운동 횟수")
+    private Integer limitPerDay;
 
     @Schema(example = "2024-01-01 08:30:00", nullable = true, description = "챌린지 도전 시작 시각")
     private String challengeSdate;
@@ -88,7 +94,9 @@ public class ChallengeDto {
         this.endTime = challenge.getEndTime();
         this.calorie = challenge.getCalorie();
         this.distance = challenge.getDistance();
+        this.time = challenge.getTime();
         this.goalCount = challenge.getGoalCount();
         this.timeLimit = challenge.getTimeLimit();
+        this.limitPerDay = challenge.getLimitPerDay();
     }
 }
