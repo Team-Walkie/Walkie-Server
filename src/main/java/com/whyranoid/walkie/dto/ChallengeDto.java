@@ -73,7 +73,7 @@ public class ChallengeDto {
     @Schema(example = "1521.79", nullable = true, description = "챌린지 도전 후 누적 운동 거리(m)")
     private Double accDistance;
 
-    @Schema(example = "10", nullable = true, description = "챌린지 도전 후 누적 운동 횟수")
+    @Schema(example = "01:30:14", nullable = true, description = "챌린지 도전 후 누적 운동 시간")
     private String accTime;
 
     @Schema(example = "250.5", nullable = true, description = "챌린지 도전 후 누적 소모 칼로리")
