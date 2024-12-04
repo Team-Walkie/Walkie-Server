@@ -40,14 +40,14 @@ public class ChallengeStatus {
     private String challengeEdate;
 
     @Column(name = "acc_distance")
-    private Double accDistance;
+    private Double accDistance = 0.0;
 
     @Column(name = "acc_time", length = 19)
-    private String accTime;
+    private String accTime = "00:00:00";
 
     @Column(name = "acc_calories")
-    private Double accCalories;
+    private Double accCalories = 0.0;
 
     @Column(name = "acc_count")
-    private Integer accCount;
+    private Integer accCount = 0;
 }
