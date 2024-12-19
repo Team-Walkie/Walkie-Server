@@ -64,22 +64,22 @@ public class ChallengeDto {
     @Schema(example = "1", nullable = true, description = "1일 당 인정 가능한 최대 운동 횟수")
     private Integer limitPerDay;
 
-    @Schema(example = "2024-01-01 08:30:00", nullable = true, description = "챌린지 도전 시작 시각")
+    @Schema(example = "2024-01-01 08:30:00", description = "챌린지 도전 시작 시각")
     private String challengeSdate;
 
     @Schema(example = "2024-12-31 20:30:00", nullable = true, description = "챌린지 도전 종료 시각")
     private String challengeEdate;
 
-    @Schema(example = "1521.79", nullable = true, description = "챌린지 도전 후 누적 운동 거리(m)")
+    @Schema(example = "1521.79", description = "챌린지 도전 후 누적 운동 거리(m)")
     private Double accDistance;
 
-    @Schema(example = "01:30:14", nullable = true, description = "챌린지 도전 후 누적 운동 시간")
+    @Schema(example = "01:30:14", description = "챌린지 도전 후 누적 운동 시간")
     private String accTime;
 
-    @Schema(example = "250.5", nullable = true, description = "챌린지 도전 후 누적 소모 칼로리")
+    @Schema(example = "250.5", description = "챌린지 도전 후 누적 소모 칼로리")
     private Double accCalories;
 
-    @Schema(example = "2", nullable = true, description = "챌린지 도전 후 누적 운동 횟수")
+    @Schema(example = "2", description = "챌린지 도전 후 누적 운동 횟수")
     private Integer accCount;
 
     public ChallengeDto(Challenge challenge) {

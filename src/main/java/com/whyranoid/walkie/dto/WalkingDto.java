@@ -13,7 +13,7 @@ public class WalkingDto {
     @Schema(description = "요청 필수 파라미터 - 워키 아이디", requiredMode = Schema.RequiredMode.REQUIRED, example = "3")
     private Long walkieId;
 
-    @Schema(description = "요청 필수 파라미터 - 운동 시작 시간", requiredMode = Schema.RequiredMode.REQUIRED, example = "2023-07-31T15:08:31.689Z")
+    @Schema(description = "요청 필수 파라미터 - 운동 시작 시간", requiredMode = Schema.RequiredMode.REQUIRED, example = "2023-07-31 15:08:31")
     private String startTime;
 
     @Schema(description = "응답 파라미터 - 생성된 기록의 아이디", example = "15")

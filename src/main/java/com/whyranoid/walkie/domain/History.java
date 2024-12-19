@@ -41,4 +41,24 @@ public class History {
     @ManyToOne
     @JoinColumn(name = "walkie_id", nullable = false)
     private Walkie user;
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setTotalTime(Integer totalTime) {
+        this.totalTime = totalTime;
+    }
+
+    public void setCalorie(Integer calorie) {
+        this.calorie = calorie;
+    }
+
+    public void setStep(Integer step) {
+        this.step = step;
+    }
 }

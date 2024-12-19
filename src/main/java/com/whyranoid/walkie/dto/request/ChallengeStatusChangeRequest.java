@@ -17,7 +17,7 @@ public class ChallengeStatusChangeRequest {
     private Long challengeId;
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED, example = "P")
     private Character status;
-    @Schema(example = "25", description = "업데이트된 진행률")
+    @Schema(example = "25", description = "업데이트된 진행률(사용X)")
     private Integer progress;
     @Schema(example = "2024-12-31 20:35:00", description = "챌린지 종료 시 종료시각")
     private String challengeEdate;

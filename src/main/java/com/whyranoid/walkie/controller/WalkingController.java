@@ -1,5 +1,6 @@
 package com.whyranoid.walkie.controller;
 
+import com.whyranoid.walkie.dto.ChangedChallengeDto;
 import com.whyranoid.walkie.dto.HistoryDto;
 import com.whyranoid.walkie.dto.WalkingDto;
 import com.whyranoid.walkie.dto.WalkingLikeDto;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 
 @Tag(name = "WalkingController")
 @RequiredArgsConstructor
@@ -58,10 +61,10 @@ public class WalkingController {
     }
 
     @Operation(summary = "운동 종료 시 데이터 저장하기")
-    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = WalkieSignUpResponse.class)),
-            description = "저장 성공 시 기록의 DB pk값, 실패 시 -1")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = ChangedChallengeDto.class)),
+            description = "운동 저장 후 이번에 종료/포기처리 된 챌린지들과 아직 진행중인 챌린지 정보")
     @PostMapping("/save")
-    public ResponseEntity<Long> saveWalkingHistory(@RequestBody HistoryDto historyDto) {
+    public ResponseEntity<ChangedChallengeDto> saveWalkingHistory(@RequestBody HistoryDto historyDto) throws ParseException {
         return ResponseEntity.ok(walkingService.saveWalkingHistory(historyDto));
     }
 }

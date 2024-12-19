@@ -49,7 +49,7 @@ public class ChallengePreviewDto {
     @Schema(example = "10", nullable = true, description = "목표 달성 운동횟수")
     private Integer goalCount;
 
-    @Schema(example = "1", nullable = true, description = "제한기간(일) (ex.도전 시작 후 7일 이내)")
+    @Schema(example = "1", description = "제한기간(일) (ex.도전 시작 후 7일 이내)")
     private Integer timeLimit;
 
     @Schema(example = "1", nullable = true, description = "1일 당 인정 가능한 최대 운동 횟수")

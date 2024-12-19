@@ -60,7 +60,8 @@ public class Challenge {
     @Column(name = "goal_count")
     private Integer goalCount;
 
-    @Column(name = "time_limit")
+    @NotNull
+    @Column(name = "time_limit", nullable = false)
     private Integer timeLimit;
 
     @Column(name = "limit_per_day")

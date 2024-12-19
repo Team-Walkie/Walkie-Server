@@ -77,7 +77,7 @@ public class ChallengeService{
         // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 walkieId랑 challengeId만 받고 싶은데..?
         Long walkieId = challengeStatusCreateRequest.getWalkieId();
         Long challengeId = challengeStatusCreateRequest.getChallengeId();
-        String challengeSdate = Optional.of(challengeStatusCreateRequest.getChallengeSdate())
+        String challengeSdate = Optional.ofNullable(challengeStatusCreateRequest.getChallengeSdate())
                                 .orElse(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA).format(new Date()));
 
         Challenge challenge = challengeRepository.getChallengeById(challengeId);
@@ -164,5 +164,11 @@ public class ChallengeService{
 
     public BadgeDto getObtainedBadge(Long challengeId) {
         return new BadgeDto(challengeRepository.getObtainedBadge(challengeId));
+    }
+
+    public ChallengeDto getChallengeDto(Long challengeId, Long walkieId) {
+        Object cs = challengeRepository.getChallengeDetail(challengeId, walkieId);
+
+        return (ChallengeDto) cs;
     }
 }
