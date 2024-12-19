@@ -17,7 +17,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -73,7 +77,8 @@ public class ChallengeService{
         // walkie와 challenge는 클라이언트에서 보내줌, 근데 나는 walkieId랑 challengeId만 받고 싶은데..?
         Long walkieId = challengeStatusCreateRequest.getWalkieId();
         Long challengeId = challengeStatusCreateRequest.getChallengeId();
-        String challengeSdate = challengeStatusCreateRequest.getChallengeSdate();
+        String challengeSdate = Optional.of(challengeStatusCreateRequest.getChallengeSdate())
+                                .orElse(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA).format(new Date()));
 
         Challenge challenge = challengeRepository.getChallengeById(challengeId);
         Walkie walkie = challengeRepository.getWalkieById(walkieId);
