@@ -200,10 +200,26 @@ public class WalkingService {
             challengeService.updateChallengeStatus(req);
         }
 
+        // TODO: 안드로이드 테스트 끝나면 삭제
+        if (failedChallenges.isEmpty()) {
+            failedChallenges = challengeService.getChallengesByCategory(walkie.getUserId(), 'L');
+        }
+        if (completedChallenges.isEmpty()) {
+            failedChallenges = challengeService.getChallengesByCategory(walkie.getUserId(), 'C');
+        }
+
+        challengeList = challengeService.getProgressChallenges(walkie.getUserId());
+
+        if (challengeList.isEmpty()) {
+            challengeList = challengeService.getChallengesByCategory(walkie.getUserId(), 'D');
+        }
+
+
         return ChangedChallengeDto.builder()
                 .failedChallenges(failedChallenges)
                 .completedChallenges(completedChallenges)
-                .ongoingChallenges(challengeService.getProgressChallenges(walkie.getUserId()))
+//                .ongoingChallenges(challengeService.getProgressChallenges(walkie.getUserId()))
+                .ongoingChallenges(challengeList)
                 .build();
     }
 
