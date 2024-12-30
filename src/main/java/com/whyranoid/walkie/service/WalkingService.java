@@ -205,7 +205,7 @@ public class WalkingService {
             failedChallenges = challengeService.getChallengesByCategory(walkie.getUserId(), 'L');
         }
         if (completedChallenges.isEmpty()) {
-            failedChallenges = challengeService.getChallengesByCategory(walkie.getUserId(), 'C');
+            completedChallenges = challengeService.getChallengesByCategory(walkie.getUserId(), 'C');
         }
 
         challengeList = challengeService.getProgressChallenges(walkie.getUserId());
