@@ -271,4 +271,35 @@ public class ChallengeRepository {
     public Badge getObtainedBadge(Long challengeId) {
         return em.find(Challenge.class, challengeId).getBadge();
     }
+
+    public List<ChallengePreviewDto> getEveryChallengesByCategory(Long walkieId, char category) {
+        return em.createQuery(
+                        """
+                        select  new com.whyranoid.walkie.dto.response.ChallengePreviewDto(
+                            c.challengeId, 
+                            c.category, 
+                            c.name, 
+                            cs.status, 
+                            cs.progress, 
+                            c.newFlag,
+                            c.period,
+                            c.startTime,
+                            c.endTime,
+                            c.calorie,
+                            c.distance,
+                            c.time,
+                            c.goalCount,
+                            c.timeLimit,
+                            c.limitPerDay
+                        ) 
+                        from Challenge c left join ChallengeStatus cs 
+                            on cs.challenge.challengeId = c.challengeId 
+                            and cs.walkie.userId = :walkieId 
+                        where c.category = :category
+                        """
+                )
+                .setParameter("walkieId", walkieId)
+                .setParameter("category", category)
+                .getResultList();
+    }
 }

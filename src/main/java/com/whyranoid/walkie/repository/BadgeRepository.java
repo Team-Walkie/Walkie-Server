@@ -45,4 +45,16 @@ public class BadgeRepository {
                 .setParameter("walkieId", walkieId)
                 .getResultList();
     }
+
+    public void deleteBadge(BadgeCollection bc)
+    { em.remove(bc); }
+
+    public BadgeCollection getBadgeCollection(Long walkieId, Long badgeId) {
+        List<BadgeCollection> preBadgeList = em.createQuery("SELECT bc FROM BadgeCollection bc WHERE bc.walkieId = :walkieId and bc.badgeId = :badgeId")
+                .setParameter("walkieId", walkieId)
+                .setParameter("badgeId", badgeId)
+                .getResultList();
+
+        return preBadgeList.get(0);
+    }
 }

@@ -171,4 +171,8 @@ public class ChallengeService{
 
         return (ChallengeDto) cs;
     }
+
+    public List<ChallengePreviewDto> getEveryChallengesByCategory(Long walkieId, char category) {
+        return challengeRepository.getEveryChallengesByCategory(walkieId, category);
+    }
 }
