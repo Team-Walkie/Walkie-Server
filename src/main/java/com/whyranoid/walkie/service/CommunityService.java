@@ -162,4 +162,11 @@ public class CommunityService {
 
         return postRepository.findEveryPosts(walkieId, pagingSize, pagingStart);
     }
+
+    public ApiResponse deletePost(Long walkieId, Long postId) {
+        return ApiResponse.builder()
+                .status(200)
+                .message("댓글 삭제 완료 (임시)")
+                .build();
+    }
 }

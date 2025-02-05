@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,5 +116,15 @@ public class CommunityController {
     @GetMapping("/listup-every-post")
     public ResponseEntity<List<PostDto>> getEveryPostList(@RequestParam Long walkieId, @RequestParam(required = false) Integer pagingSize, @RequestParam(required = false) Integer pagingStart) {
         return ResponseEntity.ok(communityService.getEveryPostList(walkieId, pagingSize, pagingStart));
+    }
+
+    @Operation(summary = "게시글 삭제하기", description = "자신의 게시글을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "삭제 성공 (본인의 글이 아니거나 존재하지 않는 아이디인 경우 무시)", content = @Content(schema = @Schema(implementation = com.whyranoid.walkie.dto.response.ApiResponse.class)))
+    @Parameters({
+            @Parameter(name = "walkieId", required = true, description = "유저 아이디", example = "123"),
+            @Parameter(name = "postId", description = "게시글 아이디", example = "3661"),
+    })@DeleteMapping("/delete-post")
+    public ResponseEntity deletePost(@RequestParam Long walkieId, @RequestParam Long postId) {
+        return ResponseEntity.ok(communityService.deletePost(walkieId, postId));
     }
 }
