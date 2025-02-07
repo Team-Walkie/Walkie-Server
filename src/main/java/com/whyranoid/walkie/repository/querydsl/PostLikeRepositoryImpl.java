@@ -20,6 +20,14 @@ public class PostLikeRepositoryImpl implements PostLikeRepositoryCustom {
                 .stream().count();
     }
 
+    @Override
+    public long deleteAllByPostId(Long postId) {
+        return queryFactory
+                .delete(postLike)
+                .where(postLike.post.postId.eq(postId))
+                .execute();
+    }
+
 //    @Override
 //    public PostLikeDto findPostLikePeople(Long postId) {
 //        return PostLikeDto.builder()

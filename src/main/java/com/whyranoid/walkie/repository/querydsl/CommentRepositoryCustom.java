@@ -7,4 +7,6 @@ import java.util.List;
 public interface CommentRepositoryCustom {
 
     List<CommentDto> findByPostId(Long postId);
+
+    long deleteAllByPostId(Long postId);
 }

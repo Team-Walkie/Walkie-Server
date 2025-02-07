@@ -5,4 +5,6 @@ public interface PostLikeRepositoryCustom {
     Long findPostLikeCount(Long postId);
 
 //    PostLikeDto findPostLikePeople(Long postId);
+
+    long deleteAllByPostId(Long postId);
 }

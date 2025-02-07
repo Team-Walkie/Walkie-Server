@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.Date;
 import java.util.Locale;
@@ -164,9 +165,27 @@ public class CommunityService {
     }
 
     public ApiResponse deletePost(Long walkieId, Long postId) {
+        walkieRepository.findById(walkieId).orElseThrow(EntityNotFoundException::new);
+        StringBuilder message = new StringBuilder();
+
+        postRepository.findByPostId(postId).ifPresentOrElse(
+                post -> {
+                    if (Objects.equals(post.getUser().getUserId(), walkieId)) {
+                        long deletedCommentCnt = commentRepository.deleteAllByPostId(postId);
+                        long deletedPostLikeCnt = postLikeRepository.deleteAllByPostId(postId);
+                        postRepository.deleteById(postId);
+                        message.append("게시글 삭제 완료 (삭제된 댓글 " + deletedCommentCnt + " / 삭제된 좋아요 " + deletedPostLikeCnt + ")");
+                    }
+                    else {
+                        message.append("해당 유저의 게시글이 아닙니다.");
+                    }
+                },
+                () -> message.append("게시글이 존재하지 않습니다.")
+        );
+
         return ApiResponse.builder()
                 .status(200)
-                .message("댓글 삭제 완료 (임시)")
+                .message(message.toString())
                 .build();
     }
 }

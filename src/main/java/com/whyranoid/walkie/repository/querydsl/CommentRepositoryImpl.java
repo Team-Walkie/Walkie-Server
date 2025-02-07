@@ -26,4 +26,12 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .orderBy(comment.date.desc())   // TODO: 댓글 정렬에 대해 상의
                 .fetch();
     }
+
+    @Override
+    public long deleteAllByPostId(Long postId) {
+        return queryFactory
+                .delete(comment)
+                .where(comment.post.postId.eq(postId))
+                .execute();
+    }
 }
