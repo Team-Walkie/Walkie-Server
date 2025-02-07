@@ -60,7 +60,7 @@ public class CommunityController {
 
     @Operation(summary = "게시글에 좋아요 누르기")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = PostLikeDto.class)),
-            description = "성공 시 요청에 게시글의 현재 좋아요 수를 넣어 반환, 중복 좋아요 시 좋아요를 삭제하고 likerCount에 -1을 넣어 반환, 실패 시 예외발생")
+            description = "성공 시 요청에 게시글의 현재 좋아요 수를 넣어 반환, 중복 좋아요 혹은 삭제된 게시글인 경우 좋아요를 삭제하고 likerCount에 -1을 넣어 반환, 실패 시 예외발생")
     @PostMapping("/send-like")
     public ResponseEntity<PostLikeDto> sendPostLike(@RequestBody PostLikeDto postLikeDto) {
         return ResponseEntity.ok(communityService.sendPostLike(postLikeDto));

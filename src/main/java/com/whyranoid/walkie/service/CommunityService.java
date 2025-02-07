@@ -90,7 +90,13 @@ public class CommunityService {
     }
 
     public PostLikeDto sendPostLike(PostLikeDto postLikeDto) {
-        Post post = postRepository.findByPostId(postLikeDto.getPostId()).orElseThrow(EntityNotFoundException::new);
+        Post post = postRepository.findByPostId(postLikeDto.getPostId()).orElse(null);
+
+        if (post == null) {
+            postLikeDto.setLikerCount(-1L);
+            return postLikeDto;
+        }
+
         Walkie liker = walkieRepository.findById(postLikeDto.getLikerId()).orElseThrow(EntityNotFoundException::new);
 
         PostLike input = PostLike.builder()
@@ -132,7 +138,14 @@ public class CommunityService {
 
     public ApiResponse writeComment(CommentDto commentDto) {
         Walkie walkie = walkieRepository.findById(commentDto.getCommenterId()).orElseThrow(EntityNotFoundException::new);
-        Post post = postRepository.findByPostId(commentDto.getPostId()).orElseThrow(EntityNotFoundException::new);
+        Post post = postRepository.findByPostId(commentDto.getPostId()).orElse(null);
+
+        if (post == null) {
+            return ApiResponse.builder()
+                    .status(200)
+                    .message("삭제된 게시글입니다.")
+                    .build();
+        }
 
         Comment input = Comment.builder()
                 .post(post)
