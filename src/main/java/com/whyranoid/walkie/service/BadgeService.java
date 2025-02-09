@@ -64,16 +64,40 @@ public class BadgeService {
     }
 
     public ApiResponse adminUpdateBadge(MultipartFile badgeImg, MultipartFile badgeFailureImg, String badgeName) throws IOException, FirebaseAuthException {
-        String badgeImgUrl = communityService.uploadCategorizedImg(badgeImg, "badge");
-        String badgeFailureImgUrl = communityService.uploadCategorizedImg(badgeFailureImg, "badge");
+        String badgeImgUrl = "";
+        if (badgeImg != null && !badgeImg.isEmpty()) {
+            badgeImgUrl = communityService.uploadCategorizedImg(badgeImg, "badge");
+        }
 
-        Badge badge = Badge.builder()
-                .badgeName(badgeName)
-                .img(badgeImgUrl)
-                .failureImg(badgeFailureImgUrl)
-                .build();
+        String badgeFailureImgUrl = "";
+        if (badgeFailureImg != null && (!badgeFailureImg.isEmpty())){
+            badgeFailureImgUrl = communityService.uploadCategorizedImg(badgeFailureImg, "badge");
+        }
 
-        badgeRepository.uploadBadge(badge);
+        Badge badgeHis = badgeRepository.getBadgeByName(badgeName);
+        if (badgeHis != null) {
+            if (!badgeImgUrl.isBlank()) {
+                badgeRepository.updateBadgeImage(badgeHis.getBadgeId(), "image", badgeImgUrl);
+            }
+            if (!badgeFailureImgUrl.isBlank()) {
+                badgeRepository.updateBadgeImage(badgeHis.getBadgeId(), "failureImage", badgeFailureImgUrl);
+            }
+
+            return ApiResponse.builder()
+                    .status(200)
+                    .message("어드민 뱃지 수정 완료")
+                    .build();
+        }
+        else {
+            Badge badge = Badge.builder()
+                    .badgeName(badgeName)
+                    .img(badgeImgUrl)
+                    .failureImg(badgeFailureImgUrl)
+                    .build();
+
+            badgeRepository.uploadBadge(badge);
+        }
+
         return ApiResponse.builder()
                 .status(200)
                 .message("어드민 뱃지 등록 완료")

@@ -56,4 +56,25 @@ public class BadgeRepository {
                 .setParameter("badgeId", badgeId)
                 .getSingleResult();
     }
+
+    public Badge getBadgeByName(String badgeName) {
+        return (Badge) em.createQuery("FROM Badge WHERE badgeName = :badgeName")
+                .setParameter("badgeName", badgeName)
+                .getSingleResult();
+    }
+
+    public void updateBadgeImage(Long badgeId, String imageUrl, String imageCategory) {
+        Badge badge = (Badge) em.createQuery("FROM Badge WHERE badgeId = :badgeId")
+                .setParameter("badgeId", badgeId)
+                .getSingleResult();
+
+        if (imageCategory.equals("image")) {
+            badge.setImg(imageUrl);
+        }
+        else {
+            badge.setFailureImg(imageUrl);
+        }
+
+        em.flush();
+    }
 }
