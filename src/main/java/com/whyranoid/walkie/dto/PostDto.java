@@ -44,7 +44,7 @@ public class PostDto {
     @Schema(description = "[응답] 글씨색 설정", example = "0")
     private Integer colorMode;
 
-    @Schema(description = "[응답] 기록 데이터")
+    @Schema(description = "[응답] 기록 데이터", example = "2025-02-19 15:49:53_대한민국 서울특별시 관악구 봉천동 1698-1_0.00_00:00:05_0`0``")
     private String historyContent;
 
     @QueryProjection
