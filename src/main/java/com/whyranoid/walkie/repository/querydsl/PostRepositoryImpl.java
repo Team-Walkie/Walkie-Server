@@ -5,6 +5,10 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.whyranoid.walkie.domain.QComment;
+import com.whyranoid.walkie.domain.QPost;
+import com.whyranoid.walkie.domain.QPostLike;
+import com.whyranoid.walkie.domain.QWalkie;
 import com.whyranoid.walkie.dto.PostDto;
 import com.whyranoid.walkie.dto.QPostDto;
 import com.whyranoid.walkie.dto.QWalkieDto;
@@ -12,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
@@ -28,14 +33,19 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public List<PostDto> findCurrentPosts(JPQLQuery<Long> following, Long viewerId, Integer pagingSize, Integer pagingStart) {
-        return new ArrayList<>(queryFactory
+        QPost post = QPost.post;
+        QPostLike postLike = QPostLike.postLike;
+        QWalkie liker = new QWalkie("liker");
+        QComment comment = QComment.comment;
+
+        Map<Long, PostDto> resultMap = queryFactory
                 .from(post)
                 .where(post.user.userId.in(following))
                 .orderBy(post.date.desc())
                 .offset(pagingStart)
                 .limit(pagingSize)
                 .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
-                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .leftJoin(walkie).on(walkie.userId.eq(postLike.liker.userId))
                 .transform(groupBy(post.postId).as(new QPostDto(
                         post,
                         Expressions.asNumber(viewerId),
@@ -45,19 +55,26 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                         .from(comment)
                                         .where(comment.post.postId.eq(post.postId)),
                                 "commentCount")
-                ))).values());
+                )));
+
+        return new ArrayList<>(resultMap.values());
     }
 
-    @Override
+        @Override
     public List<PostDto> findMyPosts(Long viewerId, Integer pagingSize, Integer pagingStart) {
-        return new ArrayList<>(queryFactory
+        QPost post = QPost.post;
+        QPostLike postLike = QPostLike.postLike;
+        QWalkie liker = new QWalkie("liker");
+        QComment comment = QComment.comment;
+
+        Map<Long, PostDto> resultMap = queryFactory
                 .from(post)
                 .where(post.user.userId.eq(viewerId))
                 .orderBy(post.date.desc())
                 .offset(pagingStart)
                 .limit(pagingSize)
                 .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
-                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .leftJoin(walkie).on(walkie.userId.eq(postLike.liker.userId))
                 .transform(groupBy(post.postId).as(new QPostDto(
                         post,
                         Expressions.asNumber(viewerId),
@@ -67,18 +84,25 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                         .from(comment)
                                         .where(comment.post.postId.eq(post.postId)),
                                 "commentCount")
-                ))).values());
+                )));
+
+        return new ArrayList<>(resultMap.values());
     }
 
     @Override
     public List<PostDto> findEveryPosts(Long viewerId, Integer pagingSize, Integer pagingStart) {
-        return new ArrayList<>(queryFactory
+        QPost post = QPost.post;
+        QPostLike postLike = QPostLike.postLike;
+        QWalkie liker = new QWalkie("liker");
+        QComment comment = QComment.comment;
+
+        Map<Long, PostDto> resultMap = queryFactory
                 .from(post)
                 .orderBy(post.date.desc())
                 .offset(pagingStart)
                 .limit(pagingSize)
                 .leftJoin(postLike).on(postLike.post.postId.eq(post.postId))
-                .join(walkie).on(walkie.userId.eq(postLike.liker.userId))
+                .leftJoin(walkie).on(walkie.userId.eq(postLike.liker.userId))
                 .transform(groupBy(post.postId).as(new QPostDto(
                         post,
                         Expressions.asNumber(viewerId),
@@ -88,7 +112,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                         .from(comment)
                                         .where(comment.post.postId.eq(post.postId)),
                                 "commentCount")
-                ))).values());
+                )));
+
+        return new ArrayList<>(resultMap.values());
     }
 
     @Override

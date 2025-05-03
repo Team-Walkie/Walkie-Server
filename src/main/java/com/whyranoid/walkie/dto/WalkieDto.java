@@ -14,9 +14,24 @@ public class WalkieDto {
 
     @QueryProjection
     public WalkieDto(Walkie walkie) {
-        this.walkieId = walkie.getUserId();
-        this.nickname = walkie.getUserName();
-        this.profileImg = walkie.getProfileImg();
-        this.status = walkie.getStatus();
+        if (walkie != null) {
+            this.walkieId = walkie.getUserId();
+            this.nickname = walkie.getUserName();
+            this.profileImg = walkie.getProfileImg();
+            this.status = walkie.getStatus();
+        } else {
+            this.walkieId = null;
+            this.nickname = null;
+            this.profileImg = null;
+            this.status = null;
+        }
+    }
+
+    @QueryProjection
+    public WalkieDto(Long walkieId, String nickname, String profileImg, Character status) {
+        this.walkieId = walkieId;
+        this.nickname = nickname;
+        this.profileImg = profileImg;
+        this.status = status;
     }
 }

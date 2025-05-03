@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,9 +54,14 @@ public class PostDto {
         this.viewerId = viewerId;
         this.poster = new WalkieDto(post.getUser());
         this.postId = post.getPostId();
-        this.liked = liker.stream().map(WalkieDto::getWalkieId).anyMatch(id -> id.longValue() == viewerId.longValue());
-        this.likers = liker;
-        this.commentCount = Math.toIntExact(commentCount);
+        this.likers = liker.stream()
+                .filter(dto -> dto.getWalkieId() != null)  // 또는 Objects::nonNull이면 DTO 자체 null 제거
+                .collect(Collectors.toList());
+        this.liked = this.likers.stream()
+                .map(WalkieDto::getWalkieId)
+                .filter(Objects::nonNull)
+                .anyMatch(id -> id.equals(viewerId));
+        this.commentCount = Math.toIntExact(commentCount != null ? commentCount : 0);
         this.photo = post.getPhoto();
         this.content = post.getContent();
         this.date = post.getDate();
@@ -67,7 +74,10 @@ public class PostDto {
         this.viewerId = viewerId;
         this.poster = new WalkieDto(post.getUser());
         this.postId = post.getPostId();
-        this.liked = likers.stream().map(WalkieDto::getWalkieId).anyMatch(id -> id.longValue() == viewerId.longValue());
+        this.liked = likers.stream()
+                .map(WalkieDto::getWalkieId)
+                .filter(Objects::nonNull)
+                .anyMatch(id -> id.equals(viewerId));
         this.commentCount = Math.toIntExact(commentCount);
         this.photo = post.getPhoto();
         this.content = post.getContent();
