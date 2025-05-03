@@ -1,14 +1,11 @@
 package com.whyranoid.walkie.service;
 
-import com.whyranoid.walkie.domain.BadgeCollection;
 import com.whyranoid.walkie.domain.History;
 import com.whyranoid.walkie.domain.Walkie;
 import com.whyranoid.walkie.domain.WalkingLike;
 import com.whyranoid.walkie.dto.*;
 import com.whyranoid.walkie.dto.request.ChallengeStatusChangeRequest;
-import com.whyranoid.walkie.dto.request.ChallengeStatusCreateRequest;
 import com.whyranoid.walkie.dto.response.ChallengePreviewDto;
-import com.whyranoid.walkie.repository.BadgeRepository;
 import com.whyranoid.walkie.repository.HistoryRepository;
 import com.whyranoid.walkie.repository.WalkieRepository;
 import com.whyranoid.walkie.repository.WalkingLikeRepository;
@@ -31,7 +28,6 @@ public class WalkingService {
     private final WalkieRepository walkieRepository;
     private final HistoryRepository historyRepository;
     private final WalkingLikeRepository walkingLikeRepository;
-    private final BadgeRepository badgeRepository;
 
     private final ChallengeService challengeService;
 
@@ -204,47 +200,10 @@ public class WalkingService {
             challengeService.updateChallengeStatus(req);
         }
 
-        // TODO: 안드로이드 테스트 끝나면 삭제
-        if (failedChallenges.isEmpty()) {
-            failedChallenges = challengeService.getEveryChallengesByCategory(walkie.getUserId(), 'L');
-        }
-        if (completedChallenges.isEmpty()) {
-            completedChallenges = challengeService.getEveryChallengesByCategory(walkie.getUserId(), 'C');
-            List<Long> obtainedBadges = badgeRepository.getBadgeIds(walkie.getUserId());
-            for(ChallengePreviewDto cc : completedChallenges) {
-                if (!(failedChallenges.stream().map(ChallengePreviewDto::getChallengeId).toList().contains(cc.getChallengeId()))) {
-
-                    if (obtainedBadges.contains(cc.getChallengeId())) {
-                        BadgeCollection bc = badgeRepository.getBadgeCollection(walkie.getUserId(), cc.getChallengeId());
-                        badgeRepository.deleteBadge(bc);
-                    }
-                    challengeService.createChallengeStatus(ChallengeStatusCreateRequest.builder()
-                                    .challengeId(cc.getChallengeId())
-                                    .walkieId(walkie.getUserId())
-                            .build());
-
-                    challengeService.updateChallengeStatus(ChallengeStatusChangeRequest.builder()
-                            .walkieId(walkie.getUserId())
-                            .challengeId(cc.getChallengeId())
-                            .progress(100)
-                            .status('C')
-                            .build());
-                }
-            }
-        }
-
-        challengeList = challengeService.getProgressChallenges(walkie.getUserId());
-
-        if (challengeList.isEmpty()) {
-            challengeList = challengeService.getEveryChallengesByCategory(walkie.getUserId(), 'D');
-        }
-
-
         return ChangedChallengeDto.builder()
                 .failedChallenges(failedChallenges)
                 .completedChallenges(completedChallenges)
-//                .ongoingChallenges(challengeService.getProgressChallenges(walkie.getUserId()))
-                .ongoingChallenges(challengeList)
+                .ongoingChallenges(challengeService.getProgressChallenges(walkie.getUserId()))
                 .build();
     }
 
